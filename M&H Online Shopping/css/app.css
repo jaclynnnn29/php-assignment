@@ -17,21 +17,26 @@ body {
 
 header, footer {
     padding: 10px 50px;
-    background: #eba9ef;
+    background: #aafff4;
 }
 
 header { /* NEW */
     display: flex;
     gap: 10px 50px;
     align-items: right;
-    background: #f13434;
+    background: #aafff4;
 }
 
 header h1 {
     flex: 1; /* NEW */
     margin: 0;
     padding-left: 40px;
-    background: url(/images/favicon.png) no-repeat left / 36px;
+}
+
+header h1 a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 header a {
@@ -44,15 +49,15 @@ header div { /* NEW */
 }
 
 header img { /* NEW */
-    width: 36px;
-    height: 36px;
-    border: 1px solid #ffffff;
+    width: 45px;
+    height: auto;
+    border: 1px;
     border-radius: 5px;
 }
 
 nav {
     padding: 0 50px;
-    background: #ffa9a9;
+    background: #cdcbcb;
     display: flex;
 }
 

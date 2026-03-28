@@ -1,7 +1,7 @@
     </main>
 
     <footer>
-        Developed by <b>BAE SUZY</b> &middot;
+        Developed by <b> M&H ONLINE SHOPPING</b> &middot;
         Copyrighted &copy; <?= date('Y') ?>
     </footer>
 </body>

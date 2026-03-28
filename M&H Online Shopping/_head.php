@@ -16,10 +16,11 @@
     <header>
     <h1>
         <a href="index.php">
-            <img src="images/favicon.png" alt="Logo"> M&H Online Shopping Cart
+            <img src="/images/MnH_Logo.png" alt="M&H Logo"> 
+            M&H Online Shopping Cart
         </a>
     </h1>
-    </header>
+</header>
 
     <nav>
         <a href="/">Index</a>
