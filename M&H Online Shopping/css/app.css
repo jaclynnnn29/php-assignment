@@ -22,8 +22,9 @@ header, footer {
 
 header { /* NEW */
     display: flex;
-    gap: 10px;
+    gap: 10px 50px;
     align-items: right;
+    background: #f13434;
 }
 
 header h1 {
