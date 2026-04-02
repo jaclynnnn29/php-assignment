@@ -8,7 +8,7 @@ if (is_post()) {
     $confirm = post('confirm');
     $f = get_file('photo');
 
-    // 验证
+    //Verify
     if (!$email) $_err['email'] = 'Required';
     else if (!is_email($email)) $_err['email'] = 'Invalid email';
     else if (!is_unique($email, 'Users', 'email')) $_err['email'] = 'Duplicated';
