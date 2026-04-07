@@ -54,7 +54,7 @@ $search = $_GET['search'] ?? '';
         <th>Email</th>
         <th>Action</th>
     </tr>
-
+    
 <?php
 // Database connection (adjust to your connection)
 $conn = mysqli_connect("localhost", "root", "", "mh_shopping");
