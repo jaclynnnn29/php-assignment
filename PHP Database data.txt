@@ -27,8 +27,6 @@ PHP Database data
 
 —Products data—
 
-INSERT INTO `products` (`product_id`, `product_name`, `cat_id`, `price`, `colour`, `size`, `photo`) VALUES
-
 ('P10001', 'T-shirt', 'C00001', 28.50, 'Green', 'S', 'm_tshirt_grn.png'),
 ('P10002', 'T-shirt', 'C00001', 28.50, 'Green', 'M', 'm_tshirt_grn.png'),
 ('P10003', 'T-shirt', 'C00001', 28.50, 'Green', 'L', 'm_tshirt_grn.png'),
@@ -50,4 +48,50 @@ INSERT INTO `products` (`product_id`, `product_name`, `cat_id`, `price`, `colour
 ('P10019', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'S', 'm_tshirt_wrb.png'),
 ('P10020', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'M', 'm_tshirt_wrb.png'),
 ('P10021', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'L', 'm_tshirt_wrb.png');
+
+('P10022', 'Jacket', 'C00001', 50.00, 'Jeans', 'S', 'm_jacket_jeans.png'),
+('P10023', 'Jacket', 'C00001', 50.00, 'Jeans', 'M', 'm_jacket_jeans.png'),
+('P10024', 'Jacket', 'C00001', 50.00, 'Jeans', 'L', 'm_jacket_jeans.png'),
+('P10025', 'Jacket', 'C00001', 120.00, 'White/Green', 'S', 'm_jacket_wg.png'),
+('P10026', 'Jacket', 'C00001', 120.00, 'White/Green', 'M', 'm_jacket_wg.png'),
+('P10027', 'Jacket', 'C00001', 120.00, 'White/Green', 'L', 'm_jacket_wg.png'),
+('P10028', 'Jacket', 'C00001', 89.90, 'Red', 'S', 'm_jacket_red.png'),
+('P10029', 'Jacket', 'C00001', 89.90, 'Red', 'M', 'm_jacket_red.png'),
+('P10030', 'Jacket', 'C00001', 89.90, 'Red', 'L', 'm_jacket_red.png'),
+('P10031', 'Jacket', 'C00001', 65.00, 'Green/Plaid', 'S', 'm_jacket_gp.png'),
+('P10032', 'Jacket', 'C00001', 65.00, 'Green/Plaid', 'M', 'm_jacket_gp.png'),
+('P10033', 'Jacket', 'C00001', 65.00, 'Green/Plaid', 'L', 'm_jacket_gp.png'),
+('P10034', 'Jacket', 'C00001', 55.00, 'Light Beige', 'S', 'm_jacket_lb.png'),
+('P10035', 'Jacket', 'C00001', 55.00, 'Light Beige', 'M', 'm_jacket_lb.png'),
+('P10036', 'Jacket', 'C00001', 55.00, 'Light Beige', 'L', 'm_jacket_lb.png'),
+('P10037', 'Jacket', 'C00001', 75.50, 'Brown', 'S', 'm_jacket_brown.png'),
+('P10038', 'Jacket', 'C00001', 75.50, 'Brown', 'M', 'm_jacket_brown.png'),
+('P10039', 'Jacket', 'C00001', 75.50, 'Brown', 'L', 'm_jacket_brown.png');
+
+('P10040', 'Joggers', 'C00001', 55.00, 'Dark Grey', 'S', 'm_joggers_dg.png'),
+('P10041', 'Joggers', 'C00001', 55.00, 'Dark Grey', 'M', 'm_joggers_dg.png'),
+('P10042', 'Joggers', 'C00001', 55.00, 'Dark Grey', 'L', 'm_joggers_dg.png'),
+('P10043', 'Joggers', 'C00001', 62.50, 'Khaki', 'S', 'm_joggers_khaki.png'),
+('P10044', 'Joggers', 'C00001', 62.50, 'Khaki', 'M', 'm_joggers_khaki.png'),
+('P10045', 'Joggers', 'C00001', 62.50, 'Khaki', 'L', 'm_joggers_khaki.png'),
+('P10046', 'Joggers', 'C00001', 49.90, 'Sage Green', 'S', 'm_joggers_sg.png'),
+('P10047', 'Joggers', 'C00001', 49.90, 'Sage Green', 'M', 'm_joggers_sg.png'),
+('P10048', 'Joggers', 'C00001', 49.90, 'Sage Green', 'L', 'm_joggers_sg.png'),
+('P10049', 'Joggers', 'C00001', 45.00, 'Light Grey', 'S', 'm_joggers_lg.png'),
+('P10050', 'Joggers', 'C00001', 45.00, 'Light Grey', 'M', 'm_joggers_lg.png'),
+('P10051', 'Joggers', 'C00001', 45.00, 'Light Grey', 'L', 'm_joggers_lg.png'),
+('P10052', 'Joggers', 'C00001', 58.00, 'Navy Blue', 'S', 'm_joggers_nb.png'),
+('P10053', 'Joggers', 'C00001', 58.00, 'Navy Blue', 'M', 'm_joggers_nb.png'),
+('P10054', 'Joggers', 'C00001', 58.00, 'Navy Blue', 'L', 'm_joggers_nb.png'),
+('P10055', 'Joggers', 'C00001', 52.00, 'Beige', 'S', 'm_joggers_beige.png'),
+('P10056', 'Joggers', 'C00001', 52.00, 'Beige', 'M', 'm_joggers_beige.png'),
+('P10057', 'Joggers', 'C00001', 52.00, 'Beige', 'L', 'm_joggers_beige.png'),
+('P10058', 'Joggers', 'C00001', 65.00, 'Olive Green', 'S', 'm_joggers_og.png'),
+('P10059', 'Joggers', 'C00001', 65.00, 'Olive Green', 'M', 'm_joggers_og.png'),
+('P10060', 'Joggers', 'C00001', 65.00, 'Olive Green', 'L', 'm_joggers_og.png'),
+('P10061', 'Joggers', 'C00001', 59.90, 'Sand', 'S', 'm_joggers_sand.png'),
+('P10062', 'Joggers', 'C00001', 59.90, 'Sand', 'M', 'm_joggers_sand.png'),
+('P10063', 'Joggers', 'C00001', 59.90, 'Sand', 'L', 'm_joggers_sand.png');
+
+
 
