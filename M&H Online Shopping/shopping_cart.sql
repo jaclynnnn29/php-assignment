@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `categories` (
-  `cat_id` int(11) NOT NULL,
+  `cat_id` varchar(10) NOT NULL,
   `cat_name` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -39,7 +39,7 @@ CREATE TABLE `categories` (
 --
 
 CREATE TABLE `item` (
-  `item_id` int(11) NOT NULL,
+  `item_id` varchar(10) NOT NULL,
   `order_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `price` decimal(10,2) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE `item` (
 --
 
 CREATE TABLE `orders` (
-  `order_id` int(11) NOT NULL,
+  `order_id` varchar(10) NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(10,2) NOT NULL,
   `user_id` int(11) DEFAULT NULL
@@ -67,7 +67,7 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `products` (
-  `product_id` int(11) NOT NULL,
+  `product_id` varchar(10) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `cat_id` int(11) DEFAULT NULL,
   `description` text DEFAULT NULL,
@@ -84,7 +84,7 @@ CREATE TABLE `products` (
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(10) NOT NULL,
   `user_name` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
