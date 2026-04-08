@@ -1,0 +1,18 @@
+PHP Database data
+—User data—
+
+('901','ethan_lee','654321','ethan.lee@gmail.com',NULL,'admin'),
+('902','sophia_tan','654321','sophia.tan@gmail.com',NULL,'admin'),
+('903','daniel_wong','654321','daniel.wong@gmail.com',NULL,'admin'),
+('904','amelia_ng','654321','amelia.ng@gmail.com',NULL,'admin'),
+('905','ryan_choo','654321','ryan.choo@gmail.com',NULL,'admin'),
+('001','liam_koh','123456','liam.koh@gmail.com',NULL,'member'),
+('002','noah_lim','123456','noah.lim@gmail.com',NULL,'member'),
+('003','ava_teo','123456','ava.teo@gmail.com',NULL,'member'),
+('004','lucas_yap','123456','lucas.yap@gmail.com',NULL,'member'),
+('005','mia_goh','123456','mia.goh@gmail.com',NULL,'member'),
+('006','benjamin_ong','123456','benjamin.ong@gmail.com',NULL,'member'),
+('007','ella_tay','123456','ella.tay@gmail.com',NULL,'member'),
+('008','jacob_foo','123456','jacob.foo@gmail.com',NULL,'member'),
+('009','chloe_yeo','123456','chloe.yeo@gmail.com',NULL,'member'),
+('010','aaron_chin','123456','aaron.chin@gmail.com',NULL,'member');
