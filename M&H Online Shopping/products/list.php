@@ -11,7 +11,7 @@ if (is_post()) {
     redirect();
 }
 
-$arr = $_db->query('SELECT * FROM product');
+$arr = $_db->query('SELECT * FROM products');
 
 // ----------------------------------------------------------------------------
 
