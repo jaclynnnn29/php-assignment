@@ -12,7 +12,7 @@ if (is_post()) {
 }
 
 $id  = req('id');
-$stm = $_db->prepare('SELECT * FROM product WHERE id = ?');
+$stm = $_db->prepare('SELECT * FROM products WHERE id = ?');
 $stm->execute([$id]);
 $p = $stm->fetch();
 if (!$p) redirect('list.php');
