@@ -27,50 +27,27 @@ PHP Database data
 
 —Products data—
 
--- MEN (cat_id: C00001)
-('P00001', 'Tshirt', 'C00001', 25.00, 'Black', 'S', 'm_tshirt_blk.jpg'),
-('P00002', 'Tshirt', 'C00001', 25.00, 'Black', 'M', 'm_tshirt_blk.jpg'),
-('P00003', 'Tshirt', 'C00001', 25.00, 'Black', 'L', 'm_tshirt_blk.jpg'),
-('P00004', 'Tshirt', 'C00001', 25.00, 'White', 'S', 'm_tshirt_wht.jpg'),
-('P00005', 'Tshirt', 'C00001', 25.00, 'White', 'M', 'm_tshirt_wht.jpg'),
-('P00006', 'Tshirt', 'C00001', 25.00, 'White', 'XL', 'm_tshirt_wht.jpg'),
-('P00007', 'Jacket', 'C00001', 85.00, 'Navy Blue', 'M', 'm_jack_navy.jpg'),
-('P00008', 'Jacket', 'C00001', 85.00, 'Navy Blue', 'L', 'm_jack_navy.jpg'),
-('P00009', 'Jacket', 'C00001', 85.00, 'Navy Blue', 'XL', 'm_jack_navy.jpg'),
-('P00010', 'Joggers', 'C00001', 45.00, 'Grey', 'S', 'm_jog_gry.jpg'),
-('P00011', 'Joggers', 'C00001', 45.00, 'Grey', 'M', 'm_jog_gry.jpg'),
-('P00012', 'Joggers', 'C00001', 45.00, 'Black', 'L', 'm_jog_blk.jpg'),
-('P00013', 'Shorts', 'C00001', 30.00, 'Khaki', 'M', 'm_short_khk.jpg'),
-('P00014', 'Shorts', 'C00001', 30.00, 'Khaki', 'L', 'm_short_khk.jpg'),
+INSERT INTO `products` (`product_id`, `product_name`, `cat_id`, `price`, `colour`, `size`, `photo`) VALUES
 
--- WOMEN (cat_id: C00002)
-('P00015', 'Tops', 'C00002', 35.00, 'Red', 'S', 'w_top_red.jpg'),
-('P00016', 'Tops', 'C00002', 35.00, 'Red', 'M', 'w_top_red.jpg'),
-('P00017', 'Tops', 'C00002', 35.00, 'Yellow', 'S', 'w_top_ylw.jpg'),
-('P00018', 'Sleepwear', 'C00002', 50.00, 'Pink', 'M', 'w_sleep_pnk.jpg'),
-('P00019', 'Sleepwear', 'C00002', 50.00, 'Pink', 'L', 'w_sleep_pnk.jpg'),
-('P00020', 'Dresses', 'C00002', 75.00, 'Floral Print', 'S', 'w_dress_flo.jpg'),
-('P00021', 'Dresses', 'C00002', 75.00, 'Floral Print', 'M', 'w_dress_flo.jpg'),
-('P00022', 'Dresses', 'C00002', 75.00, 'Black', 'L', 'w_dress_blk.jpg'),
-('P00023', 'Pants & Jeans', 'C00002', 60.00, 'Blue Denim', 'S', 'w_jean_blu.jpg'),
-('P00024', 'Pants & Jeans', 'C00002', 60.00, 'Blue Denim', 'M', 'w_jean_blu.jpg'),
-('P00025', 'Pants & Jeans', 'C00002', 60.00, 'Black Denim', 'L', 'w_jean_blk.jpg'),
+('P10001', 'T-shirt', 'C00001', 28.50, 'Green', 'S', 'm_tshirt_grn.png'),
+('P10002', 'T-shirt', 'C00001', 28.50, 'Green', 'M', 'm_tshirt_grn.png'),
+('P10003', 'T-shirt', 'C00001', 28.50, 'Green', 'L', 'm_tshirt_grn.png'),
+('P10004', 'T-shirt', 'C00001', 32.00, 'Black', 'S', 'm_tshirt_blk.png'),
+('P10005', 'T-shirt', 'C00001', 32.00, 'Black', 'M', 'm_tshirt_blk.png'),
+('P10006', 'T-shirt', 'C00001', 32.00, 'Black', 'L', 'm_tshirt_blk.png'),
+('P10007', 'T-shirt', 'C00001', 45.90, 'Navy Blue', 'S', 'm_tshirt_dblu.png'),
+('P10008', 'T-shirt', 'C00001', 45.90, 'Navy Blue', 'M', 'm_tshirt_dblu.png'),
+('P10009', 'T-shirt', 'C00001', 45.90, 'Navy Blue', 'L', 'm_tshirt_dblu.png'),
+('P10010', 'T-shirt', 'C00001', 29.99, 'Brown', 'S', 'm_tshirt_brown.png'),
+('P10011', 'T-shirt', 'C00001', 29.99, 'Brown', 'M', 'm_tshirt_brown.png'),
+('P10012', 'T-shirt', 'C00001', 29.99, 'Brown', 'L', 'm_tshirt_brown.png'),
+('P10013', 'T-shirt', 'C00001', 24.50, 'White/Green', 'S', 'm_tshirt_gptn.png'),
+('P10014', 'T-shirt', 'C00001', 24.50, 'White/Green', 'M', 'm_tshirt_gptn.png'),
+('P10015', 'T-shirt', 'C00001', 24.50, 'White/Green', 'L', 'm_tshirt_gptn.png'),
+('P10016', 'T-shirt', 'C00001', 35.00, 'White/Blue', 'S', 'm_tshirt_lbluptn.png'),
+('P10017', 'T-shirt', 'C00001', 35.00, 'White/Blue', 'M', 'm_tshirt_lbluptn.png'),
+('P10018', 'T-shirt', 'C00001', 35.00, 'White/Blue', 'L', 'm_tshirt_lbluptn.png'),
+('P10019', 'T-shirt', 'C00001', 22.00, 'White/Red', 'S', 'm_tshirt_blueptn.png'),
+('P10020', 'T-shirt', 'C00001', 22.00, 'White/Red', 'M', 'm_tshirt_blueptn.png'),
+('P10021', 'T-shirt', 'C00001', 22.00, 'White/Red', 'L', 'm_tshirt_blueptn.png');
 
--- CHILD (cat_id: C00003)
-('P00026', 'Tops', 'C00003', 20.00, 'Green', 'S', 'c_top_grn.jpg'),
-('P00027', 'Tops', 'C00003', 20.00, 'Green', 'M', 'c_top_grn.jpg'),
-('P00028', 'Shorts & Skirts', 'C00003', 25.00, 'Pink', 'S', 'c_skirt_pnk.jpg'),
-('P00029', 'Shorts & Skirts', 'C00003', 25.00, 'Blue', 'M', 'c_short_blu.jpg'),
-('P00030', 'Dresses', 'C00003', 40.00, 'White', 'S', 'c_dress_wht.jpg'),
-('P00031', 'Dresses', 'C00003', 40.00, 'White', 'M', 'c_dress_wht.jpg'),
-('P00032', 'Sleepwear', 'C00003', 30.00, 'Cartoon Print', 'M', 'c_sleep.jpg'),
-
--- ACCESSORIES (cat_id: C00004)
-('P00033', 'Wallet', 'C00004', 45.00, 'Brown Leather', 'One Size', 'wallet_brn.jpg'),
-('P00034', 'Cap', 'C00004', 18.00, 'Black', 'M', 'cap_blk.jpg'),
-('P00035', 'Cap', 'C00004', 18.00, 'Black', 'L', 'cap_blk.jpg'),
-('P00036', 'Backpacks', 'C00004', 65.00, 'Maroon', 'L', 'bag_mar.jpg'),
-('P00037', 'Shoes', 'C00004', 90.00, 'White', 'M', 'shoe_wht.jpg'),
-('P00038', 'Shoes', 'C00004', 90.00, 'White', 'L', 'shoe_wht.jpg'),
-('P00039', 'Shoes', 'C00004', 90.00, 'Black', 'XL', 'shoe_blk.jpg'),
-('P00040', 'Sunglasses', 'C00004', 110.00, 'Silver/Black', 'One Size', 'sun_blk.jpg');
