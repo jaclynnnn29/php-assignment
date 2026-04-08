@@ -93,5 +93,28 @@ PHP Database data
 ('P10062', 'Joggers', 'C00001', 59.90, 'Sand', 'M', 'm_joggers_sand.png'),
 ('P10063', 'Joggers', 'C00001', 59.90, 'Sand', 'L', 'm_joggers_sand.png');
 
-
+('P10064', 'Tops', 'C00002', 25.00, 'White', 'S', 'm_tops_white.png'),
+('P10065', 'Tops', 'C00002', 25.00, 'White', 'M', 'm_tops_white.png'),
+('P10066', 'Tops', 'C00002', 25.00, 'White', 'L', 'm_tops_white.png'),
+('P10067', 'Tops', 'C00002', 35.00, 'Black', 'S', 'm_tops_black.png'),
+('P10068', 'Tops', 'C00002', 35.00, 'Black', 'M', 'm_tops_black.png'),
+('P10069', 'Tops', 'C00002', 35.00, 'Black', 'L', 'm_tops_black.png'),
+('P10070', 'Tops', 'C00002', 45.90, 'Beige', 'S', 'm_tops_beige.png'),
+('P10071', 'Tops', 'C00002', 45.90, 'Beige', 'M', 'm_tops_beige.png'),
+('P10072', 'Tops', 'C00002', 45.90, 'Beige', 'L', 'm_tops_beige.png'),
+('P10073', 'Tops', 'C00002', 38.00, 'Light Blue', 'S', 'm_tops_lb.png'),
+('P10074', 'Tops', 'C00002', 38.00, 'Light Blue', 'M', 'm_tops_lb.png'),
+('P10075', 'Tops', 'C00002', 38.00, 'Light Blue', 'L', 'm_tops_lb.png'),
+('P10076', 'Tops', 'C00002', 28.00, 'Dusty Pink', 'S', 'm_tops_dp.png'),
+('P10077', 'Tops', 'C00002', 28.00, 'Dusty Pink', 'M', 'm_tops_dp.png'),
+('P10078', 'Tops', 'C00002', 28.00, 'Dusty Pink', 'L', 'm_tops_dp.png'),
+('P10079', 'Tops', 'C00002', 42.00, 'Navy Blue', 'S', 'm_tops_nb.png'),
+('P10080', 'Tops', 'C00002', 42.00, 'Navy Blue', 'M', 'm_tops_nb.png'),
+('P10081', 'Tops', 'C00002', 42.00, 'Navy Blue', 'L', 'm_tops_nb.png'),
+('P10082', 'Tops', 'C00002', 55.00, 'Pink', 'S', 'm_tops_pink.png'),
+('P10083', 'Tops', 'C00002', 55.00, 'Pink', 'M', 'm_tops_pink.png'),
+('P10084', 'Tops', 'C00002', 55.00, 'Pink', 'L', 'm_tops_pink.png'),
+('P10085', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'S', 'm_tops_my.png'),
+('P10086', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'M', 'm_tops_my.png'),
+('P10087', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'L', 'm_tops_my.png');
 
