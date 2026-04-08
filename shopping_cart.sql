@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 02, 2026 at 09:27 AM
+-- Generation Time: Apr 08, 2026 at 05:24 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `shopping_cart`
 --
-CREATE DATABASE IF NOT EXISTS `shopping_cart` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `shopping_cart`;
 
 -- --------------------------------------------------------
 
@@ -59,7 +57,8 @@ CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(10,2) NOT NULL,
-  `user_id` int(11) DEFAULT NULL
+  `user_id` int(11) DEFAULT NULL,
+  `quantity` int(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -72,11 +71,9 @@ CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `product_name` varchar(255) NOT NULL,
   `cat_id` int(11) DEFAULT NULL,
-  `description` text DEFAULT NULL,
   `price` decimal(10,2) NOT NULL,
   `colour` varchar(30) DEFAULT NULL,
-  `size` varchar(10) DEFAULT NULL,
-  `quantity` int(11) DEFAULT 0
+  `size` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
