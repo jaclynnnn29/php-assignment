@@ -23,7 +23,7 @@ include '_head.php';
         <td>Admin</td>
     </tr>
     <tr>
-        <td>2@gmail.com</td>
+        <td>liam.koh@gmail.com</td>
         <td>123456</td>
         <td>Member</td>
     </tr>
