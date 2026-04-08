@@ -10,7 +10,7 @@ if (is_post()) {
     update_cart($id, $unit);
     redirect();
 }
-
+$_db->query("USE shopping_cart");
 $arr = $_db->query('SELECT * FROM products');
 
 // ----------------------------------------------------------------------------
@@ -63,8 +63,8 @@ include '../_head.php';
         <!-- TODO -->
         <?php
          $cart = get_cart();
-         $id = $p->id;
-         $unit = $cart[$p->id] ?? 0;
+         $id = $p->product_id;
+         $unit = $cart[$p->product_id] ?? 0;
          ?>
 
         <div class="product">
@@ -78,7 +78,7 @@ include '../_head.php';
             <img src="/products/<?= $p->photo ?>"
                  data-get="/product/detail.php?id=<?= $p->id ?>">
 
-            <div><?= $p->name ?> | RM <?= $p->price ?></div>
+            <div><?= $p->product_name ?> | RM <?= $p->price ?></div>
         </div>
     <?php endforeach ?>
 </div>
