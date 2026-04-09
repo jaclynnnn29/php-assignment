@@ -143,3 +143,30 @@ PHP Database data
 ('P10110', 'Sleepwear', 'C00002', 59.90, 'Egg Plant', 'M', 'w_sleepware_ep.png'),
 ('P10111', 'Sleepwear', 'C00002', 59.90, 'Egg Plant', 'L', 'w_sleepware_ep.png');
 
+('P10112', 'Dresses', 'C00002', 65.00, 'Red Floral', 'S', 'w_dresses_rf.png'),
+('P10113', 'Dresses', 'C00002', 65.00, 'Red Floral', 'M', 'w_dresses_rf.png'),
+('P10114', 'Dresses', 'C00002', 65.00, 'Red Floral', 'L', 'w_dresses_rf.png'),
+('P10115', 'Dresses', 'C00002', 58.50, 'Blue Polka Dot', 'S', 'w_dresses_bpd.png'),
+('P10116', 'Dresses', 'C00002', 58.50, 'Blue Polka Dot', 'M', 'w_dresses_bpd.png'),
+('P10117', 'Dresses', 'C00002', 58.50, 'Blue Polka Dot', 'L', 'w_dresses_bpd.png'),
+('P10118', 'Dresses', 'C00002', 89.90, 'Pink', 'S', 'w_dresses_pink.png'),
+('P10119', 'Dresses', 'C00002', 89.90, 'Pink', 'M', 'w_dresses_pink.png'),
+('P10120', 'Dresses', 'C00002', 89.90, 'Pink', 'L', 'w_dresses_pink.png'),
+('P10121', 'Dresses', 'C00002', 72.00, 'Black', 'S', 'w_dresses_black.png'),
+('P10122', 'Dresses', 'C00002', 72.00, 'Black', 'M', 'w_dresses_black.png'),
+('P10123', 'Dresses', 'C00002', 72.00, 'Black', 'L', 'w_dresses_black.png'),
+('P10124', 'Dresses', 'C00002', 62.00, 'Brown', 'S', 'w_dresses_brown.png'),
+('P10125', 'Dresses', 'C00002', 62.00, 'Brown', 'M', 'w_dresses_brown.png'),
+('P10126', 'Dresses', 'C00002', 62.00, 'Brown', 'L', 'w_dresses_brown.png'),
+('P10127', 'Dresses', 'C00002', 55.00, 'White', 'S', 'w_dresses_white.png'),
+('P10128', 'Dresses', 'C00002', 55.00, 'White', 'M', 'w_dresses_white.png'),
+('P10129', 'Dresses', 'C00002', 55.00, 'White', 'L', 'w_dresses_white.png'),
+('P10130', 'Dresses', 'C00002', 49.90, 'Black/Flower', 'S', 'w_dresses_bf.png'),
+('P10131', 'Dresses', 'C00002', 49.90, 'Black/Flower', 'M', 'w_dresses_bf.png'),
+('P10132', 'Dresses', 'C00002', 49.90, 'Black/Flower', 'L', 'w_dresses_bf.png'),
+('P10133', 'Dresses', 'C00002', 68.00, 'Blue', 'S', 'w_dresses_blue.png'),
+('P10134', 'Dresses', 'C00002', 68.00, 'Blue', 'M', 'w_dresses_blue.png'),
+('P10135', 'Dresses', 'C00002', 68.00, 'Blue', 'L', 'w_dresses_blue.png');
+
+
+
