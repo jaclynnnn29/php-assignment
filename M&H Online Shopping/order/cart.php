@@ -31,8 +31,8 @@ include '../_head.php';
 
 <table class="table">
     <tr>
-        <th>Id</th>
-        <th>Name</th>
+        <th>ID</th>
+        <th>Type of Product</th>
         <th>Price (RM)</th>
         <th>Unit</th>
         <th>Subtotal (RM)</th>
@@ -70,7 +70,7 @@ include '../_head.php';
             </td>
             <td class="right">
                 <?= sprintf('%.2f', $subtotal) ?>
-                <img src="/products/<?= $p->photo ?>" class="popup">
+                <img src="/images/<?= $p->photo ?>" class="popup">
             </td>
         </tr>
     <?php endforeach ?>

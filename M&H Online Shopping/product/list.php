@@ -6,7 +6,7 @@ include '../_base.php';
 if (is_post()) {
     // TODO
     $id = req('id');
-    $unit = req('unit');
+    $unit = req('quantity');
     update_cart($id, $unit);
     redirect();
 }
@@ -72,7 +72,7 @@ include '../_head.php';
                 <!-- TODO ✅ -->
                  <?=  $unit ? '✅' : '' ?>
                  <?= html_hidden('id', $p->product_id) ?>
-                 <?= html_select('unit', $_units, '') ?>
+                 <?= html_select('quantity', $_units, '') ?>
             </form>
                 
             <img src="/images/<?= $p->photo ?>" 

@@ -1,6 +1,5 @@
 <?php
 require '_base.php';
-include '_head.php';
 
 // If user is already logged in, send them to home
 if ($_user) redirect('index.php');
@@ -51,9 +50,10 @@ if (is_post()) {
         $_err['login'] = "Email not found.";
     }
 }
-?>
 
-<h1>User Login</h1>
+$_title = 'User Login';
+include '_head.php';
+?>
 
 <?php if ($msg = temp('info')) echo "<p style='color:green'>$msg</p>"; ?>
 
@@ -66,7 +66,10 @@ if (is_post()) {
     <label for="password">Password</label><br>
     <?php html_password('password'); ?><br>
 
-    <button type="submit">Login</button>
+    <section>
+        <button type="submit">Login</button>
+        <button type="reset">Reset</button>
+    </section>
 </form>
 
 <?php include '_foot.php'; ?>
