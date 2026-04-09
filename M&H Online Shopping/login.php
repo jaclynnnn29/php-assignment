@@ -25,7 +25,7 @@ if (is_post()) {
         // 2. Verify Password (SECURITY REQUIREMENT)
         else if (password_verify($password, $user->password_hash)) {
             // Success: Reset attempts and unlock
-            $stm = $_db->prepare("UPDATE Users SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
+            $stm = $_db->prepare("UPDATE User SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
             $stm->execute([$user->user_id]);
             
             // Log user into session
