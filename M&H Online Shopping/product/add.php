@@ -27,7 +27,7 @@ if (is_post()) {
         $_err['product_id'] = 'Required';
     } else if (!preg_match('/^[A-Z]\d{3}$/', $product_id)) {
         $_err['product_id'] = 'Invalid format (e.g., P001)';
-    } else if (!is_unique($product_id, 'products', 'product_id')) {
+    } else if (!is_unique($product_id, 'product', 'product_id')) {
         $_err['product_id'] = 'Duplicate Product ID';
     }
 
@@ -51,7 +51,7 @@ if (is_post()) {
         // save_photo processes the image and saves it to the uploads folder
         $photo = save_photo($f, '../images', 400, 400);
 
-        $sql = "INSERT INTO products 
+        $sql = "INSERT INTO product
                 (product_id, product_name, cat_id, price, colour, size, photo) 
                 VALUES (?, ?, ?, ?, ?, ?, ?)";
         
@@ -97,12 +97,6 @@ include '../_head.php';
 
     <label for="colour">Colour</label>
     <?php html_text('colour', 'maxlength="30"'); ?>
-
-    <label for="quantity">Stock Quantity</label>
-    <?php html_number('quantity', 0, 1000, 1); ?>
-
-    <label for="description">Description</label>
-    <textarea name="description" id="description" rows="4"></textarea>
 
     <label for="photo">Product Image</label>
     <label class="upload" tabindex="0">

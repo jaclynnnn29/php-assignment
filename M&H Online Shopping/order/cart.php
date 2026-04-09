@@ -43,7 +43,7 @@ include '../_head.php';
         $count = 0;
         $total = 0;
         
-        $stm = $_db->prepare('SELECT * FROM product WHERE id =?');
+        $stm = $_db->prepare('SELECT * FROM product WHERE product_id =?');
         $cart = get_cart();
 
 
@@ -58,8 +58,8 @@ include '../_head.php';
             
     ?>
         <tr>
-            <td><?= $p->id ?></td>
-            <td><?= $p->name ?></td>
+            <td><?= $p->product_id ?></td>
+            <td><?= $p->product_name ?></td>
             <td class="right"><?= $p->price ?></td>
             <td>
                 <form method="post">

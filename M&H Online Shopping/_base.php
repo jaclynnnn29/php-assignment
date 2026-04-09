@@ -117,8 +117,8 @@ function encode($value) {
 }
 
 // Generate <input type='hidden'>
-function html_hidden($key, $attr = '') {
-    $value ??= encode($GLOBALS[$key] ?? '');
+function html_hidden($key, $value = '', $attr = '') {
+    $value = encode($value);
     echo "<input type='hidden' id='$key' name='$key' value='$value' $attr>";
 }
 
@@ -311,7 +311,7 @@ function update_cart($id, $unit) {
     // TODO
     $cart = get_cart();
 
-    if ($unit >= 1 && $unit <= 10 && is_exists($id,'product','id')) {
+    if ($unit >= 1 && $unit <= 10 && is_exists($id,'product','product_id')) {
         $cart[$id] = $unit;
         ksort($cart);
     }
@@ -326,7 +326,7 @@ function update_cart($id, $unit) {
 // ============================================================================
 
 // Global PDO object
-$_db = new PDO('mysql:dbname = shopping_cart', 'root', '', [
+$_db = new PDO('mysql:host=localhost;dbname=shopping_cart', 'root', '', [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 ]);
 
