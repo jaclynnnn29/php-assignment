@@ -59,7 +59,7 @@ if (is_post()) {
     // (4) Redirect to detail.php?id=XXX
     // TODO
     temp('info', 'Record inserted');
+    redirect("detail.php?id= $id");
 }
 
-redirect('cart.php');
 // ----------------------------------------------------------------------------

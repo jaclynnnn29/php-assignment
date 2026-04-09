@@ -14,7 +14,7 @@ $stm = $_db ->prepare('
     WHERE user_id = ? 
     ORDER BY datetime DESC
     ');
-$stm->execute([$_user['id']]);
+$stm->execute([$_user['product_id']]);
 $arr = $stm->fetchAll();
 
 // ----------------------------------------------------------------------------
