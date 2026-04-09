@@ -227,5 +227,26 @@ PHP Database data
 ('P10188', 'Shorts & Skirts', 'C00003', 15.00, 'Blue', 'M', 'c_shorts_blue.png'),
 ('P10189', 'Shorts & Skirts', 'C00003', 15.00, 'Blue', 'L', 'c_shorts_blue.png');
 
+('P10190', 'Wallet', 'C00004', 35.00, 'Black', 'NULL', 'a_wallet_black.png'),
+('P10191', 'Wallet', 'C00004', 35.00, 'Blue', 'NULL', 'a_wallet_blue.png'),
+
+('P10192', 'Sunglasses', 'C00004', 85.00, 'Black', 'NULL', 'a_sunglasses_black.png'),
+('P10193', 'Sunglasses', 'C00004', 85.00, 'Beige', 'NULL', 'a_sunglasses_beige.png'),
+
+('P10194', 'Backpacks', 'C00004', 65.00, 'Black', 'NULL', 'a_backpack_black.png'),
+('P10195', 'Backpacks', 'C00004', 65.00, 'Blue', 'NULL', 'a_backpack_blue.png'),
+
+('P10196', 'Cap', 'C00004', 25.00, 'Navy NY', 'M', 'a_caps_ny.png'),
+('P10197', 'Cap', 'C00004', 25.00, 'Navy NY', 'L', 'a_caps_ny.png'),
+('P10198', 'Cap', 'C00004', 22.00, 'Light Blue', 'M', 'a_caps_blue.png'),
+('P10199', 'Cap', 'C00004', 22.00, 'Light Blue', 'L', 'a_caps_blue.png'),
+
+('P10200', 'Shoes', 'C00004', 95.00, 'Black', 'S', 'a_shoes_black.png'),
+('P10201', 'Shoes', 'C00004', 95.00, 'Black', 'M', 'a_shoes_black.png'),
+('P10202', 'Shoes', 'C00004', 95.00, 'Black', 'L', 'a_shoes_black.png'),
+('P10203', 'Shoes', 'C00004', 88.00, 'Brown', 'S', 'a_shoes_brown.png'),
+('P10204', 'Shoes', 'C00004', 88.00, 'Brown', 'M', 'a_shoes_brown.png'),
+('P10205', 'Shoes', 'C00004', 88.00, 'Brown', 'L', 'a_shoes_brown.png');
+
 
 
