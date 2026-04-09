@@ -5,8 +5,8 @@ include '../_base.php';
 
 if (is_post()) {
     // TODO
-    $id = req('id');
-    $unit = req('unit]');
+    $id = req('product_id');
+    $unit = req('unit');
     update_cart($id, $unit);
     redirect();
 }
