@@ -11,8 +11,8 @@ if (is_post()) {
     redirect();
 }
 
-$id  = req('id');
-$stm = $_db->prepare('SELECT * FROM product WHERE id = ?');
+$id  = req('product_id');
+$stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
 $stm->execute([$id]);
 $p = $stm->fetch();
 if (!$p) redirect('list.php');
@@ -55,8 +55,8 @@ include '../_head.php';
             <!-- TODO -->
              <?php
              $cart = get_cart();
-             $id = $p->id;
-             $unit = $cart[$p->id] ?? 0;
+             $id = $p->product_id;
+             $unit = $cart[$p->product_id] ?? 0;
              ?>
             <form method="post">
                 <!-- TODO ✅ -->
