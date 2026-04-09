@@ -75,8 +75,10 @@ include '../_head.php';
                  <?= html_select('unit', $_units, '') ?>
             </form>
                 
-            <img src="/products/<?= $p->photo ?>"
-                 data-get="/product/detail.php?id=<?= $p->id ?>">
+            <img src="/images/<?= $p->photo ?>" 
+            data-get="/product/detail.php?id=<?= $p->product_id ?>" 
+            alt="Product Image" 
+            style="width:200px; height:200px; object-fit:cover;">
 
             <div><?= $p->product_name ?> | RM <?= $p->price ?></div>
         </div>

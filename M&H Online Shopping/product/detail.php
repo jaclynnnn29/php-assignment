@@ -12,7 +12,7 @@ if (is_post()) {
 }
 
 $id  = req('id');
-$stm = $_db->prepare('SELECT * FROM products WHERE id = ?');
+$stm = $_db->prepare('SELECT * FROM product WHERE id = ?');
 $stm->execute([$id]);
 $p = $stm->fetch();
 if (!$p) redirect('list.php');
@@ -33,7 +33,7 @@ include '../_head.php';
 </style>
 
 <p>
-    <img src="/products/<?= $p->photo ?>" id="photo">
+    <img src="/product/<?= $p->photo ?>" id="photo">
 </p>
 
 <table class="table detail">

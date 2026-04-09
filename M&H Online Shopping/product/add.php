@@ -49,7 +49,7 @@ if (is_post()) {
     // 3. Database Insertion
     if (!$_err) {
         // save_photo processes the image and saves it to the uploads folder
-        $photo = save_photo($f, '../uploads', 400, 400);
+        $photo = save_photo($f, '../images', 400, 400);
 
         $sql = "INSERT INTO products 
                 (product_id, product_name, cat_id, price, colour, size, photo) 
