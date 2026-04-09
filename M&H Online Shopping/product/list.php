@@ -11,7 +11,7 @@ if (is_post()) {
     redirect();
 }
 $_db->query("USE shopping_cart");
-$arr = $_db->query('SELECT * FROM products');
+$arr = $_db->query('SELECT * FROM product');
 
 // ----------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ include '../_head.php';
 ?>
 
 <style>
-    #products {
+    #product {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
@@ -58,7 +58,7 @@ include '../_head.php';
     }
 </style>
 
-<div id="products">
+<div id="product">
     <?php foreach ($arr as $p): ?>
         <!-- TODO -->
         <?php
