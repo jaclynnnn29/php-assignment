@@ -3,11 +3,12 @@ include '_base.php';
 
 // ----------------------------------------------------------------------------
 
-
+$stm = $_db->query("SELECT * FROM user");
+$users = $stm->fetchAll();
 
 // ----------------------------------------------------------------------------
 
-$_title = 'Index';
+$_title = 'User List';
 include '_head.php';
 ?>
 
@@ -17,16 +18,16 @@ include '_head.php';
         <th>Password</th>
         <th>Role</th>
     </tr>
-    <tr>
-        <td>1@gmail.com</td>
-        <td>123456</td>
-        <td>Admin</td>
-    </tr>
-    <tr>
-        <td>liam.koh@gmail.com</td>
-        <td>123456</td>
-        <td>Member</td>
-    </tr>
+    </thead>
+    <tbody>
+        <?php foreach ($users as $u): ?>
+            <tr>
+                <td><?= encode($u->email) ?></td>
+                <td><?= encode($u->password) ?></td>
+                <td><?= encode($u->role) ?></td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
 
 <?php
