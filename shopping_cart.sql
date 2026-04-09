@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 09, 2026 at 09:26 AM
+-- Generation Time: Apr 09, 2026 at 05:28 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -309,6 +309,9 @@ CREATE TABLE `user` (
   `user_name` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(100) NOT NULL,
+  `password_hash` varchar(255) DEFAULT NULL,
+  `failed_attempts` int(11) DEFAULT 0,
+  `locked_until` datetime DEFAULT NULL,
   `photo` varchar(100) DEFAULT NULL,
   `role` varchar(20) DEFAULT 'Member'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -317,22 +320,22 @@ CREATE TABLE `user` (
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`user_id`, `user_name`, `password`, `email`, `photo`, `role`) VALUES
-('U00001', 'liam_koh', '123456', 'liam.koh@gmail.com', NULL, 'member'),
-('U00002', 'noah_lim', '123456', 'noah.lim@gmail.com', NULL, 'member'),
-('U00003', 'ava_teo', '123456', 'ava.teo@gmail.com', NULL, 'member'),
-('U00004', 'lucas_yap', '123456', 'lucas.yap@gmail.com', NULL, 'member'),
-('U00005', 'mia_goh', '123456', 'mia.goh@gmail.com', NULL, 'member'),
-('U00006', 'benjamin_ong', '123456', 'benjamin.ong@gmail.com', NULL, 'member'),
-('U00007', 'ella_tay', '123456', 'ella.tay@gmail.com', NULL, 'member'),
-('U00008', 'jacob_foo', '123456', 'jacob.foo@gmail.com', NULL, 'member'),
-('U00009', 'chloe_yeo', '123456', 'chloe.yeo@gmail.com', NULL, 'member'),
-('U00010', 'aaron_chin', '123456', 'aaron.chin@gmail.com', NULL, 'member'),
-('U90001', 'ethan_lee', '654321', 'ethan.lee@gmail.com', NULL, 'admin'),
-('U90002', 'sophia_tan', '654321', 'sophia.tan@gmail.com', NULL, 'admin'),
-('U90003', 'daniel_wong', '654321', 'daniel.wong@gmail.com', NULL, 'admin'),
-('U90004', 'amelia_ng', '654321', 'amelia.ng@gmail.com', NULL, 'admin'),
-('U90005', 'ryan_choo', '654321', 'ryan.choo@gmail.com', NULL, 'admin');
+INSERT INTO `user` (`user_id`, `user_name`, `password`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
+('U00001', 'liam_koh', '123456', 'liam.koh@gmail.com', NULL, 3, '2026-04-09 16:09:24', NULL, 'member'),
+('U00002', 'noah_lim', '123456', 'noah.lim@gmail.com', NULL, 1, NULL, NULL, 'member'),
+('U00003', 'ava_teo', '123456', 'ava.teo@gmail.com', NULL, 2, NULL, NULL, 'member'),
+('U00004', 'lucas_yap', '123456', 'lucas.yap@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U00005', 'mia_goh', '123456', 'mia.goh@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U00006', 'benjamin_ong', '123456', 'benjamin.ong@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U00007', 'ella_tay', '123456', 'ella.tay@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U00008', 'jacob_foo', '123456', 'jacob.foo@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U00009', 'chloe_yeo', '123456', 'chloe.yeo@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U00010', 'aaron_chin', '123456', 'aaron.chin@gmail.com', NULL, 0, NULL, NULL, 'member'),
+('U90001', 'ethan_lee', '654321', 'ethan.lee@gmail.com', NULL, 0, NULL, NULL, 'admin'),
+('U90002', 'sophia_tan', '654321', 'sophia.tan@gmail.com', NULL, 0, NULL, NULL, 'admin'),
+('U90003', 'daniel_wong', '654321', 'daniel.wong@gmail.com', NULL, 0, NULL, NULL, 'admin'),
+('U90004', 'amelia_ng', '654321', 'amelia.ng@gmail.com', NULL, 0, NULL, NULL, 'admin'),
+('U90005', 'ryan_choo', '654321', 'ryan.choo@gmail.com', NULL, 0, NULL, NULL, 'admin');
 
 --
 -- Indexes for dumped tables
