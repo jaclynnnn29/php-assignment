@@ -8,49 +8,53 @@ if (is_post()) {
     $email = post('email');
     $password = post('password');
 
-    $stm = $_db->prepare("SELECT * FROM User WHERE email = ?");
-    $stm->execute([$email]);
-    $user = $stm->fetch();
+    if ($email == '') $_err['email'] = 'Required';
+    if ($password == '') $_err['password'] = 'Required';
 
-    if ($user) {
-        $now = time();
-        $lock_time = $user->locked_until ? strtotime($user->locked_until) : 0;
+    if (!$_err) {
+        $stm = $_db->prepare("SELECT * FROM User WHERE email = ?");
+        $stm->execute([$email]);
+        $user = $stm->fetch();
 
-        // 1. Check if Account is Locked
-        if ($lock_time > $now) {
-            $wait = ceil(($lock_time - $now) / 60);
-            $_err['login'] = "Account locked. Try again in $wait mins.";
-        } 
-        // 2. Verify Password (SECURITY REQUIREMENT)
-        else if (password_verify($password, $user->password_hash)) {
-            // Success: Reset attempts and unlock
-            $stm = $_db->prepare("UPDATE User SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
-            $stm->execute([$user->user_id]);
-            
-            // Log user into session
-            login($user, 'index.php'); 
-        } 
-        // 3. Handle Failed Attempt (SELF-STUDY REQUIREMENT)
-        else {
-            $attempts = $user->failed_attempts + 1;
-            if ($attempts >= 3) {
-                // Lock for 30 mins
-                $until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-                $stm = $_db->prepare("UPDATE User SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
-                $stm->execute([$attempts, $until, $user->user_id]);
-                $_err['login'] = "3 failed attempts. Account locked for 30 mins.";
-            } else {
-                // Update attempt count
-                $stm = $_db->prepare("UPDATE User SET failed_attempts = ? WHERE user_id = ?");
-                $stm->execute([$attempts, $user->user_id]);
-                $_err['login'] = "Invalid password. Attempt: $attempts/3";
+        if ($user) {
+            $now = time();
+            $lock_time = $user->locked_until ? strtotime($user->locked_until) : 0;
+
+            // 1. Check if Account is Locked
+            if ($lock_time > $now) {
+                $wait = ceil(($lock_time - $now) / 60);
+                $_err['login'] = "Account locked. Try again in $wait mins.";
+            } 
+            // 2. Verify Password (SECURITY REQUIREMENT)
+            else if (password_verify($password, $user->password_hash)) {
+                // Success: Reset attempts and unlock
+                $stm = $_db->prepare("UPDATE User SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
+                $stm->execute([$user->user_id]);
+                
+                // Log user into session
+                login($user, 'index.php'); 
+            } 
+            // 3. Handle Failed Attempt (SELF-STUDY REQUIREMENT)
+            else {
+                $attempts = $user->failed_attempts + 1;
+                if ($attempts >= 3) {
+                    // Lock for 30 mins
+                    $until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+                    $stm = $_db->prepare("UPDATE User SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
+                    $stm->execute([$attempts, $until, $user->user_id]);
+                    $_err['login'] = "3 failed attempts. Account locked for 30 mins.";
+                } else {
+                    // Update attempt count
+                    $stm = $_db->prepare("UPDATE User SET failed_attempts = ? WHERE user_id = ?");
+                    $stm->execute([$attempts, $user->user_id]);
+                    $_err['login'] = "Invalid password. Attempt: $attempts/3";
+                }
             }
+        } else {
+            $_err['login'] = "Email not found.";
         }
-    } else {
-        $_err['login'] = "Email not found.";
     }
 }
-
 $_title = 'User Login';
 include '_head.php';
 ?>
