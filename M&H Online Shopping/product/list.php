@@ -11,7 +11,7 @@ if (is_post()) {
     redirect();
 }
 $_db->query("USE shopping_cart");
-$arr = $_db->query('SELECT * FROM product');
+$arr = $_db->query('SELECT * FROM product')->fetchAll();
 
 // ----------------------------------------------------------------------------
 
@@ -71,7 +71,7 @@ include '../_head.php';
             <form method="post">
                 <!-- TODO ✅ -->
                  <?=  $unit ? '✅' : '' ?>
-                 <?= html_hidden('id') ?>
+                 <?= html_hidden('id', $p->product_id) ?>
                  <?= html_select('unit', $_units, '') ?>
             </form>
                 
