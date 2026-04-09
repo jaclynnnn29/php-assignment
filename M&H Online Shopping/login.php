@@ -9,7 +9,7 @@ if (is_post()) {
     $email = post('email');
     $password = post('password');
 
-    $stm = $_db->prepare("SELECT * FROM Users WHERE email = ?");
+    $stm = $_db->prepare("SELECT * FROM User WHERE email = ?");
     $stm->execute([$email]);
     $user = $stm->fetch();
 
@@ -37,12 +37,12 @@ if (is_post()) {
             if ($attempts >= 3) {
                 // Lock for 30 mins
                 $until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-                $stm = $_db->prepare("UPDATE Users SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
+                $stm = $_db->prepare("UPDATE User SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $until, $user->user_id]);
                 $_err['login'] = "3 failed attempts. Account locked for 30 mins.";
             } else {
                 // Update attempt count
-                $stm = $_db->prepare("UPDATE Users SET failed_attempts = ? WHERE user_id = ?");
+                $stm = $_db->prepare("UPDATE User SET failed_attempts = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $user->user_id]);
                 $_err['login'] = "Invalid password. Attempt: $attempts/3";
             }
