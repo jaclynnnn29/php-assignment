@@ -8,7 +8,7 @@ if (is_post()) {
     $email = post('email');
     $password = post('password');
 
-    $stm = $_db->prepare("SELECT * FROM User WHERE email = ?");
+    $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
     $stm->execute([$email]);
     $user = $stm->fetch();
 
@@ -24,7 +24,7 @@ if (is_post()) {
         // 2. Verify Password (SECURITY REQUIREMENT)
         else if (password_verify($password, $user->password_hash)) {
             // Success: Reset attempts and unlock
-            $stm = $_db->prepare("UPDATE User SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
+            $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
             $stm->execute([$user->user_id]);
             
             // Log user into session
@@ -36,12 +36,12 @@ if (is_post()) {
             if ($attempts >= 3) {
                 // Lock for 30 mins
                 $until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
-                $stm = $_db->prepare("UPDATE User SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
+                $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $until, $user->user_id]);
                 $_err['login'] = "3 failed attempts. Account locked for 30 mins.";
             } else {
                 // Update attempt count
-                $stm = $_db->prepare("UPDATE User SET failed_attempts = ? WHERE user_id = ?");
+                $stm = $_db->prepare("UPDATE user SET failed_attempts = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $user->user_id]);
                 $_err['login'] = "Invalid password. Attempt: $attempts/3";
             }
