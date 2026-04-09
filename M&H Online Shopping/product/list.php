@@ -80,7 +80,7 @@ include '../_head.php';
             alt="Product Image" 
             style="width:200px; height:200px; object-fit:cover;">
 
-            <div><?= $p->product_name ?> | RM <?= $p->price ?></div>
+            <div><?= $p->product_id ?> | <?= $p->size ?> | RM <?= $p->price ?></div>
         </div>
     <?php endforeach ?>
 </div>

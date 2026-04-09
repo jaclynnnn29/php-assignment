@@ -1,6 +1,3 @@
-PHP Database data
-—User data—
-
 ('U90001','ethan_lee','654321','ethan.lee@gmail.com',NULL,'admin'),
 ('U90002','sophia_tan','654321','sophia.tan@gmail.com',NULL,'admin'),
 ('U90003','daniel_wong','654321','daniel.wong@gmail.com',NULL,'admin'),
@@ -18,14 +15,10 @@ PHP Database data
 ('U00009','chloe_yeo','123456','chloe.yeo@gmail.com',NULL,'member'),
 ('U00010','aaron_chin','123456','aaron.chin@gmail.com',NULL,'member');
 
-—Categories data—
-
 ('C00001','Men'),
 ('C00002','Women'),
 ('C00003','Children'),
 ('C00004','Accessories');
-
-—Products data—
 
 ('P10001', 'T-shirt', 'C00001', 28.50, 'Green', 'S', 'm_tshirt_grn.png'),
 ('P10002', 'T-shirt', 'C00001', 28.50, 'Green', 'M', 'm_tshirt_grn.png'),
@@ -47,7 +40,7 @@ PHP Database data
 ('P10018', 'T-shirt', 'C00001', 35.00, 'White/Blue', 'L', 'm_tshirt_wb.png'),
 ('P10019', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'S', 'm_tshirt_wrb.png'),
 ('P10020', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'M', 'm_tshirt_wrb.png'),
-('P10021', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'L', 'm_tshirt_wrb.png');
+('P10021', 'T-shirt', 'C00001', 22.00, 'White/Red/Blue', 'L', 'm_tshirt_wrb.png'),
 
 ('P10022', 'Jacket', 'C00001', 50.00, 'Jeans', 'S', 'm_jacket_jeans.png'),
 ('P10023', 'Jacket', 'C00001', 50.00, 'Jeans', 'M', 'm_jacket_jeans.png'),
@@ -66,7 +59,7 @@ PHP Database data
 ('P10036', 'Jacket', 'C00001', 55.00, 'Light Beige', 'L', 'm_jacket_lb.png'),
 ('P10037', 'Jacket', 'C00001', 75.50, 'Brown', 'S', 'm_jacket_brown.png'),
 ('P10038', 'Jacket', 'C00001', 75.50, 'Brown', 'M', 'm_jacket_brown.png'),
-('P10039', 'Jacket', 'C00001', 75.50, 'Brown', 'L', 'm_jacket_brown.png');
+('P10039', 'Jacket', 'C00001', 75.50, 'Brown', 'L', 'm_jacket_brown.png'),
 
 ('P10040', 'Joggers', 'C00001', 55.00, 'Dark Grey', 'S', 'm_joggers_dg.png'),
 ('P10041', 'Joggers', 'C00001', 55.00, 'Dark Grey', 'M', 'm_joggers_dg.png'),
@@ -91,7 +84,7 @@ PHP Database data
 ('P10060', 'Joggers', 'C00001', 65.00, 'Olive Green', 'L', 'm_joggers_og.png'),
 ('P10061', 'Joggers', 'C00001', 59.90, 'Sand', 'S', 'm_joggers_sand.png'),
 ('P10062', 'Joggers', 'C00001', 59.90, 'Sand', 'M', 'm_joggers_sand.png'),
-('P10063', 'Joggers', 'C00001', 59.90, 'Sand', 'L', 'm_joggers_sand.png');
+('P10063', 'Joggers', 'C00001', 59.90, 'Sand', 'L', 'm_joggers_sand.png'),
 
 ('P10064', 'Tops', 'C00002', 25.00, 'White', 'S', 'w_tops_white.png'),
 ('P10065', 'Tops', 'C00002', 25.00, 'White', 'M', 'w_tops_white.png'),
@@ -116,7 +109,7 @@ PHP Database data
 ('P10084', 'Tops', 'C00002', 55.00, 'Pink', 'L', 'w_tops_pink.png'),
 ('P10085', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'S', 'w_tops_my.png'),
 ('P10086', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'M', 'w_tops_my.png'),
-('P10087', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'L', 'w_tops_my.png');
+('P10087', 'Tops', 'C00002', 32.50, 'Mustard Yellow', 'L', 'w_tops_my.png'),
 
 ('P10088', 'Sleepwear', 'C00002', 45.00, 'Blue', 'S', 'w_sleepware_blue.png'),
 ('P10089', 'Sleepwear', 'C00002', 45.00, 'Blue', 'M', 'w_sleepware_blue.png'),
@@ -141,7 +134,7 @@ PHP Database data
 ('P10108', 'Sleepwear', 'C00002', 35.00, 'Red', 'L', 'w_sleepware_red.png'),
 ('P10109', 'Sleepwear', 'C00002', 59.90, 'Egg Plant', 'S', 'w_sleepware_ep.png'),
 ('P10110', 'Sleepwear', 'C00002', 59.90, 'Egg Plant', 'M', 'w_sleepware_ep.png'),
-('P10111', 'Sleepwear', 'C00002', 59.90, 'Egg Plant', 'L', 'w_sleepware_ep.png');
+('P10111', 'Sleepwear', 'C00002', 59.90, 'Egg Plant', 'L', 'w_sleepware_ep.png'),
 
 ('P10112', 'Dresses', 'C00002', 65.00, 'Red Floral', 'S', 'w_dresses_rf.png'),
 ('P10113', 'Dresses', 'C00002', 65.00, 'Red Floral', 'M', 'w_dresses_rf.png'),
@@ -166,7 +159,7 @@ PHP Database data
 ('P10132', 'Dresses', 'C00002', 49.90, 'Black/Flower', 'L', 'w_dresses_bf.png'),
 ('P10133', 'Dresses', 'C00002', 68.00, 'Blue', 'S', 'w_dresses_blue.png'),
 ('P10134', 'Dresses', 'C00002', 68.00, 'Blue', 'M', 'w_dresses_blue.png'),
-('P10135', 'Dresses', 'C00002', 68.00, 'Blue', 'L', 'w_dresses_blue.png');
+('P10135', 'Dresses', 'C00002', 68.00, 'Blue', 'L', 'w_dresses_blue.png'),
 
 ('P10136', 'Pants & Jeans', 'C00002', 45.00, 'Black', 'S', 'w_pants_black.png'),
 ('P10137', 'Pants & Jeans', 'C00002', 45.00, 'Black', 'M', 'w_pants_black.png'),
@@ -191,7 +184,7 @@ PHP Database data
 ('P10156', 'Pants & Jeans', 'C00002', 44.90, 'White', 'L', 'w_pants_white.png'),
 ('P10157', 'Pants & Jeans', 'C00002', 49.00, 'White/Black Pattern', 'S', 'w_pants_wbbox.png'),
 ('P10158', 'Pants & Jeans', 'C00002', 49.00, 'White/Black Pattern', 'M', 'w_pants_wbbox.png'),
-('P10159', 'Pants & Jeans', 'C00002', 49.00, 'White/Black Pattern', 'L', 'w_pants_wbbox.png');
+('P10159', 'Pants & Jeans', 'C00002', 49.00, 'White/Black Pattern', 'L', 'w_pants_wbbox.png'),
 
 ('P10160', 'Tops', 'C00003', 18.00, 'Yellow', 'S', 'c_tops_yellow.png'),
 ('P10161', 'Tops', 'C00003', 18.00, 'Yellow', 'M', 'c_tops_yellow.png'),
@@ -225,7 +218,7 @@ PHP Database data
 ('P10186', 'Shorts & Skirts', 'C00003', 15.00, 'Brown', 'L', 'c_shorts_brown.png'),
 ('P10187', 'Shorts & Skirts', 'C00003', 15.00, 'Blue', 'S', 'c_shorts_blue.png'),
 ('P10188', 'Shorts & Skirts', 'C00003', 15.00, 'Blue', 'M', 'c_shorts_blue.png'),
-('P10189', 'Shorts & Skirts', 'C00003', 15.00, 'Blue', 'L', 'c_shorts_blue.png');
+('P10189', 'Shorts & Skirts', 'C00003', 15.00, 'Blue', 'L', 'c_shorts_blue.png'),
 
 ('P10190', 'Wallet', 'C00004', 35.00, 'Black', 'NULL', 'a_wallet_black.png'),
 ('P10191', 'Wallet', 'C00004', 35.00, 'Blue', 'NULL', 'a_wallet_blue.png'),
