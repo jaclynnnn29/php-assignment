@@ -34,16 +34,16 @@ if (is_post()) {
         else {
             $attempts = $user->failed_attempts + 1;
             if ($attempts >= 3) {
-                // Lock for 30 mins
-                $until = date('Y-m-d H:i:s', strtotime('+30 minutes'));
+                // Lock for 5 mins
+                $until = date('Y-m-d H:i:s', strtotime('+5 minutes'));
                 $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $until, $user->user_id]);
                 $_err['login'] = "3 failed attempts. Account locked for 30 mins.";
             } else {
                 // Update attempt count
                 
-                $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
-                $stm->execute([$attempts, $password, $user->user_id]);
+                $stm = $_db->prepare("UPDATE user SET failed_attempts = ? WHERE user_id = ?");
+                $stm->execute([$attempts, $user->user_id]);
                 $_err['login'] = "Invalid password. Attempt: $attempts/3";
             }
         }
