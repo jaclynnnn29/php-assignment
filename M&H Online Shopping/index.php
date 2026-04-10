@@ -4,7 +4,7 @@ include '_base.php';
 // ----------------------------------------------------------------------------
 
 $stm = $_db->query("SELECT * FROM user");
-$users = $stm->fetchAll();
+$user = $stm->fetchAll();
 
 // ----------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ include '_head.php';
     </tr>
     </thead>
     <tbody>
-        <?php foreach ($users as $u): ?>
+        <?php foreach ($user as $u): ?>
             <tr>
                 <td><?= encode($u->email) ?></td>
                 <td><?= encode($u->password) ?></td>

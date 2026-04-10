@@ -62,13 +62,13 @@ $conn = mysqli_connect("localhost", "root", "", "mh_shopping");
 // SIMPLE SEARCH QUERY
 if($search != "") {
     // If user searched something
-    $sql = "SELECT * FROM users 
+    $sql = "SELECT * FROM  
             WHERE role = 'member' 
             AND (username LIKE '%$search%' 
             OR email LIKE '%$search%')";
 } else {
     // If no search, show all members
-    $sql = "SELECT * FROM users WHERE role = 'member'";
+    $sql = "SELECT * FROM user WHERE role = 'member'";
 }
 
 $result = mysqli_query($conn, $sql);

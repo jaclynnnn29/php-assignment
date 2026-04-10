@@ -28,7 +28,7 @@ if (is_post()) {
     if (!$_err) {
         $hash = password_hash($new_pass, PASSWORD_DEFAULT);
         
-        $stm = $_db->prepare("UPDATE Users SET password_hash = ? WHERE user_id = ?");
+        $stm = $_db->prepare("UPDATE user SET password_hash = ? WHERE user_id = ?");
         $stm->execute([$hash, $_user->user_id]);
 
         // Update the session object so it has the new hash
