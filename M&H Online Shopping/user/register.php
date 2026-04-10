@@ -11,7 +11,7 @@ if (is_post()) {
     //Verify
     if (!$email) $_err['email'] = 'Required';
     else if (!is_email($email)) $_err['email'] = 'Invalid email';
-    else if (!is_unique($email, 'User', 'email')) $_err['email'] = 'Duplicated';
+    else if (!is_unique($email, 'user', 'email')) $_err['email'] = 'Duplicated';
 
     if (!$password) $_err['password'] = 'Required';
     else if (strlen($password) < 6) $_err['password'] = 'Too short (min 6)';
