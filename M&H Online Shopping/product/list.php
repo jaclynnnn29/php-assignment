@@ -6,12 +6,12 @@ include '../_base.php';
 if (is_post()) {
     // TODO
     $id = req('id');
-    $unit = req('unit');
+    $unit = req('quantity');
     update_cart($id, $unit);
     redirect();
 }
-
-$arr = $_db->query('SELECT * FROM product');
+$_db->query("USE shopping_cart");
+$arr = $_db->query('SELECT * FROM product')->fetchAll();
 
 // ----------------------------------------------------------------------------
 
@@ -20,7 +20,7 @@ include '../_head.php';
 ?>
 
 <style>
-    #products {
+    #product {
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
@@ -58,27 +58,29 @@ include '../_head.php';
     }
 </style>
 
-<div id="products">
+<div id="product">
     <?php foreach ($arr as $p): ?>
         <!-- TODO -->
         <?php
          $cart = get_cart();
-         $id = $p->id;
-         $unit = $cart[$p->id] ?? 0;
+         $id = $p->product_id;
+         $unit = $cart[$p->product_id] ?? 0;
          ?>
 
         <div class="product">
             <form method="post">
                 <!-- TODO ✅ -->
                  <?=  $unit ? '✅' : '' ?>
-                 <?= html_hidden('id') ?>
-                 <?= html_select('unit', $_units, '') ?>
+                 <?= html_hidden('id', $p->product_id) ?>
+                 <?= html_select('quantity', $_units, '') ?>
             </form>
                 
-            <img src="/products/<?= $p->photo ?>"
-                 data-get="/product/detail.php?id=<?= $p->id ?>">
+            <img src="/images/<?= $p->photo ?>" 
+            data-get="/product/detail.php?id=<?= $p->product_id ?>" 
+            alt="Product Image" 
+            style="width:200px; height:200px; object-fit:cover;">
 
-            <div><?= $p->name ?> | RM <?= $p->price ?></div>
+            <div><?= $p->product_name ?> | <?= $p->size ?> | RM <?= $p->price ?></div>
         </div>
     <?php endforeach ?>
 </div>

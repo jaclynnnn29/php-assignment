@@ -31,8 +31,8 @@ include '../_head.php';
 
 <table class="table">
     <tr>
-        <th>Id</th>
-        <th>Name</th>
+        <th>ID</th>
+        <th>Type of Product</th>
         <th>Price (RM)</th>
         <th>Unit</th>
         <th>Subtotal (RM)</th>
@@ -43,7 +43,7 @@ include '../_head.php';
         $count = 0;
         $total = 0;
         
-        $stm = $_db->prepare('SELECT * FROM product WHERE id =?');
+        $stm = $_db->prepare('SELECT * FROM product WHERE product_id =?');
         $cart = get_cart();
 
 
@@ -58,8 +58,8 @@ include '../_head.php';
             
     ?>
         <tr>
-            <td><?= $p->id ?></td>
-            <td><?= $p->name ?></td>
+            <td><?= $p->product_id ?></td>
+            <td><?= $p->product_name ?></td>
             <td class="right"><?= $p->price ?></td>
             <td>
                 <form method="post">
@@ -70,7 +70,7 @@ include '../_head.php';
             </td>
             <td class="right">
                 <?= sprintf('%.2f', $subtotal) ?>
-                <img src="/products/<?= $p->photo ?>" class="popup">
+                <img src="/images/<?= $p->photo ?>" class="popup">
             </td>
         </tr>
     <?php endforeach ?>

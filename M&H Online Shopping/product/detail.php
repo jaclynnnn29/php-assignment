@@ -6,13 +6,13 @@ include '../_base.php';
 if (is_post()) {
     // TODO
     $id = req('id');
-    $unit = req('unit]');
+    $unit = req('quantity');
     update_cart($id, $unit);
     redirect();
 }
 
 $id  = req('id');
-$stm = $_db->prepare('SELECT * FROM product WHERE id = ?');
+$stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
 $stm->execute([$id]);
 $p = $stm->fetch();
 if (!$p) redirect('list.php');
@@ -33,17 +33,17 @@ include '../_head.php';
 </style>
 
 <p>
-    <img src="/products/<?= $p->photo ?>" id="photo">
+    <img src="/images/<?= $p->photo ?>" id="photo">
 </p>
 
 <table class="table detail">
     <tr>
-        <th>Id</th>
-        <td><?= $p->id ?></td>
+        <th>ID</th>
+        <td><?= $p->product_id ?></td>
     </tr>
     <tr>
-        <th>Name</th>
-        <td><?= $p->name ?></td>
+        <th>Type of Product</th>
+        <td><?= $p->product_name ?></td>
     </tr>
     <tr>
         <th>Price</th>
@@ -55,13 +55,13 @@ include '../_head.php';
             <!-- TODO -->
              <?php
              $cart = get_cart();
-             $id = $p->id;
-             $unit = $cart[$p->id] ?? 0;
+             $id = $p->product_id;
+             $unit = $cart[$p->product_id] ?? 0;
              ?>
             <form method="post">
                 <!-- TODO ✅ -->
                  <?= html_hidden('id') ?>
-                 <?= html_select('unit', $_units, '') ?>
+                 <?= html_select('quantity', $_units, '') ?>
                  <?=  $unit ? '✅' : '' ?>
             </form>
         </td>

@@ -14,7 +14,7 @@ if (is_post()) {
         $_err['email'] = 'Required';
     } else if (!is_email($email)) {
         $_err['email'] = 'Invalid email format';
-    } else if ($email != $_user->email && !is_unique($email, 'Users', 'email')) {
+    } else if ($email != $_user->email && !is_unique($email, 'User', 'email')) {
         $_err['email'] = 'Email is already taken by another user';
     }
 
@@ -33,7 +33,7 @@ if (is_post()) {
         }
 
         // Update Database
-        $stm = $_db->prepare("UPDATE Users SET email = ?, profile_photo = ? WHERE user_id = ?");
+        $stm = $_db->prepare("UPDATE User SET email = ?, profile_photo = ? WHERE user_id = ?");
         $stm->execute([$email, $photo, $_user->user_id]);
 
         // 3. Update Session Object so changes show immediately

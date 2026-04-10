@@ -14,16 +14,13 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <h1><a href="/">Shopping Cart</a></h1>
-
-        <?php if ($_user): ?>
-            <div>
-                <?= $_user->name ?><br>
-                <?= $_user->role ?>
-            </div>
-            <img src="/photos/<?= $_user->photo ?>">
-        <?php endif ?>
-    </header>
+    <h1>
+        <a href="index.php">
+            <img src="/images/MnH_Logo.png" alt="M&H Logo"> 
+            M&H Online Shopping Cart
+        </a>
+    </h1>
+</header>
 
     <nav>
         <a href="/">Index</a>
