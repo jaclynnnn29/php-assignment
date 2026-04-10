@@ -43,7 +43,7 @@ if (is_post()) {
                 // Update attempt count
                 
                 $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
-                $stm->execute([$attempts, $user->user_id]);
+                $stm->execute([$attempts,$password, $user->user_id]);
                 $_err['login'] = "Invalid password. Attempt: $attempts/3";
             }
         }
