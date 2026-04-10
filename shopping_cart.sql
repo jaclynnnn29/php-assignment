@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2026 at 06:03 PM
+-- Generation Time: Apr 10, 2026 at 06:21 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -320,22 +320,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('', '', '2@gmail.com', '$2y$10$YZMeLnqErjWj1xvoyK/TSOxwawDVWC22nwZRz.I4Iz8XjkkQOegau', 0, NULL, '69d8ed09f3f14.jpg', 'Member'),
-('U00001', 'liam_koh', 'liam.koh@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 1, NULL, NULL, 'member'),
-('U00002', 'noah_lim', 'noah.lim@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00003', 'ava_teo', 'ava.teo@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00004', 'lucas_yap', 'lucas.yap@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00005', 'mia_goh', 'mia.goh@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00006', 'benjamin_ong', 'benjamin.ong@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00007', 'ella_tay', 'ella.tay@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00008', 'jacob_foo', 'jacob.foo@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00009', 'chloe_yeo', 'chloe.yeo@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U00010', 'aaron_chin', 'aaron.chin@gmail.com', '$2y$10$89W1h5.p9hG/8.X5K9.k6O6G6y2e8z9/hI9f8g7h6i5j4k3l2m1nO', 0, NULL, NULL, 'member'),
-('U90001', 'ethan_lee', 'ethan.lee@gmail.com', '$2y$10$fV3.pW9mR2B6Y7Z8A9C0D1E2F3G4H5I6J7K8L9M0N1O2P3Q4R5S6T', 0, NULL, NULL, 'admin'),
-('U90002', 'sophia_tan', 'sophia.tan@gmail.com', '$2y$10$fV3.pW9mR2B6Y7Z8A9C0D1E2F3G4H5I6J7K8L9M0N1O2P3Q4R5S6T', 0, NULL, NULL, 'admin'),
-('U90003', 'daniel_wong', 'daniel.wong@gmail.com', '$2y$10$fV3.pW9mR2B6Y7Z8A9C0D1E2F3G4H5I6J7K8L9M0N1O2P3Q4R5S6T', 0, NULL, NULL, 'admin'),
-('U90004', 'amelia_ng', 'amelia.ng@gmail.com', '$2y$10$fV3.pW9mR2B6Y7Z8A9C0D1E2F3G4H5I6J7K8L9M0N1O2P3Q4R5S6T', 0, NULL, NULL, 'admin'),
-('U90005', 'ryan_choo', 'ryan.choo@gmail.com', '$2y$10$fV3.pW9mR2B6Y7Z8A9C0D1E2F3G4H5I6J7K8L9M0N1O2P3Q4R5S6T', 0, NULL, NULL, 'admin');
+('', '', '1@gmail.com', '$2y$10$tgtaInPHZIrTUHZuZdUAZu.bQEkAWabFKaNcNOfEZxVI/ZqCXqmV6', 0, NULL, '69d92250805f8.jpg', 'Member');
 
 --
 -- Indexes for dumped tables
