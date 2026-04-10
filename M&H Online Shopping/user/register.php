@@ -34,11 +34,14 @@ if (is_post()) {
         redirect('login.php');
     }
 }
+
+$_title = 'Register';
+include '_head.php';
 ?>
+
 
 <!DOCTYPE html>
 <html>
-<head><title>Register</title></head>
 <body>
     <h1>Member Registration</h1>
     <form method="post" enctype="multipart/form-data">
