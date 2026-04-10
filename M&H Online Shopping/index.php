@@ -23,7 +23,7 @@ include '_head.php';
         <?php foreach ($user as $u): ?>
             <tr>
                 <td><?= encode($u->email) ?></td>
-                <td><?= encode($u->password) ?></td>
+                <td><?= encode($u->password_hash) ?></td>
                 <td><?= encode($u->role) ?></td>
             </tr>
         <?php endforeach; ?>
