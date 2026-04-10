@@ -1,6 +1,6 @@
 <?php
-require '_base.php';
-include '_head.php';
+require '../_base.php';
+include '../_head.php';
 
 if (is_post()) {
     $email = post('email');
