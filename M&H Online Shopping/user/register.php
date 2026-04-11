@@ -20,8 +20,11 @@ if (is_post()) {
     if (!$f) $_err['photo'] = 'Required';
 
     if (!$_err) {
-
-        $user_id = 'U' . rand(100, 999);
+        // Generate next sequential user ID
+        $stm = $_db->prepare("SELECT MAX(CAST(SUBSTRING(user_id, 2) AS UNSIGNED)) AS max_id FROM user");
+        $stm->execute();
+        $max_id = $stm->fetchColumn() ?: 0;
+        $user_id = 'U' . str_pad($max_id + 1, 3, '0', STR_PAD_LEFT);
 
         $user_name = explode('@', $email)[0]; // Simple username from email prefix
         //save photo
