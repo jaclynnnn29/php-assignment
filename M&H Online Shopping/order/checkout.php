@@ -62,7 +62,7 @@ if (is_post()) {
     // (4) Redirect to payment.php?id=XXX
     // TODO
     temp('info', 'Order created. Please proceed to payment.');
-    redirect("payment.php?id=$id");
+    redirect("/payment.php?id=$id");
     
 } catch (Exception $e) {
     // Rollback on error
