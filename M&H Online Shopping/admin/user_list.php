@@ -3,7 +3,7 @@ require '../_base.php';
 
 auth('Admin'); 
 
-$stm = $_db->query("SELECT * FROM users");
+$stm = $_db->query("SELECT * FROM user");
 $user = $stm->fetchAll();
 
 $_title = 'Admin | User Maintenance';
