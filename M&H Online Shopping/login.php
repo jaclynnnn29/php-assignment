@@ -30,15 +30,15 @@ if (is_post()) {
             // Log user into session
             login($user, 'index.php'); 
         } 
-        // 3. Handle Failed Attempt (SELF-STUDY REQUIREMENT)
+        // 3. Temporary Login Blocking (3 Attempts)   
         else {
             $attempts = $user->failed_attempts + 1;
             if ($attempts >= 3) {
-                // Lock for 5 mins
-                $until = date('Y-m-d H:i:s', strtotime('+5 minutes'));
+                // Lock for 1 mins
+                $until = date('Y-m-d H:i:s', strtotime('+1 minutes'));
                 $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $until, $user->user_id]);
-                $_err['login'] = "3 failed attempts. Account locked for 5mins.";
+                $_err['login'] = "3 failed attempts. Account locked for 1 mins.";
             } else {
                 // Update attempt count
                 
