@@ -47,19 +47,19 @@ include '../_head.php';
     <tr>
         <th>Id</th>
         <th>Datetime</th>
-        <th>Count</th>
+        <th>Quantity</th>
         <th>Total (RM)</th>
         <th></th>
     </tr>
 
     <?php foreach ($arr as $o): ?>
     <tr>
-        <td><?= $o->id ?></td>
+        <td><?= $o->order_id ?></td>
         <td><?= $o->datetime ?></td>
-        <td class="right"><?= $o->count ?></td>
+        <td class="right"><?= $o->quantity ?></td>
         <td class="right"><?= $o->total ?></td>
         <td>
-            <button data-get="detail.php?id=<?= $o->id ?>">Detail</button>
+            <button data-get="detail.php?id=<?= $o->order_id ?>">Detail</button>
             <!-- (A) EXTRA: Product photos -->
             <!-- TODO -->
              <div class="popup">
