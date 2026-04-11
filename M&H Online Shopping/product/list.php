@@ -101,7 +101,7 @@ include '../_head.php';
         
         // Get average rating for this product
         $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
-        $stm->execute([$id]);
+        $stm->execute([$p->product_id]);
         $rating_data = $stm->fetch();
         $avg_rating = round($rating_data->avg_rating ?? 0, 1);
         $total_reviews = $rating_data->total ?? 0;
