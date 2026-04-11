@@ -59,10 +59,10 @@ if (is_post()) {
     // TODO
     set_cart();
 
-    // (4) Redirect to detail.php?id=XXX
+    // (4) Redirect to payment.php?id=XXX
     // TODO
-    temp('info', 'Record inserted');
-    redirect("detail.php?id= $id");
+    temp('info', 'Order created. Please proceed to payment.');
+    redirect("payment.php?id=$id");
     
 } catch (Exception $e) {
     // Rollback on error

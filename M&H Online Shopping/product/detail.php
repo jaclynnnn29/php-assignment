@@ -151,8 +151,6 @@ include '../_head.php';
     }
 </style>
 
-<h1>Product Details</h1>
-
 <p>
     <img src="/images/<?= $p->photo ?>" id="photo">
 </p>
@@ -174,11 +172,13 @@ include '../_head.php';
         <th>Unit</th>
         <td>
             <form method="post">
-                <?= html_hidden('id', $p->product_id) ?>
-                <?= html_select('quantity', $_units, '') ?>
                 <?php
                 $cart = get_cart();
                 $unit = $cart[$p->product_id] ?? 0;
+                ?>
+                <?= html_hidden('id', $p->product_id) ?>
+                <?= html_select('quantity', $_units, $unit) ?>                
+                <?php
                 echo $unit ? " ✅ In cart: $unit" : '';
                 ?>
             </form>
