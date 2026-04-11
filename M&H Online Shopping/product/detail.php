@@ -84,25 +84,16 @@ include '../_head.php';
         height: 200px;
     }
     
-    /* Rating Stars */
     .rating-stars {
         font-size: 20px;
         margin: 10px 0;
-    }
-    
-    .avg-rating-box {
-        background: #f5f5f5;
-        padding: 15px;
-        border-radius: 8px;
-        margin: 20px 0;
-        text-align: center;
     }
     
     .review-box {
         border: 1px solid #ddd;
         padding: 15px;
         margin: 15px 0;
-        border-radius: 8px;
+        border-radius: 5px;
         background-color: #f9f9f9;
     }
     
@@ -111,7 +102,6 @@ include '../_head.php';
         justify-content: space-between;
         margin-bottom: 10px;
         font-weight: bold;
-        color: #555;
     }
     
     .review-rating {
@@ -122,13 +112,12 @@ include '../_head.php';
     .review-text {
         margin-top: 10px;
         line-height: 1.5;
-        color: #333;
     }
     
     .review-form {
         background-color: #f0f0f0;
         padding: 20px;
-        border-radius: 8px;
+        border-radius: 5px;
         margin: 20px 0;
     }
     
@@ -138,8 +127,6 @@ include '../_head.php';
         margin: 10px 0;
         width: 100%;
         max-width: 400px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
     }
     
     .review-form button {
@@ -155,9 +142,12 @@ include '../_head.php';
         background-color: #45a049;
     }
     
-    .your-review {
-        background-color: #e8f5e9;
-        border-left: 4px solid #4CAF50;
+    .avg-rating {
+        font-size: 24px;
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #f5f5f5;
+        border-radius: 5px;
     }
 </style>
 
@@ -197,32 +187,28 @@ include '../_head.php';
 </table>
 
 <!-- RATINGS SECTION -->
-<h2>⭐ Customer Ratings</h2>
+<h2>⭐ Ratings & Reviews</h2>
 
-<div class="avg-rating-box">
-    <div class="rating-stars">
-        <?php if ($total_reviews > 0): ?>
-            <?php for($i = 1; $i <= 5; $i++): ?>
-                <?= $i <= $avg_rating ? '⭐' : '☆' ?>
-            <?php endfor; ?>
-        <?php else: ?>
-            ☆☆☆☆☆
-        <?php endif; ?>
-    </div>
-    <div>
-        <strong><?= $avg_rating ?> out of 5 stars</strong><br>
-        Based on <?= $total_reviews ?> customer reviews
-    </div>
+<div class="avg-rating">
+    <strong>Average Rating:</strong>
+    <?php if ($total_reviews > 0): ?>
+        <?php for($i = 1; $i <= 5; $i++): ?>
+            <?= $i <= $avg_rating ? '⭐' : '☆' ?>
+        <?php endfor; ?>
+        <span style="font-size: 16px;">(<?= $avg_rating ?> / 5 from <?= $total_reviews ?> reviews)</span>
+    <?php else: ?>
+        <span>No reviews yet. Be the first to review!</span>
+    <?php endif; ?>
 </div>
 
 <!-- REVIEW FORM (Only for logged in users) -->
 <?php if ($_user): ?>
     <div class="review-form">
-        <h3><?= $user_review ? '✏️ Edit Your Review' : '📝 Write a Review' ?></h3>
+        <h3><?= $user_review ? 'Edit Your Review' : 'Write a Review' ?></h3>
         <form method="post">
             <?= html_hidden('id', $p->product_id) ?>
             
-            <label><strong>Your Rating:</strong></label><br>
+            <label><strong>Rating (1-5 stars):</strong></label><br>
             <select name="rating" required>
                 <option value="">Select rating</option>
                 <option value="5" <?= $user_review && $user_review->rating == 5 ? 'selected' : '' ?>>⭐⭐⭐⭐⭐ - Excellent (5)</option>
@@ -241,19 +227,19 @@ include '../_head.php';
         </form>
     </div>
 <?php else: ?>
-    <p style="margin: 20px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+    <p style="margin: 20px 0;">
         <a href="../login.php">Login</a> to write a review.
     </p>
 <?php endif; ?>
 
 <!-- ALL REVIEWS LIST -->
-<h3>📋 Customer Reviews (<?= $total_reviews ?>)</h3>
+<h3>Customer Reviews (<?= $total_reviews ?>)</h3>
 
 <?php if (count($reviews) > 0): ?>
     <?php foreach($reviews as $review): ?>
-        <div class="review-box <?= ($_user && $_user->user_id == $review->user_id) ? 'your-review' : '' ?>">
+        <div class="review-box">
             <div class="review-header">
-                <span>👤 <?= htmlspecialchars($review->email) ?></span>
+                <span>✍️ <?= htmlspecialchars($review->email) ?></span>
                 <span>📅 <?= date('d/m/Y H:i', strtotime($review->created_at)) ?></span>
             </div>
             <div class="review-rating">
@@ -265,7 +251,7 @@ include '../_head.php';
                 <?= nl2br(htmlspecialchars($review->review)) ?>
             </div>
             <?php if ($_user && $_user->user_id == $review->user_id): ?>
-                <small style="color: green;">(Your review - You can edit above)</small>
+                <small style="color: gray;">(Your review)</small>
             <?php endif; ?>
         </div>
     <?php endforeach; ?>
