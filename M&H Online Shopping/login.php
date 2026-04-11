@@ -28,7 +28,15 @@ if (is_post()) {
             $stm->execute([$user->user_id]);
             
             // Log user into session
-            login($user, 'product/list.php'); 
+            login($user); 
+
+            if ($user->role == 'admin') {
+                temp('info', 'Admin login successful!');
+                redirect('admin/user_list.php');
+            }else {
+                temp('info', 'Member login successful!');
+                redirect('product/list.php');
+            }
         } 
         // 3. Temporary Login Blocking (3 Attempts)   
         else {
