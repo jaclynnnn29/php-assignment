@@ -191,14 +191,11 @@ function auth(...$roles) {
     if ($_user) {
         if ($roles) {
             if (in_array($_user->role, $roles)) {
-                return; // OK
+                return; // Access Granted
             }
         }
-        else {
-            return; // OK
-        }
     }
-    redirect('/login.php');
+    redirect('/login.php'); // Access Denied
 }
 
 // ============================================================================

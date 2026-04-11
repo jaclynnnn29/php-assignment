@@ -24,21 +24,22 @@ if (is_post()) {
         
         // 3. Verify Password (Matches password_hash column in your DB)
         else if (password_verify($password, $user->password_hash)) {
-            // Success: Reset failed attempts
+            // 1. Update DB
             $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
             $stm->execute([$user->user_id]);
             
-            login($user); 
+            // 2. Set the session (DO NOT use the redirect inside the function yet)
+            $_SESSION['user'] = $user; 
 
-            // 4. Role-Based Redirect (Matched to your DB capitalization)
-            if ($user->role == 'admin') {
+            // 3. Decide where to go based on the ROLE
+            if ($user->role == 'Admin') {
                 temp('info', 'Admin login successful!');
-                redirect('admin/user_list.php'); 
+                redirect('admin/user_list.php');
             } else {
                 temp('info', 'Member login successful!');
                 redirect('product/list.php');
             }
-        } 
+        }
         
         // 5. Handling Wrong Passwords
         else {

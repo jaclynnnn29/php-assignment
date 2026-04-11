@@ -42,7 +42,8 @@
         <?php endif ?>
 
         <?php if ($_user?->role == 'Admin'): ?>
-            <a href="/order/manage.php">Manage Orders</a>
+            <a href="/admin/user_list.php">Manage Users</a>
+            <a href="/admin/order_manage.php">Manage Orders</a>
         <?php endif ?>
 
         <div></div>

@@ -1,6 +1,6 @@
 <?php
 require '../_base.php';
-auth('admin');
+auth('Admin');
 
 // Get the ID from the URL
 $id = req('id');
