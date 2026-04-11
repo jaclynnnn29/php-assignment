@@ -14,17 +14,17 @@ include '_head.php';
 
 <table class="table">
     <tr>
+        <th>User ID</th>
+        <th>User Name</th>
         <th>Email</th>
-        <th>Password</th>
-        <th>Role</th>
     </tr>
     </thead>
     <tbody>
         <?php foreach ($user as $u): ?>
             <tr>
+                <td><?= encode($u->user_id) ?></td>
+                <td><?= encode($u->user_name) ?></td>
                 <td><?= encode($u->email) ?></td>
-                <td><?= encode($u->password_hash) ?></td>
-                <td><?= encode($u->role) ?></td>
             </tr>
         <?php endforeach; ?>
     </tbody>

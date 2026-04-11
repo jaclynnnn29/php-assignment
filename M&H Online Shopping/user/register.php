@@ -1,6 +1,5 @@
 <?php
 require '../_base.php';
-include '../_head.php';
 
 if (is_post()) {
     $email = post('email');
@@ -34,18 +33,16 @@ if (is_post()) {
         redirect('./login.php');
     }
 }
+
+$_title = 'JOIN OUR MEMBERSHIP';
+include '../_head.php';
 ?>
 
-<!DOCTYPE html>
-<html>
-<head><title>Register</title></head>
-<body>
-    <h1>Member Registration</h1>
     <form method="post" enctype="multipart/form-data">
         <label>Email</label><br>
         <?php html_text('email'); err('email'); ?><br>
 
-        <label>Password</label><br>
+        <label>Create a Password</label><br>
         <?php html_password('password'); err('password'); ?><br>
 
         <label>Confirm Password</label><br>
@@ -56,5 +53,5 @@ if (is_post()) {
 
         <button>Register</button>
     </form>
-</body>
-</html>
+
+    <?php include '../_foot.php'; ?>
