@@ -16,6 +16,8 @@ if (is_post()) {
     redirect();
 }
 
+$search = req('search');
+
 // ----------------------------------------------------------------------------
 
 $_title = 'Order | Shopping Cart';
@@ -27,8 +29,18 @@ include '../_head.php';
         width: 100px;
         height: 100px;
     }
-</style>
 
+    .table select {
+        text-align: right;
+    }
+</style>
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="search" value="<?= $search ?>" placeholder="Search cart items..." style="padding: 5px; width: 200px;">
+    <button type="submit">Search</button>
+    <?php if ($search): ?>
+        <a href="?">Clear Search</a>
+    <?php endif; ?>
+</form>
 <table class="table">
     <tr>
         <th>ID</th>
@@ -40,8 +52,8 @@ include '../_head.php';
 
     <?php
         // TODO
-        $count = 0;
-        $total = 0;
+        $displayed_count = 0;
+        $displayed_total = 0;
         
         $stm = $_db->prepare('SELECT * FROM product WHERE product_id =?');
         $cart = get_cart();
@@ -52,9 +64,11 @@ include '../_head.php';
             $stm->execute([$id]);
             $p = $stm->fetch();
 
+            if ($search && stripos($p->product_name, $search) === false) continue;
+
             $subtotal = $p->price * $unit;
-            $count += $unit;
-            $total += $subtotal;
+            $displayed_count += $unit;
+            $displayed_total += $subtotal;
             
     ?>
         <tr>
@@ -63,8 +77,8 @@ include '../_head.php';
             <td class="right"><?= $p->price ?></td>
             <td>
                 <form method="post">
-                    <?= html_hidden('id') ?>
-                    <?= html_select('unit', $_units, '') ?>
+                    <?= html_hidden('id', $id) ?>
+                    <?= html_select('unit', $_units, $unit) ?>
                     <!-- TODO -->
                 </form>            
             </td>
@@ -77,15 +91,15 @@ include '../_head.php';
 
     <tr>
         <th colspan="3"></th>
-        <th class="right"><?= $count ?></th>
-        <th class="right"><?= sprintf('%.2f', $total) ?></th>
+        <th class="right"><?= $displayed_count ?></th>
+        <th class="right"><?= sprintf('%.2f', $displayed_total) ?></th>
     </tr>
 </table>
 
 <p>
     <!-- TODO -->
     <?php if ($cart): ?>
-        <button data-post="?btn=clear">Clear</button>
+        <button data-post="?btn=clear">Clear All</button>
 
         <?php if ($_user?->role == 'Member'): ?>
             <button data-post="checkout.php">Checkout</button>
@@ -97,7 +111,7 @@ include '../_head.php';
 
 <script>
     // TODO
-    $('select'.on('change', e=> e.target.form.submit()));
+    $('select').on('change', e => e.target.form.submit());
 </script>
 
 <?php

@@ -9,8 +9,17 @@ if (is_post()) {
     update_cart($id, $unit);
     redirect();
 }
-$_db->query("USE shopping_cart");
-$arr = $_db->query('SELECT * FROM product')->fetchAll();
+
+$search = req('search');
+$query = 'SELECT * FROM product';
+$params = [];
+if ($search) {
+    $query .= ' WHERE product_name LIKE ?';
+    $params[] = '%' . $search . '%';
+}
+$stm = $_db->prepare($query);
+$stm->execute($params);
+$arr = $stm->fetchAll();
 
 // ----------------------------------------------------------------------------
 
@@ -54,6 +63,10 @@ include '../_head.php';
         right: 5px;
     }
 
+    .product form select {
+        text-align: right;
+    }
+
     .product .cart-info {
         bottom: 40px;
         left: 0;
@@ -93,6 +106,14 @@ include '../_head.php';
     }
 </style>
 
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="search" value="<?= $search ?>" placeholder="Search products..." style="padding: 5px; width: 200px;">
+    <button type="submit">Search</button>
+    <?php if ($search): ?>
+        <a href="?">Clear Search</a>
+    <?php endif; ?>
+</form>
+
 <div id="product">
     <?php foreach ($arr as $p): 
         $cart = get_cart();
@@ -129,7 +150,7 @@ include '../_head.php';
             <form method="post">
                 <?= $unit ? '✅' : '' ?>
                 <?= html_hidden('id', $p->product_id) ?>
-                <?= html_select('quantity', $_units, '') ?>
+                <?= html_select('quantity', $_units, $unit) ?>
             </form>
             
             <!-- PRODUCT IMAGE -->
