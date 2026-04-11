@@ -51,10 +51,6 @@ include '../_head.php';
     <div><?= $o->datetime ?></div>
     <br>
 
-    <label>Quantity</label>
-    <div><?= $o->quantity ?></div>
-    <br>
-
     <label>Total</label>
     <div>RM <?= $o->total ?></div>
     <br>
