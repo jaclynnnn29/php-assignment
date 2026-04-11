@@ -4,7 +4,6 @@ include '../_base.php';
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
-    // TODO
     $id = req('id');
     $unit = req('quantity');
     update_cart($id, $unit);
@@ -28,20 +27,21 @@ include '../_head.php';
 
     .product {
         border: 1px solid #333;
-        width: 200px;
-        height: 200px;
+        width: 250px;
         position: relative;
+        padding-bottom: 50px;
     }
 
     .product img {
         display: block;
         width: 100%;
-        height: 100%;
+        height: 200px;
+        object-fit: cover;
         cursor: pointer;
     }
 
     .product form,
-    .product div {
+    .product .cart-info {
         position: absolute;
         background: #0009;
         color: #fff;
@@ -50,45 +50,132 @@ include '../_head.php';
     }
 
     .product form {
-        inset: 0 0 auto auto;
+        top: 5px;
+        right: 5px;
     }
 
-    .product div {
-        inset: auto 0 0 0;
+    .product .cart-info {
+        bottom: 40px;
+        left: 0;
+        right: 0;
+    }
+    
+    .product-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: #0009;
+        color: #fff;
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .favorite-btn {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background: #fff9;
+        padding: 5px;
+        border-radius: 50%;
+        text-decoration: none;
+        font-size: 20px;
+        z-index: 10;
+    }
+    
+    .favorite-btn:hover {
+        transform: scale(1.1);
+    }
+    
+    .rating-stars {
+        font-size: 12px;
+        margin-top: 5px;
     }
 </style>
 
 <div id="product">
-    <?php foreach ($arr as $p): ?>
-        <!-- TODO -->
-        <?php
-         $cart = get_cart();
-         $id = $p->product_id;
-         $unit = $cart[$p->product_id] ?? 0;
-         ?>
-
+    <?php foreach ($arr as $p): 
+        $cart = get_cart();
+        $id = $p->product_id;
+        $unit = $cart[$p->product_id] ?? 0;
+        
+        // Get average rating for this product
+        $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
+        $stm->execute([$id]);
+        $rating_data = $stm->fetch();
+        $avg_rating = round($rating_data->avg_rating ?? 0, 1);
+        $total_reviews = $rating_data->total ?? 0;
+        
+        // Check if product is in user's favorites
+        $is_favorite = false;
+        if ($_user) {
+            $stm = $_db->prepare("SELECT * FROM favorites WHERE user_id = ? AND product_id = ?");
+            $stm->execute([$_user->user_id, $id]);
+            $is_favorite = $stm->fetch() ? true : false;
+        }
+    ?>
+    
         <div class="product">
+            <!-- FAVORITE BUTTON -->
+            <?php if ($_user): ?>
+                <a href="add_favorite.php?id=<?= $id ?>" class="favorite-btn">
+                    <?= $is_favorite ? '❤️' : '♡' ?>
+                </a>
+            <?php else: ?>
+                <a href="../login.php" class="favorite-btn">♡</a>
+            <?php endif; ?>
+            
+            <!-- CART FORM -->
             <form method="post">
-                <!-- TODO ✅ -->
-                 <?=  $unit ? '✅' : '' ?>
-                 <?= html_hidden('id', $p->product_id) ?>
-                 <?= html_select('quantity', $_units, '') ?>
+                <?= $unit ? '✅' : '' ?>
+                <?= html_hidden('id', $p->product_id) ?>
+                <?= html_select('quantity', $_units, '') ?>
             </form>
-                
+            
+            <!-- PRODUCT IMAGE -->
             <img src="/images/<?= $p->photo ?>" 
-            data-get="/product/detail.php?id=<?= $p->product_id ?>" 
-            alt="Product Image" 
-            style="width:200px; height:200px; object-fit:cover;">
-
-            <div><?= $p->product_name ?> | <?= $p->size ?> | RM <?= $p->price ?></div>
+                data-get="/product/detail.php?id=<?= $p->product_id ?>" 
+                alt="Product Image">
+            
+            <!-- RATING STARS -->
+            <div class="rating-stars" style="position: absolute; bottom: 70px; left: 8px; background: #0009; padding: 3px 8px; border-radius: 10px;">
+                <?php if ($total_reviews > 0): ?>
+                    <?php for($i = 1; $i <= 5; $i++): ?>
+                        <?= $i <= $avg_rating ? '⭐' : '☆' ?>
+                    <?php endfor; ?>
+                    <span style="font-size: 10px;">(<?= $total_reviews ?>)</span>
+                <?php else: ?>
+                    <span style="font-size: 10px;">No reviews yet</span>
+                <?php endif; ?>
+            </div>
+            
+            <!-- PRODUCT INFO -->
+            <div class="product-info">
+                <?= $p->product_name ?> | <?= $p->size ?> | RM <?= $p->price ?>
+            </div>
+            
+            <!-- CART INFO -->
+            <div class="cart-info">
+                In cart: <?= $unit ?>
+            </div>
         </div>
     <?php endforeach ?>
 </div>
 
+<!-- WISHLIST LINK -->
+<div style="margin: 20px; text-align: center;">
+    <a href="favorites.php" style="font-size: 18px;">❤️ View My Wishlist</a>
+</div>
+
 <script>
-    // TODO
     $('select').on('change', e => e.target.form.submit());
+    
+    // Image click to view detail
+    $('img').on('click', function() {
+        window.location = $(this).data('get');
+    });
 </script>
 
 <?php
 include '../_foot.php';
+?>
