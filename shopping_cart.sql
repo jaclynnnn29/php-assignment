@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 10, 2026 at 06:21 PM
+-- Generation Time: Apr 11, 2026 at 09:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -41,6 +41,19 @@ INSERT INTO `categories` (`cat_id`, `cat_name`) VALUES
 ('C00002', 'Women'),
 ('C00003', 'Children'),
 ('C00004', 'Accessories');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `favorites`
+--
+
+CREATE TABLE `favorites` (
+  `favorite_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `added_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -301,6 +314,21 @@ INSERT INTO `product` (`product_id`, `product_name`, `cat_id`, `price`, `colour`
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `product_reviews`
+--
+
+CREATE TABLE `product_reviews` (
+  `review_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `rating` int(11) NOT NULL,
+  `review` text DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `user`
 --
 
@@ -320,7 +348,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('', '', '1@gmail.com', '$2y$10$tgtaInPHZIrTUHZuZdUAZu.bQEkAWabFKaNcNOfEZxVI/ZqCXqmV6', 0, NULL, '69d92250805f8.jpg', 'Member');
+('U001', 'qwer', 'qwer@gmail.com', '$2y$10$TLur8oSdyjksV28lO6QY3uusK1PkXAY.yP91VTf0KRk2pSWIaxvyG', 0, NULL, '69d9f2f940d7c.jpg', 'Member');
 
 --
 -- Indexes for dumped tables
@@ -331,6 +359,12 @@ INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_at
 --
 ALTER TABLE `categories`
   ADD PRIMARY KEY (`cat_id`);
+
+--
+-- Indexes for table `favorites`
+--
+ALTER TABLE `favorites`
+  ADD PRIMARY KEY (`favorite_id`);
 
 --
 -- Indexes for table `item`
@@ -355,10 +389,32 @@ ALTER TABLE `product`
   ADD KEY `cat_id` (`cat_id`);
 
 --
+-- Indexes for table `product_reviews`
+--
+ALTER TABLE `product_reviews`
+  ADD PRIMARY KEY (`review_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
   ADD PRIMARY KEY (`user_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `favorites`
+--
+ALTER TABLE `favorites`
+  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `product_reviews`
+--
+ALTER TABLE `product_reviews`
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
