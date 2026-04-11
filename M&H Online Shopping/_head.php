@@ -41,6 +41,10 @@
             <a href="/order/history.php">Order History</a>
         <?php endif ?>
 
+        <?php if ($_user?->role == 'Admin'): ?>
+            <a href="/order/manage.php">Manage Orders</a>
+        <?php endif ?>
+
         <div></div>
 
         <?php if ($_user): ?>
