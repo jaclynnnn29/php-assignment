@@ -12,19 +12,19 @@ auth('Member');
 $id = req('id'); // Remove the codes
 $stm = $_db -> prepare('
     SELECT * FROM `order` 
-    WHERE id = ? AND user_id = ?
+    WHERE order_id = ? AND user_id = ?
 ');
-$stm->execute([$id, $_user -> id]);
+$stm->execute([$id, $_user -> user_id]);
 $o = $stm->fetch();
 if (!$o) redirect('history.php');
 
 // (3) Return items (and products) belong to the order
 // TODO
 $stm = $_db -> prepare('
-    SELECT i.*, p.name, p.photo 
-    FROM item AS i, product AS p
-    WHERE i.product_id = p.id
-    AND i.order_id = ?
+    SELECT i.*, p.product_name, p.photo 
+    FROM item AS i
+    JOIN product AS p ON i.product_id = p.product_id
+    WHERE i.order_id = ?
 ');
 $stm->execute([$id]);
 $arr = $stm->fetchAll();
@@ -44,15 +44,15 @@ include '../_head.php';
 
 <form class="form">
     <label>Order Id</label>
-    <b><?= $o->id ?></b>
+    <b><?= $o->order_id ?></b>
     <br>
 
     <label>Datetime</label>
     <div><?= $o->datetime ?></div>
     <br>
 
-    <label>Count</label>
-    <div><?= $o->count ?></div>
+    <label>Quantity</label>
+    <div><?= $o->quantity ?></div>
     <br>
 
     <label>Total</label>
@@ -74,7 +74,7 @@ include '../_head.php';
     <?php foreach ($arr as $i): ?>
     <tr>
         <td><?= $i->product_id ?></td>
-        <td><?= $i->name ?></td>
+        <td><?= $i->product_name ?></td>
         <td class="right"><?= $i->price ?></td>
         <td class="right"><?= $i->unit ?></td>
         <td class="right">
@@ -86,7 +86,7 @@ include '../_head.php';
 
     <tr>
         <th colspan="3"></th>
-        <th class="right"><?= $o->count ?></th>
+        <th class="right"><?= $o->quantity ?></th>
         <th class="right"><?= $o->total ?></th>
     </tr>
 </table>

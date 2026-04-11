@@ -66,14 +66,16 @@ include '../_head.php';
                 <?php
                 $stm = $_db -> prepare('
                     SELECT p.photo 
-                    FROM item AS i, product AS p
-                    WHERE i.product_id = p.id
-                    AND i.order_id = ?
+                    FROM item AS i
+                    JOIN product AS p ON i.product_id = p.product_id
+                    WHERE i.order_id = ?
                 ');
-                $stm->execute([$o->id]);
+                
+                $stm->execute([$o->order_id]);
                 $photos = $stm->fetchAll(PDO::FETCH_COLUMN);
+
                 foreach ($photos as $photo) {
-                    echo "<img src='../$photos/$photo'>";
+                    echo "<img src='../$uploads/$photo' class='pop'>";
                 }
                 ?>
              </div>

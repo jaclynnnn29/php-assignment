@@ -1,5 +1,5 @@
 <?php
-require '_base.php';
+require '../_base.php';
 auth(); // Only logged-in users can access
 
 // Initialize local variables with current session data
@@ -33,7 +33,7 @@ if (is_post()) {
         }
 
         // Update Database
-        $stm = $_db->prepare("UPDATE User SET email = ?, profile_photo = ? WHERE user_id = ?");
+        $stm = $_db->prepare("UPDATE user SET email = ?, photo = ? WHERE user_id = ?");
         $stm->execute([$email, $photo, $_user->user_id]);
 
         // 3. Update Session Object so changes show immediately
@@ -66,7 +66,7 @@ if (is_post()) {
     <form method="post" enctype="multipart/form-data">
         <div>
             <label>Current Photo:</label><br>
-            <img src="photos/<?= $_user->profile_photo ?>" class="profile-img"><br><br>
+            <img src="photos/<?= $_user->photo ?>" class="profile-img"><br><br>
             
             <label>Upload New Photo:</label><br>
             <?php html_file('photo', 'image/*'); ?>
