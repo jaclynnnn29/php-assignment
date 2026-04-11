@@ -14,7 +14,7 @@ $stm = $_db ->prepare('
     WHERE user_id = ? 
     ORDER BY datetime DESC
     ');
-$stm->execute([$_user['product_id']]);
+$stm->execute([$_user->user_id]);
 $arr = $stm->fetchAll();
 
 // ----------------------------------------------------------------------------
@@ -73,7 +73,7 @@ include '../_head.php';
                 $stm->execute([$o->id]);
                 $photos = $stm->fetchAll(PDO::FETCH_COLUMN);
                 foreach ($photos as $photo) {
-                    echo "<img src='../$products/$photo'>";
+                    echo "<img src='../$photos/$photo'>";
                 }
                 ?>
              </div>

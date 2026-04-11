@@ -19,30 +19,33 @@ if (is_post()) {
     // TODO
     $_db->beginTransaction();
 
+    try {
+
     // (B) Insert order, keep order id
     // TODO
     $stm = $_db->prepare('
         INSERT INTO `order`(datetime,user_id)
         VALUES (NOW(),?)
     ');
-    $stm->execute([$_user['id']]);
+    $stm->execute([$_user->user_id]);
     $id = $_db->lastInsertId();
     // (C) Insert items
     // TODO
         $stm = $_db->prepare('
-            INSERT INTO `order_item`(order_id,product_id,price,unit,subtotal)
-            VALUES (?,?,(SELECT price FROM product WHERE id = ?),?,price * unit)
+            INSERT INTO `item` (order_id, product_id, price, unit, subtotal)
+            SELECT ?, product_id, price, ?, price * ? 
+            FROM product WHERE product_id = ?
         ');
         foreach ($cart as $product_id => $unit) {
-            $stm->execute([$id, $product_id, $product_id, $unit]);
+            $stm->execute([$id, $unit, $unit, $product_id]);
         }
     // (D) Update order (count and total)
     // TODO
         $stm = $_db->prepare('
             UPDATE `order` 
-            SET count = (SELECT SUM(unit) FROM item WHERE order_id = ?),
+            SET quantity = (SELECT SUM(unit) FROM item WHERE order_id = ?),
                 total = (SELECT SUM(subtotal) FROM item WHERE order_id = ?)
-            WHERE id = ?
+            WHERE order_id = ?
         ');
         $stm->execute([$id, $id, $id]);
 
@@ -60,6 +63,14 @@ if (is_post()) {
     // TODO
     temp('info', 'Record inserted');
     redirect("detail.php?id= $id");
+    
+} catch (Exception $e) {
+    // Rollback on error
+    $_db->rollBack();
+    temp('error', 'Checkout Failed: ' . $e->getMessage());
+    redirect('cart.php');
+
+   } 
 }
 
 // ----------------------------------------------------------------------------
