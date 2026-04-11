@@ -28,7 +28,7 @@ if (is_post()) {
             $stm->execute([$user->user_id]);
             
             // Log user into session
-            login($user, 'index.php'); 
+            login($user, 'product/list.php'); 
         } 
         // 3. Temporary Login Blocking (3 Attempts)   
         else {

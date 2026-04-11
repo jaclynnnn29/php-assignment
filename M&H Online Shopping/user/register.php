@@ -34,7 +34,7 @@ if (is_post()) {
         $stm->execute([$user_id, $user_name, $email, $hash, $photo]);
 
         temp('info', 'Registration successful! Please login.');
-        redirect('./login.php');
+        redirect('../login.php');
     }
 }
 
