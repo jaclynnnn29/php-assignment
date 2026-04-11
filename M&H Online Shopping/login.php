@@ -38,7 +38,7 @@ if (is_post()) {
                 $until = date('Y-m-d H:i:s', strtotime('+5 minutes'));
                 $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $until, $user->user_id]);
-                $_err['login'] = "3 failed attempts. Account locked for 30 mins.";
+                $_err['login'] = "3 failed attempts. Account locked for 5mins.";
             } else {
                 // Update attempt count
                 

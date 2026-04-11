@@ -20,14 +20,18 @@ if (is_post()) {
     if (!$f) $_err['photo'] = 'Required';
 
     if (!$_err) {
+
+        $user_id = 'U' . rand(100, 999);
+
+        $user_name = explode('@', $email)[0]; // Simple username from email prefix
         //save photo
         $photo = save_photo($f, '../photos', 200, 200);
 
         //password
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $stm = $_db->prepare("INSERT INTO user (email, password_hash, photo) VALUES (?, ?, ?)");
-        $stm->execute([$email, $hash, $photo]);
+        $stm = $_db->prepare("INSERT INTO user (user_id, user_name, email, password_hash, photo) VALUES (?, ?, ?, ?, ?)");
+        $stm->execute([$user_id, $user_name, $email, $hash, $photo]);
 
         temp('info', 'Registration successful! Please login.');
         redirect('./login.php');
