@@ -22,26 +22,23 @@ if (is_post()) {
 
     if (!$_err) {
         //save photo
-        $photo = save_photo($f, 'photos', 200, 200);
+        $photo = save_photo($f, '../photos', 200, 200);
 
         //password
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $stm = $_db->prepare("INSERT INTO User (email, password_hash, profile_photo) VALUES (?, ?, ?)");
+        $stm = $_db->prepare("INSERT INTO user (email, password_hash, photo) VALUES (?, ?, ?)");
         $stm->execute([$email, $hash, $photo]);
 
         temp('info', 'Registration successful! Please login.');
-        redirect('login.php');
+        redirect('./login.php');
     }
 }
-
-$_title = 'Register';
-include '_head.php';
 ?>
-
 
 <!DOCTYPE html>
 <html>
+<head><title>Register</title></head>
 <body>
     <h1>Member Registration</h1>
     <form method="post" enctype="multipart/form-data">

@@ -29,7 +29,7 @@ if (is_post()) {
                 unlink("photos/{$_user->profile_photo}");
             }
             // Save new photo using your _base.php function
-            $photo = save_photo($f, 'photos');
+            $photo = save_photo($f, '../photos');
         }
 
         // Update Database
