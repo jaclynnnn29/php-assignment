@@ -4,13 +4,14 @@ require '_base.php';
 if ($_user) redirect('index.php');
 
 if (is_post()) {
-    $email = post('email');
-    $password = post('password');
+    $email = trim(post('email'));
+    $password = trim(post('password'));
 
     // 1. Check database for user
     $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
     $stm->execute([$email]);
     $user = $stm->fetch();
+
 
     if ($user) {
         $now = time();
@@ -21,6 +22,8 @@ if (is_post()) {
             $wait = ceil(($lock_time - $now) / 60);
             $_err['login'] = "Account locked. Try again in $wait mins.";
         } 
+
+        
         
         // 3. Verify Password (Matches password_hash column in your DB)
         else if (password_verify($password, $user->password_hash)) {
@@ -34,7 +37,7 @@ if (is_post()) {
             // 3. Decide where to go based on the ROLE
             if ($user->role == 'Admin') {
                 temp('info', 'Admin login successful!');
-                redirect('admin/user_list.php');
+                redirect('admin/product_list.php');
             } else {
                 temp('info', 'Member login successful!');
                 redirect('product/list.php');
@@ -79,6 +82,9 @@ include '_head.php';
         <button type="submit">Login</button>
         <button type="reset">Reset</button>
     </section>
+
+    <p>Don't have an account? <a href="user/register.php">Join Our Membership</a>
+    </p>
 </form>
 
 <?php include '_foot.php'; 
