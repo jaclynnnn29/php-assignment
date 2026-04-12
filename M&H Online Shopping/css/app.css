@@ -391,3 +391,26 @@ label > * {
     margin-bottom: 20px;
     font-size: 14px;
 }
+
+/* Fix for the Table Visibility */
+/* Compact Glass Table */
+.table {
+    width: 90%;            /* Don't take up the whole screen width */
+    max-width: 1000px;     /* Limits how wide it can get */
+    margin: 20px auto;     /* Centers the table */
+    font-size: 14px;       /* Smaller font for a tidier look */
+    border-collapse: collapse;
+}
+
+/* Force all table text to be white */
+.table th, 
+.table td, 
+.table td a {
+    color: #ffffff !important; 
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1.0); /* Adds a shadow to make text pop */
+}
+
+.table th {
+    font-weight: bold;
+    color: #ffffff;
+}
