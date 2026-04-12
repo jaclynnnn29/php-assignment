@@ -119,7 +119,7 @@ function html_hidden($key, $value = '', $attr = '') {
 
 // Generate <input type='text'>
 function html_text($key, $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+    $value = encode($_POST[$key] ?? ''); // Look in $_POST instead of $GLOBALS
     echo "<input type='text' id='$key' name='$key' value='$value' $attr>";
 }
 

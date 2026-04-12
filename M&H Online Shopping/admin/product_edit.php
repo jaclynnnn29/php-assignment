@@ -13,6 +13,12 @@ $p = $stm->fetch();
 // If product doesn't exist, redirect to product list
 if (!$p) redirect('product_list.php');
 
+// Populate $_POST with database values if it's a GET request
+// This allows html_text('field') to show existing data automatically
+if (is_get()) {
+    $_POST = (array)$p;
+}
+
 if (is_post()) {
     $product_name = post('product_name');
     $price        = post('price');
@@ -20,13 +26,13 @@ if (is_post()) {
     $size         = post('size');
     $f            = get_file('photo');
 
-    // Validation (Basic)
+    // Validation
     if (!$product_name) $_err['product_name'] = 'Required';
-    if (!$price) $_err['price'] = 'Required';
+    if (!$price)        $_err['price']        = 'Required';
+    else if (!is_numeric($price)) $_err['price'] = 'Must be a number';
 
     if (!$_err) {
-        // Handle Photo Upload (Requirement: Product Photo Upload)
-        $photo = $p->photo; // Keep old photo by default
+        $photo = $p->photo; 
         if ($f) {
             // Remove old photo file if it exists
             if ($photo) @unlink("../uploads/$photo");
@@ -49,34 +55,38 @@ include '../_head.php';
 
 <form method="post" enctype="multipart/form-data">
     <label>Product ID</label>
-    <input type="text" value="<?= $p->product_id ?>" disabled> <br>
+    <input type="text" value="<?= $p->product_id ?>" disabled> 
+    <br>
 
     <label>Product Name</label>
-    <?php html_text('product_name', "value='$p->product_name'"); ?>
+    <?php html_text('product_name'); ?>
     <?php err('product_name') ?>
     <br>
 
     <label>Price (RM)</label>
-    <?php html_text('price', "value='$p->price'"); ?>
+    <?php html_text('price'); ?>
     <?php err('price') ?>
     <br>
 
     <label>Colour</label>
-    <?php html_text('colour', "value='$p->colour'"); ?>
+    <?php html_text('colour'); ?>
     <br>
 
     <label>Size</label>
-    <?php html_text('size', "value='$p->size'"); ?>
+    <?php html_text('size'); ?>
     <br>
 
     <label>Current Photo</label><br>
-    <img src="../uploads/<?= $p->photo ?>" width="100"><br>
+    <img src="../uploads/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; margin: 10px 0;"><br>
     
-    <label>Upload New Photo</label>
+    <label>Upload New Photo (Leave blank to keep current)</label><br>
     <?php html_file('photo', 'image/*'); ?>
     <br>
 
-    <button>Update Product</button>
+    <section style="margin-top: 20px;">
+        <button type="submit">Update Product</button>
+        <a href="product_list.php">Cancel</a>
+    </section>
 </form>
 
 <?php include '../_foot.php'; ?>

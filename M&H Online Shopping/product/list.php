@@ -68,20 +68,24 @@ include '../_head.php';
     }
 
     .product .cart-info {
-        bottom: 40px;
+        bottom: 0;
         left: 0;
         right: 0;
     }
     
     .product-info {
         position: absolute;
-        bottom: 0;
+        bottom: 30px;
         left: 0;
         right: 0;
         background: #0009;
         color: #fff;
         padding: 8px;
         font-size: 12px;
+    }
+    
+    .product-info strong {
+        font-size: 16px;
     }
     
     .favorite-btn {
@@ -172,7 +176,8 @@ include '../_head.php';
             
             <!-- PRODUCT INFO -->
             <div class="product-info">
-                <?= $p->product_name ?> | <?= $p->size ?> | RM <?= $p->price ?>
+                <strong><?= encode($p->product_name) ?></strong><br>
+                <?= nl2br(encode($p->description)) ?>
             </div>
             
             <!-- CART INFO -->

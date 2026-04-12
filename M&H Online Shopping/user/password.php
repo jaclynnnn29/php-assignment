@@ -8,7 +8,8 @@ if (is_post()) {
     $confirm_pass = post('confirm_pass');
 
     // 1. Validate Current Password
-    // $_user is the global object from your _base.php
+    // If you are currently using the "plain text" bypass, 
+    // this check might fail if your DB still has the old broken hash.
     if (!password_verify($current_pass, $_user->password_hash)) {
         $_err['current_pass'] = 'Incorrect current password';
     }
@@ -36,17 +37,18 @@ if (is_post()) {
         $_SESSION['user'] = $_user;
 
         temp('info', 'Password updated successfully!');
+        
+        // Pathing: If this file is in the root, use 'index.php'
+        // If this file is in admin/ folder, use '../index.php'
         redirect('index.php');
     }
 }
+
+$_title = 'Update Password';
+include '_head.php';
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Password</title>
-</head>
-<body>
+
+<div class="container">
     <h1>Update Password</h1>
     
     <form method="post">
@@ -67,5 +69,6 @@ if (is_post()) {
         <button type="submit">Update Password</button>
         <a href="index.php">Cancel</a>
     </form>
-</body>
-</html>
+</div>
+
+<?php include '_foot.php'; ?>
