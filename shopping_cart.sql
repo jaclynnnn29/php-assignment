@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 11, 2026 at 09:15 AM
+-- Generation Time: Apr 12, 2026 at 03:02 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -81,7 +81,8 @@ CREATE TABLE `order` (
   `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(10,2) NOT NULL,
   `quantity` int(11) DEFAULT NULL,
-  `user_id` varchar(10) DEFAULT NULL
+  `user_id` varchar(10) DEFAULT NULL,
+  `status` enum('Pending','Processing','Shipped','Delivered','Cancelled') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -348,7 +349,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('U001', 'qwer', 'qwer@gmail.com', '$2y$10$TLur8oSdyjksV28lO6QY3uusK1PkXAY.yP91VTf0KRk2pSWIaxvyG', 0, NULL, '69d9f2f940d7c.jpg', 'Member');
+('U001', 'qwer', 'qwer@gmail.com', '$2y$10$8K9V/9v2.Y3A5E5f7z6uqe6Y6G8z9O5m9X0W2V3u4y5z6a7b8c9d1', 0, NULL, '69d9f2f940d7c.jpg', 'Member'),
+('U003', 'liam.koh', 'liam.koh@gmail.com', '$2y$10$8K9V/9v2.Y3A5E5f7z6uqe6Y6G8z9O5m9X0W2V3u4y5z6a7b8c9d1', 0, NULL, '69db8d13d23be.jpg', 'Member');
 
 --
 -- Indexes for dumped tables
