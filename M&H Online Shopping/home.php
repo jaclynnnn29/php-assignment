@@ -11,7 +11,7 @@ include '_head.php';
 ?>
 
 <div class="welcome-section" style="text-align: center; padding: 60px 20px;">
-    <h2 style="font-size: 2.5em; color: #333;">Welcome to M&H Store</h2>
+    <h2 style="font-size: 2.5em; color: #333;">Welcome to M&H Online Shopping</h2>
     <p style="font-size: 1.2em; color: #666; margin-bottom: 30px;">
         Discover our latest collection and enjoy the best shopping experience.
     </p>
@@ -36,7 +36,7 @@ include '_head.php';
     </div>
     <div class="feature-item">
         <i class="fa fa-headset" style="font-size: 2em; color: #99f2e8;"></i>
-        <h3>24/7 Support</h3>
+        <h3>Support</h3>
         <p>Always here for you</p>
     </div>
 </div>
