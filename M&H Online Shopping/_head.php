@@ -8,40 +8,41 @@
     <link rel="stylesheet" href="/css/app.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/js/app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <!-- Flash message -->
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-        <div class="header-main">
+        <h1>
             <a href="index.php">
                 <img src="/images/MnH_Logo.png" alt="M&H Logo"> 
                 <span>M&H Online Shopping</span>
             </a>
-        </div>
+        </h1>
 
-        <div class="main-nav">
-                <a href="/home.php" class="<?= $_title == 'Home' ? 'active' : '' ?>">
-                    <i class="fa fa-home"></i> Home
-                </a>
-                <a href="/product/list.php">
-                    <i class="fa fa-box"></i> Products
-                </a>
-                <a href="/about.php">
-                    <i class="fa fa-info-circle"></i> About
-                </a>
-                <a href="/contact.php">
-                    <i class="fa fa-envelope"></i> Contact
-                </a>
+        <div>
+            <a href="/home.php" class="<?= $_title == 'Home' ? 'active' : '' ?>">
+                        <i class="fa fa-home"></i> Home
+            </a>
+            <a href="/product/list.php">
+                <i class="fa fa-box"></i> Products
+            </a>
+            <a href="/about.php">
+                <i class="fa fa-info-circle"></i> About
+            </a>
+            <a href="/contact.php">
+                <i class="fa fa-envelope"></i> Contact
+            </a>
 
-                <?php if ($_user): ?>
-                    <a href="/logout.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
-                <?php else: ?>
-                    <a href="/login.php"><i class="fa fa-sign-in-alt"></i> Login</a>
-                    <a href="/user/register.php"><i class="fa fa-user-plus"></i> Register</a>
-                <?php endif ?>
-            </div>
+            <?php if ($_user): ?>
+                <a href="/logout.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
+            <?php else: ?>
+                <a href="/login.php"><i class="fa fa-sign-in-alt"></i> Login</a>
+                <a href="/user/register.php"><i class="fa fa-user-plus"></i> Register</a>
+            <?php endif ?>        
+                
         </div>
     </header>
 

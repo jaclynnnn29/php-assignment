@@ -23,7 +23,7 @@ header, footer {
 header { /* NEW */
     display: flex;
     gap: 10px 50px;
-    align-items:right;  /* change */
+    align-items:center;  /* change */
     background: #aafff4;
     padding:10px 50px; /* make sure to keep the same */
 }
@@ -51,6 +51,7 @@ header div { /* NEW */
     text-align: center;
 }
 
+
 header img { /* NEW */
     width: 45px;
     height: auto;
@@ -59,13 +60,7 @@ header img { /* NEW */
 }
 
 /* change */
-.header-main {
-    display: flex;             
-    justify-content: space-between; 
-    align-items: center;      
-    padding: 10px 20px;
-    background-color: #99f2e8; 
-}
+
 
 /* left Logo */
 .logo a {
