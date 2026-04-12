@@ -10,14 +10,22 @@ $_title = 'Home';
 include '_head.php'; 
 ?>
 
-<div class="welcome-section" style="text-align: center; padding: 60px 20px;">
-    <h2 style="font-size: 2.5em; color: #333;">Welcome to M&H Online Shopping</h2>
-    <p style="font-size: 1.2em; color: #666; margin-bottom: 30px;">
+<div class="welcome-section" 
+    style="text-align: center; 
+    padding: 100px 20px;
+    background-image: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), url('/images/your-background.jpg'); 
+    background-size: cover; 
+    background-position: center;
+    background-attachment: fixed;
+    ">
+
+    <h2 style="font-size: 2.5em; color: #333; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Welcome to M&H Online Shopping</h2>
+    <p style="font-size: 1.2em; color: #444; margin-bottom: 30px; font-weight: 500;">
         Discover our latest collection and enjoy the best shopping experience.
     </p>
     
     <div class="hero-buttons">
-        <a href="/product/list.php" style="padding: 12px 30px; background: #6e8efb; color: #fff; text-decoration: none; border-radius: 25px; font-weight: bold;">
+        <a href="/product/list.php" style="padding: 12px 30px; background: #6e8efb; color: #fff; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(110,142,251,0.4);">
             Browse Products
         </a>
     </div>

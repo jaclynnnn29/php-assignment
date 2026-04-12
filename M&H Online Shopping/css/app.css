@@ -13,6 +13,9 @@ body {
     height: 100vh;
     display: grid;
     grid: auto auto 1fr auto / auto;
+    background-image: url('/images/BG_front.png'); /* change */
+    /*background-attachment: fixed;*/  /* change */
+    background-size: cover; /* change */
 }
 
 header, footer {
@@ -83,7 +86,7 @@ header img { /* NEW */
 
 .main-nav a {
     text-decoration: none;
-    color: #333;
+    color: #c3dff8;
     font-weight: 500;
 }
 
@@ -117,6 +120,9 @@ nav div { /* NEW */
 
 main {
     padding: 20px 50px;
+    background: rgba(255, 255, 255, 0.9); /* change */
+    margin: 20px 50px; /* change */
+    border-radius: 10px; /* change */
 }
 
 main h1 {
@@ -202,7 +208,7 @@ nav.pager a.active {
 #info {
     position: fixed;
     color: #fff;
-    background: #666;
+    background: #b1ebfa;
     border: 1px solid #333;
     border-radius: 5px;
     padding: 10px 20px;
