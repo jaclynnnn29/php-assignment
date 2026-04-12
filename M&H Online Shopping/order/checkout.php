@@ -113,7 +113,6 @@ if ($ids) {
 
 
             <div class="checkout-right">
-            <h1>Payment Info.</h1>
             <form method="post">
             <button type="submit" class="btn-checkout">Check Out</button>
         

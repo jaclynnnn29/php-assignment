@@ -513,8 +513,20 @@ label > * {
 }
 
 .btn-checkout {
-    width: 100%;
-    margin-bottom: 5px;
+    display: block;
+    width: 100%;             
+    padding: 15px 20px;      
+    font-size: 1.2rem;       
+    font-weight: bold;       
+    text-transform: uppercase; 
+    border: none;
+    border-radius: 5px;      
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-checkout:hover {
+    filter: brightness(90%);
 }
 
 
