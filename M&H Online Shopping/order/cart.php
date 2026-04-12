@@ -4,15 +4,30 @@ include '../_base.php';
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
-    // TODO
     $btn = req('btn');
     if ($btn == 'clear'){
         set_cart();
         redirect('?');
     }
-    $id = req('id');
+
+    $original_id = req('id');
+    $new_variant_id = req('variant_id') ?: $original_id;
     $unit = req('unit');
-    update_cart($id, $unit);
+
+    if ($new_variant_id != $original_id) {
+        $cart = get_cart();
+        unset($cart[$original_id]);
+
+        if ($unit >= 1 && $unit <= 10 && is_exists($new_variant_id, 'product_variants', 'variant_id')) {
+            $cart[$new_variant_id] = min(10, ($cart[$new_variant_id] ?? 0) + $unit);
+            ksort($cart);
+        }
+
+        set_cart($cart);
+    } else {
+        update_cart($original_id, $unit);
+    }
+
     redirect();
 }
 
@@ -34,41 +49,48 @@ include '../_head.php';
         text-align: right;
     }
 </style>
-
-<div class="login-container" style="max-width: 1000px;"> <h1>Shopping Cart</h1>
-
-        <form method="get" style="margin-bottom: 20px; text-align: left;">
-            <input type="text" name="search" value="<?= $search ?>" placeholder="Search items..." style="padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px;">
-            <button type="submit" class="btn-login" style="width: auto; display: inline-block; padding: 8px 15px;">Search</button>
-            <?php if ($search): ?>
-                <a href="?" style="margin-left: 10px; color: #666;">Clear Search</a>
-            <?php endif; ?>
-        </form>
-
-        <table class="table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Product</th>
-                <th class="right">Price (RM)</th>
-                <th>Unit</th>
-                <th class="right">Subtotal (RM)</th>
-            </tr>
-        </thead>
+<form method="get" style="margin-bottom: 20px;">
+    <input type="text" name="search" value="<?= $search ?>" placeholder="Search cart items..." style="padding: 5px; width: 200px;">
+    <button type="submit">Search</button>
+    <?php if ($search): ?>
+        <a href="?">Clear Search</a>
+    <?php endif; ?>
+</form>
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Type of Product</th>
+        <th>Size</th>
+        <th>Price (RM)</th>
+        <th>Unit</th>
+        <th>Subtotal (RM)</th>
+    </tr>
 
     <?php
         // TODO
         $displayed_count = 0;
         $displayed_total = 0;
         
-        $stm = $_db->prepare('SELECT * FROM product WHERE product_id =?');
+        $stm = $_db->prepare('SELECT pv.*, p.product_name FROM product_variants pv JOIN product p ON pv.product_id = p.product_id WHERE pv.variant_id = ?');
+        $stm_variants = $_db->prepare('SELECT variant_id, size FROM product_variants WHERE product_id = ? ORDER BY size');
         $cart = get_cart();
 
 
         foreach ($cart as $id => $unit):
-            // TODO
             $stm->execute([$id]);
             $p = $stm->fetch();
+            if (!$p) {
+                $stm2 = $_db->prepare('SELECT pv.*, p.product_name FROM product_variants pv JOIN product p ON pv.product_id = p.product_id WHERE pv.product_id = ? ORDER BY pv.size LIMIT 1');
+                $stm2->execute([$id]);
+                $p = $stm2->fetch();
+                if (!$p) continue;
+            }
+
+            $variant_options = [];
+            if ($p->product_id) {
+                $stm_variants->execute([$p->product_id]);
+                $variant_options = $stm_variants->fetchAll();
+            }
 
             if ($search && stripos($p->product_name, $search) === false) continue;
 
@@ -78,15 +100,22 @@ include '../_head.php';
             
     ?>
         <tr>
-            <td><?= $p->product_id ?></td>
+            <td><?= $p->variant_id ?></td>
             <td><?= $p->product_name ?></td>
+            <td>
+                <form method="post">
+                    <?= html_hidden('id', $id) ?>
+                    <?= html_hidden('unit', $unit) ?>
+                    <?= html_select('variant_id', array_column($variant_options, 'size', 'variant_id'), $id) ?>
+                </form>
+            </td>
             <td class="right"><?= $p->price ?></td>
             <td>
                 <form method="post">
                     <?= html_hidden('id', $id) ?>
+                    <?= html_hidden('variant_id', $id) ?>
                     <?= html_select('unit', $_units, $unit) ?>
-                    <!-- TODO -->
-                </form>            
+                </form>
             </td>
             <td class="right">
                 <?= sprintf('%.2f', $subtotal) ?>
@@ -96,7 +125,7 @@ include '../_head.php';
     <?php endforeach ?>
 
     <tr>
-        <th colspan="3"></th>
+        <th colspan="4"></th>
         <th class="right"><?= $displayed_count ?></th>
         <th class="right"><?= sprintf('%.2f', $displayed_total) ?></th>
     </tr>

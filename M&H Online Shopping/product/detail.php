@@ -39,10 +39,21 @@ if (is_post()) {
 }
 
 $id = req('id');
-$stm = $_db->prepare('SELECT * FROM product_variants WHERE product_id = ?');
+$stm = $_db->prepare('SELECT pv.*, p.product_name FROM product_variants pv JOIN product p ON pv.product_id = p.product_id WHERE pv.product_id = ? ORDER BY pv.size');
 $stm->execute([$id]);
-$p = $stm->fetch();
-if (!$p) redirect('list.php');
+$variants = $stm->fetchAll();
+if (!$variants) redirect('list.php');
+
+// Select variant
+$selected_variant_id = req('variant_id') ?: ($variants[0]->variant_id ?? null);
+$p = null;
+foreach ($variants as $v) {
+    if ($v->variant_id == $selected_variant_id) {
+        $p = $v;
+        break;
+    }
+}
+if (!$p) $p = $variants[0];
 
 // Get average rating for this product
 $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
@@ -162,11 +173,25 @@ include '../_head.php';
     </tr>
     <tr>
         <th>Type of Product</th>
-        <td><?= $p->product_name ?> <?= $p->size ?? '' ?></td>
+        <td><?= $p->product_name ?></td>        
     </tr>
     <tr>
         <th>Price</th>
         <td>RM <?= $p->price ?></td>
+    </tr>
+    <tr>
+        <th>Select Size:</th>
+        <td>
+            <form method="get" style="display: inline;">
+            <input type="hidden" name="id" value="<?= $id ?>">
+            <select name="variant_id" id="variant_id" onchange="this.form.submit()">
+                <?php foreach ($variants as $v): ?>
+                    <option value="<?= $v->variant_id ?>" <?= $v->variant_id == $p->variant_id ? 'selected' : '' ?>><?= $v->size ?? 'Default' ?></option>
+                <?php endforeach; ?>
+            </select>
+    </form>
+    
+        </td>        
     </tr>
     <tr>
         <th>Unit</th>
@@ -174,13 +199,16 @@ include '../_head.php';
             <form method="post">
                 <?php
                 $cart = get_cart();
-                $unit = $cart[$p->product_id] ?? 0;
+                $unit = $cart[$p->variant_id] ?? 0;
                 ?>
-                <?= html_hidden('id', $p->product_id) ?>
-                <?= html_select('quantity', $_units, $unit) ?>                
+                <?= html_hidden('id', $p->variant_id) ?>
+                <?= html_select('quantity', $_units, $unit, '', 'id="quantity"') ?>               
                 <?php
                 echo $unit ? " ✅ In cart: $unit" : '';
                 ?>
+                <div style="margin-top: 15px;">
+                    <button type="submit">Add to Cart</button>
+                </div>
             </form>
         </td>
     </tr>
@@ -265,7 +293,7 @@ include '../_head.php';
 
 <script>
     // Handle cart quantity change
-    $('select').on('change', function(e) {
+    $('select').not('#quantity').on('change', function(e) {
         e.target.form.submit();
     });
     
