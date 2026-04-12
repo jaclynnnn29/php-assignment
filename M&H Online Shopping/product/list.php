@@ -121,8 +121,12 @@ include '../_head.php';
 <div id="product">
     <?php foreach ($arr as $p): 
         $cart = get_cart();
-        $id = $p->product_id;
-        $unit = $cart[$p->product_id] ?? 0;
+        $product_id = $p->product_id;
+        $stm2 = $_db->prepare("SELECT variant_id FROM product_variants WHERE product_id = ? ORDER BY size LIMIT 1");
+        $stm2->execute([$product_id]);
+        $default_variant = $stm2->fetch();
+        $variant_id = $default_variant->variant_id ?? $product_id;
+        $unit = $cart[$variant_id] ?? 0;
         
         // Get average rating for this product
         $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
@@ -135,7 +139,7 @@ include '../_head.php';
         $is_favorite = false;
         if ($_user) {
             $stm = $_db->prepare("SELECT * FROM favorites WHERE user_id = ? AND product_id = ?");
-            $stm->execute([$_user->user_id, $id]);
+            $stm->execute([$_user->user_id, $product_id]);
             $is_favorite = $stm->fetch() ? true : false;
         }
     ?>
@@ -143,7 +147,7 @@ include '../_head.php';
         <div class="product">
             <!-- FAVORITE BUTTON -->
             <?php if ($_user): ?>
-                <a href="add_favorite.php?id=<?= $id ?>" class="favorite-btn">
+                <a href="add_favorite.php?id=<?= $product_id ?>" class="favorite-btn">
                     <?= $is_favorite ? '❤️' : '♡' ?>
                 </a>
             <?php else: ?>
@@ -153,7 +157,7 @@ include '../_head.php';
             <!-- CART FORM -->
             <form method="post">
                 <?= $unit ? '✅' : '' ?>
-                <?= html_hidden('id', $p->product_id) ?>
+                <?= html_hidden('id', $variant_id) ?>
                 <?= html_select('quantity', $_units, $unit) ?>
             </form>
             

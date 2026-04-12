@@ -213,14 +213,14 @@ function set_cart($cart = []) {
 function update_cart($id, $unit) {
     $cart = get_cart();
 
-    // Check if product exists using the correct field 'product_id'
-    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'product', 'product_id')) {
+    // Cart keys are variant IDs, so validate against the variant table.
+    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'product_variants', 'variant_id')) {
         $cart[$id] = $unit;
         ksort($cart);
     }
     else {
         unset($cart[$id]);
-    }           
+    }
     set_cart($cart);
 }
 
