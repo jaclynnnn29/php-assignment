@@ -14,50 +14,63 @@
     <div id="info"><?= temp('info') ?></div>
 
     <header>
-    <h1>
-        <a href="index.php">
-            <img src="/images/MnH_Logo.png" alt="M&H Logo"> 
-            M&H Online Shopping Cart
-        </a>
-    </h1>
-</header>
+        <div class="header-main">
+            <a href="index.php">
+                <img src="/images/MnH_Logo.png" alt="M&H Logo"> 
+                <span>M&H Online Shopping</span>
+            </a>
+        </div>
 
-    <nav>
-        <a href="/">Index</a>
-        <a href="/product/list.php">Product List</a>
-        <a href="/order/cart.php">
-            Shopping Cart
-            <!-- TODO -->
-             <?php 
-                $cart = get_cart();
-                $count = count($cart);
-                if ($count) {
-                    echo "($count)";
-                }
-            ?>
-        </a>
+        <div class="main-nav">
+                <a href="/home.php" class="<?= $_title == 'Home' ? 'active' : '' ?>">
+                    <i class="fa fa-home"></i> Home
+                </a>
+                <a href="/product/list.php">
+                    <i class="fa fa-box"></i> Products
+                </a>
+                <a href="/about.php">
+                    <i class="fa fa-info-circle"></i> About
+                </a>
+                <a href="/contact.php">
+                    <i class="fa fa-envelope"></i> Contact
+                </a>
 
-        <?php if ($_user?->role == 'Member'): ?>
-            <a href="/order/history.php">Order History</a>
-        <?php endif ?>
+                <?php if ($_user): ?>
+                    <a href="/logout.php"><i class="fa fa-sign-out-alt"></i> Logout</a>
+                <?php else: ?>
+                    <a href="/login.php"><i class="fa fa-sign-in-alt"></i> Login</a>
+                    <a href="/user/register.php"><i class="fa fa-user-plus"></i> Register</a>
+                <?php endif ?>
+            </div>
+        </div>
+    
 
-        <?php if ($_user?->role == 'Admin'): ?>
-            <a href="/admin/user_list.php">Manage Users</a>
-            <a href="/admin/order_manage.php">Manage Orders</a>
-        <?php endif ?>
+        <nav class="sub_nav">
+            <a href="/home.php">Index</a>
+            <a href="/order/checkout.php">CheckOut</a>
+            <a href="/order/cart.php">
+                Shopping Cart
+                
+                <?php 
+                    $cart = get_cart();
+                    $count = count($cart);
+                    if ($count) {
+                        echo "($count)";
+                    }
+                ?>
+            </a>
 
-        <div></div>
+            <?php if ($_user?->role == 'Member'): ?>
+                <a href="/order/history.php">Order History</a>
+            <?php endif ?>
 
-        <?php if ($_user): ?>
-            <a href="/user/profile.php">Profile</a>
-            <a href="/user/password.php">Password</a>
-            <a href="/logout.php">Logout</a>
-        <?php else: ?>
-            <a href="/user/register.php">Register</a>
-            <a href="/user/reset.php">Reset Password</a>
-            <a href="/login.php">Login</a>
-        <?php endif ?>
-    </nav>
+            <?php if ($_user?->role == 'Admin'): ?>
+                <a href="/admin/user_list.php">Order Listing (Admin)</a>
+                <a href="/admin/order_manage.php">Order Status (Admin)</a>
+            <?php endif ?>
+
+        </nav>
+    </header>
 
     <main>
         <h1><?= $_title ?? 'Untitled' ?></h1>
