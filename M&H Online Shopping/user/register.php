@@ -82,7 +82,7 @@ include '../_head.php';
             <button type="reset" class="btn-reset">Clear Fields</button>
 
             <p style="margin-top: 20px;">
-                Already a member? <a href="login.php" style="color: #248faf; font-weight: bold;">Login here</a>
+                Already a member? <a href="login.php" style="color: #318cdb; font-weight: bold;">Login here</a>
             </p>
         </form>
     </div>

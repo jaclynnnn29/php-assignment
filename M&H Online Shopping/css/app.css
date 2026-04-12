@@ -336,7 +336,7 @@ label > * {
 /* Form Group Styling - Stacked Layout */
 .form-group {
     margin-bottom: 20px;
-    text-align: left; /* Labels stay left-aligned */
+    text-align: center; /* Labels stay left-aligned */
 }
 
 .form-group label {
@@ -347,26 +347,22 @@ label > * {
 }
 
 .form-group input {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    box-sizing: border-box; /* Prevents input from overflowing */
-    font-size: 16px;
+    color: #333333 !important; /* Keep the text you type DARK */
+    background: rgba(255, 255, 255, 0.9); /* Keep the box light */
 }
 
 /* Button Styling */
 .btn-login {
-    width: 100%;
+    width: 80%;            /* Your requested width */
+    margin: 10px auto;     /* Centers the button */
     padding: 12px;
-    background-color: #248faf; /* Matches your theme */
+    background-color: #248faf;
     color: white;
     border: none;
     border-radius: 6px;
-    font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s;
+    display: inline-block; /* Allows width and centering to work */
 }
 
 .btn-login:hover {
@@ -393,24 +389,51 @@ label > * {
 }
 
 /* Fix for the Table Visibility */
-/* Compact Glass Table */
-.table {
-    width: 90%;            /* Don't take up the whole screen width */
-    max-width: 1000px;     /* Limits how wide it can get */
-    margin: 20px auto;     /* Centers the table */
-    font-size: 14px;       /* Smaller font for a tidier look */
-    border-collapse: collapse;
+/* Solid Professional Table */
+/* Solid Login/Register Card */
+.login-container {
+    max-width: 400px;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    text-align: center; /* Centers the button and links */
 }
 
-/* Force all table text to be white */
-.table th, 
-.table td, 
-.table td a {
-    color: #ffffff !important; 
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 1.0); /* Adds a shadow to make text pop */
+.login-container h1 {
+    color: #248faf;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-.table th {
+.form-group label {
+    display: block;
     font-weight: bold;
-    color: #ffffff;
+    color: #333333 !important; /* Force black labels */
+    margin-bottom: 5px;
 }
+
+.form-group input {
+    width: 80%; 
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    box-sizing: border-box; /* Prevents input from leaking out */
+}
+/* Fix for Form Labels */
+.login-container label {
+    color: #000000 !important;
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Fix for links like "Join Membership" */
+.login-container p, 
+.login-container a {
+    color: #6cbfe8 !important; 
+}
+
+
