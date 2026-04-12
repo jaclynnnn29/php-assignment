@@ -72,6 +72,3 @@
             <?php endif ?>
 
         </nav>
-
-    <main>
-        <h1><?= $_title ?? 'Untitled' ?></h1>

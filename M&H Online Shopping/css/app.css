@@ -314,11 +314,80 @@ label > * {
 
 /* Photo Upload ------------------------------------------------------------ */
 
-label.upload img {
+/* Login Container Styling */
+.login-container {
+    max-width: 400px;
+    margin: 80px auto; /* Centers the box vertically and horizontally */
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+    border-bottom: 2px solid #248faf; /* Matches your table header color */
+    padding-bottom: 10px;
+}
+
+/* Form Group Styling - Stacked Layout */
+.form-group {
+    margin-bottom: 20px;
+    text-align: left; /* Labels stay left-aligned */
+}
+
+.form-group label {
     display: block;
-    border: 1px solid #333;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box; /* Prevents input from overflowing */
+    font-size: 16px;
+}
+
+/* Button Styling */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #248faf; /* Matches your theme */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-login:hover {
+    background-color: #1a6b83;
+}
+
+.btn-reset {
+    background: none;
+    border: none;
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Error Message Styling */
+.err-msg {
+    color: #d9534f;
+    background: #f9d6d5;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
 }

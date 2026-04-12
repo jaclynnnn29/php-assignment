@@ -63,36 +63,35 @@ if (is_post()) {
     }
 }
 
-$_title = 'User Login';
 include '_head.php';
 ?>
 
-<div class="container">
+<main>
+    <div class="login-container">
+        <h1>User Login</h1>
 
-    <?php if ($msg = temp('info')) echo "<p style='color:green'>$msg</p>"; ?>
+        <form method="post">
+            <?php if (isset($_err['login'])): ?>
+                <div class="err-msg"><?php err('login'); ?></div>
+            <?php endif; ?>
 
-    <form method="post" class="form">
-        <div class="form-group">
-            <?php err('login'); ?>
-        </div>
-        
-        <div class="form-group">
-            <label for="email">Email</label>
-            <?php html_text('email', 'class="form-control" placeholder="Enter your email"'); ?>
-        </div>
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <?php html_text('email', 'placeholder="e.g. jaclyn@gmail.com"'); ?>
+            </div>
 
-        <div class="form-group">
-            <label for="password">Password</label>
-            <?php html_password('password', 'class="form-control" placeholder="Enter your password"'); ?>
-        </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <?php html_password('password', 'placeholder="••••••••"'); ?>
+            </div>
 
-        <section class="form-actions">
-            <button type="submit" class="btn-submit">Login</button>
-            <button type="reset" class="btn-reset">Reset</button>
-        </section>
+            <button type="submit" class="btn-login">Login to Account</button>
+            <button type="reset" class="btn-reset">Clear Fields</button>
 
-        <p class="mt-3">Don't have an account? <a href="user/register.php">Join Our Membership</a></p>
-    </form>
-</div>
-
+            <p style="margin-top: 20px;">
+                New here? <a href="user/register.php" style="color: #248faf; font-weight: bold;">Join Membership</a>
+            </p>
+        </form>
+    </div>
+</main>
 <?php include '_foot.php'; ?>
