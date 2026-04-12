@@ -23,14 +23,15 @@ header, footer {
 header { /* NEW */
     display: flex;
     gap: 10px 50px;
-    align-items: right;
+    align-items:center;  /* change left */
     background: #aafff4;
+    padding:10px 50px; /* make sure to keep the same */
 }
 
 header h1 {
     flex: 1; /* NEW */
     margin: 0;
-    padding-left: 40px;
+    padding-left: 0; /* 40px */
 }
 
 header h1 a {
@@ -45,6 +46,8 @@ header a {
 }
 
 header div { /* NEW */
+    gap: 20px;       /* change left */
+    display: flex;   /* change left */
     text-align: center;
 }
 
@@ -54,6 +57,46 @@ header img { /* NEW */
     border: 1px;
     border-radius: 5px;
 }
+
+/* change */
+.header-main {
+    display: flex;             
+    justify-content: space-between; 
+    align-items: center;      
+    padding: 10px 20px;
+    background-color: #99f2e8; 
+}
+
+/* left Logo */
+.logo a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #000;
+}
+
+.logo img {
+    width: 40px;
+    height: auto;
+    margin-right: 10px;
+}
+
+.main-nav {
+    display: flex;            
+    gap: 20px;                
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+
+.main-nav a:hover {
+    color: #add4ff;    /* Hover colour */
+}
+
+/* change */
 
 nav {
     padding: 0 50px;
