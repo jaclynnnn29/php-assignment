@@ -33,7 +33,7 @@ if (is_post()) {
         //password
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $stm = $_db->prepare("INSERT INTO user (user_id, user_name, email, password_hash, photo) VALUES (?, ?, ?, ?, ?)");
+        $stm = $_db->prepare("INSERT INTO user (user_id, user_name, email, password_hash, photo) VALUES (?, ?, ?, ?, ?, 'Member')");
         $stm->execute([$user_id, $user_name, $email, $hash, $photo]);
 
         temp('info', 'Registration successful! Please login.');
