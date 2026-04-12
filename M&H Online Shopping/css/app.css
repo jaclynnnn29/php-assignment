@@ -23,7 +23,7 @@ header, footer {
 header { /* NEW */
     display: flex;
     gap: 10px 50px;
-    align-items:center;  /* change left */
+    align-items:right;  /* change */
     background: #aafff4;
     padding:10px 50px; /* make sure to keep the same */
 }
@@ -62,7 +62,7 @@ header img { /* NEW */
 .header-main {
     display: flex;             
     justify-content: space-between; 
-    align-items: right;      
+    align-items: center;      
     padding: 10px 20px;
     background-color: #99f2e8; 
 }
