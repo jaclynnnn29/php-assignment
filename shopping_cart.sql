@@ -81,7 +81,8 @@ CREATE TABLE `order` (
   `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(10,2) NOT NULL,
   `quantity` int(11) DEFAULT NULL,
-  `user_id` varchar(10) DEFAULT NULL
+  `user_id` varchar(10) DEFAULT NULL,
+  `status` enum('Pending','Processing','Shipped','Delivered','Cancelled') NOT NULL DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------

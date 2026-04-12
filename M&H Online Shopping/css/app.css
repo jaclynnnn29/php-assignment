@@ -14,7 +14,7 @@ body {
     display: grid;
     grid: auto auto 1fr auto / auto;
     background-image: url('/images/BG_front.png'); /* change */
-    /*background-attachment: fixed;*/  /* change */
+    background-attachment: fixed;  /* change */
     background-size: cover; /* change */
 }
 

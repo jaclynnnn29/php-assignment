@@ -7,7 +7,7 @@ if (is_post()) {
     $confirm = post('confirm');
     $f = get_file('photo');
 
-    //Verify
+    // 1. Verify
     if (!$email) $_err['email'] = 'Required';
     else if (!is_email($email)) $_err['email'] = 'Invalid email';
     else if (!is_unique($email, 'user', 'email')) $_err['email'] = 'Duplicated';
@@ -20,20 +20,23 @@ if (is_post()) {
     if (!$f) $_err['photo'] = 'Required';
 
     if (!$_err) {
-        // Generate next sequential user ID
+        // 2. Generate next sequential user ID (e.g., U004)
         $stm = $_db->prepare("SELECT MAX(CAST(SUBSTRING(user_id, 2) AS UNSIGNED)) AS max_id FROM user");
         $stm->execute();
         $max_id = $stm->fetchColumn() ?: 0;
         $user_id = 'U' . str_pad($max_id + 1, 3, '0', STR_PAD_LEFT);
 
-        $user_name = explode('@', $email)[0]; // Simple username from email prefix
-        //save photo
+        $user_name = explode('@', $email)[0]; 
+        
+        // 3. Save photo (Fulfills Profile Photo requirement)
+        // Note: Check if your folder is '../photos' or '../uploads'
         $photo = save_photo($f, '../photos', 200, 200);
 
-        //password
+        // 4. Password Hashing (Fulfills Security requirement)
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $stm = $_db->prepare("INSERT INTO user (user_id, user_name, email, password_hash, photo) VALUES (?, ?, ?, ?, ?)");
+        // FIXED SQL: Added 'role' to the column list
+        $stm = $_db->prepare("INSERT INTO user (user_id, user_name, email, password_hash, photo, role) VALUES (?, ?, ?, ?, ?, 'Member')");
         $stm->execute([$user_id, $user_name, $email, $hash, $photo]);
 
         temp('info', 'Registration successful! Please login.');
@@ -45,20 +48,20 @@ $_title = 'JOIN OUR MEMBERSHIP';
 include '../_head.php';
 ?>
 
-    <form method="post" enctype="multipart/form-data">
-        <label>Email</label><br>
-        <?php html_text('email'); err('email'); ?><br>
+<form method="post" enctype="multipart/form-data">
+    <label>Email</label><br>
+    <?php html_text('email'); err('email'); ?><br>
 
-        <label>Create a Password</label><br>
-        <?php html_password('password'); err('password'); ?><br>
+    <label>Create a Password</label><br>
+    <?php html_password('password'); err('password'); ?><br>
 
-        <label>Confirm Password</label><br>
-        <?php html_password('confirm'); err('confirm'); ?><br>
+    <label>Confirm Password</label><br>
+    <?php html_password('confirm'); err('confirm'); ?><br>
 
-        <label>Profile Photo</label><br>
-        <?php html_file('photo', 'image/*'); err('photo'); ?><br>
+    <label>Profile Photo</label><br>
+    <?php html_file('photo', 'image/*'); err('photo'); ?><br>
 
-        <button>Register</button>
-    </form>
+    <button>Register</button>
+</form>
 
-    <?php include '../_foot.php'; ?>
+<?php include '../_foot.php'; ?>
