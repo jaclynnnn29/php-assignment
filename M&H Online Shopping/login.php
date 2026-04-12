@@ -17,24 +17,21 @@ if (is_post()) {
         $now = time();
         $lock_time = $user->locked_until ? strtotime($user->locked_until) : 0;
 
-        // 2. Check Lock Status
+        // 1. 
         if ($lock_time > $now) {
             $wait = ceil(($lock_time - $now) / 60);
             $_err['login'] = "Account locked. Try again in $wait mins.";
         } 
-
         
-        
-        // 3. Verify Password (Matches password_hash column in your DB)
-        else if (password_verify($password, $user->password_hash)) {
-            // 1. Update DB
+        // 2. 
+        else if ($password == $user->password_hash) {
+            
+            // Login successful: Reset the number of failed attempts
             $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
             $stm->execute([$user->user_id]);
             
-            // 2. Set the session (DO NOT use the redirect inside the function yet)
             $_SESSION['user'] = $user; 
 
-            // 3. Decide where to go based on the ROLE
             if ($user->role == 'Admin') {
                 temp('info', 'Admin login successful!');
                 redirect('admin/product_list.php');
