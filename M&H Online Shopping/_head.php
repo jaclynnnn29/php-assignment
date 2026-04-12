@@ -43,7 +43,7 @@
                 <?php endif ?>
             </div>
         </div>
-    
+    </header>
 
         <nav class="sub_nav">
             <a href="/home.php">Index</a>
@@ -70,7 +70,6 @@
             <?php endif ?>
 
         </nav>
-    </header>
 
     <main>
         <h1><?= $_title ?? 'Untitled' ?></h1>
