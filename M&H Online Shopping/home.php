@@ -1,5 +1,5 @@
 <?php
-include '_base.php'; // 引入基础配置
+include '_base.php'; 
 
 // ----------------------------------------------------------------------------
 // $stm = $_db->query("SELECT * FROM product LIMIT 3");
