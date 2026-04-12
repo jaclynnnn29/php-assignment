@@ -39,7 +39,7 @@ if (is_post()) {
 }
 
 $id = req('id');
-$stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
+$stm = $_db->prepare('SELECT * FROM product_variants WHERE product_id = ?');
 $stm->execute([$id]);
 $p = $stm->fetch();
 if (!$p) redirect('list.php');
