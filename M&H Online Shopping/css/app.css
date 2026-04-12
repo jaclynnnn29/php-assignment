@@ -468,6 +468,104 @@ label > * {
     background-color: #f9f9f9; /* Subtle light grey hover */
 }
 
+.checkout-left h1, .checkout-right h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+/* Enlarge table headers and row content */
+.table th {
+    font-size: 1.2rem;
+    padding: 15px;
+}
+
+.table td {
+    font-size: 1.1rem;
+    vertical-align: middle;
+}
+
+/* Specific styling for the totals section to make it stand out */
+.totals-section {
+    font-size: 1.2rem; /* Significantly larger for subtotal/total */
+    line-height: 1.8;
+}
+
+.grand-total {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Make the "Continue Shopping" link and buttons more clickable */
+.back-link-container {
+    text-align: right; /* Pushes the link to the right */
+    margin-top: 15px;
+}
+
+.back-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #248faf;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.btn-checkout {
+    display: block;
+    width: 100%;             
+    padding: 15px 20px;      
+    font-size: 1.2rem;       
+    font-weight: bold;       
+    text-transform: uppercase; 
+    border: none;
+    border-radius: 5px;      
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.btn-checkout:hover {
+    filter: brightness(90%);
+}
+
+/* Solid Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 10px;
+}
+
+.table th {
+    background-color: #248faf !important; /* The signature blue */
+    color: #ffffff !important;
+    padding: 12px;
+    text-align: left;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #eeeeee;
+    color: #333;
+}
+
+/* Container for the cart */
+.login-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 40px auto;
+}
+
+/* Select box styling */
+.cart-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 
 
 

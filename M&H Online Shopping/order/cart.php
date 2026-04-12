@@ -150,4 +150,3 @@ include '../_head.php';
 </script>
 
 <?php
-include '../_foot.php';
