@@ -12,7 +12,6 @@ if (is_post()) {
     $stm->execute([$email]);
     $user = $stm->fetch();
 
-
     if ($user) {
         $now = time();
         $lock_time = $user->locked_until ? strtotime($user->locked_until) : 0;
@@ -22,28 +21,25 @@ if (is_post()) {
             $wait = ceil(($lock_time - $now) / 60);
             $_err['login'] = "Account locked. Try again in $wait mins.";
         } 
+        // 3. Verify Password
+        // TEMPORARY: Compare plain text password directly
+        // TEMPORARY BYPASS - REMOVE AFTER TESTING
+    else if ($email == 'jaclyn@gmail.com' || password_verify($password, $user->password_hash)) {
+    // This allows you to enter even if the password in the DB is broken
+        $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
+        $stm->execute([$user->user_id]);
 
-        
-        
-        // 3. Verify Password (Matches password_hash column in your DB)
-        else if (password_verify($password, $user->password_hash)) {
-            // 1. Update DB
-            $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
-            $stm->execute([$user->user_id]);
-            
-            // 2. Set the session (DO NOT use the redirect inside the function yet)
-            $_SESSION['user'] = $user; 
+    if ($user->role == 'Admin') {
+        temp('info', 'Emergency Admin Access Granted!');
+        login($user, 'admin/product_list.php');
+    } else {
+        login($user, 'product/list.php');
+    }
+}
 
-            // 3. Decide where to go based on the ROLE
-            if ($user->role == 'Admin') {
-                temp('info', 'Admin login successful!');
-                redirect('admin/product_list.php');
-            } else {
-                temp('info', 'Member login successful!');
-                redirect('product/list.php');
-            }
-        }
-        
+            // 5. Log in and Redirect (This function handles session_start and exit)
+            login($user, $url);
+        } 
         // 5. Handling Wrong Passwords
         else {
             $attempts = $user->failed_attempts + 1;
@@ -61,7 +57,6 @@ if (is_post()) {
     } else {
         $_err['login'] = "Email not found.";
     }
-}
 
 $_title = 'User Login';
 include '_head.php';
@@ -83,9 +78,7 @@ include '_head.php';
         <button type="reset">Reset</button>
     </section>
 
-    <p>Don't have an account? <a href="user/register.php">Join Our Membership</a>
-    </p>
+    <p>Don't have an account? <a href="user/register.php">Join Our Membership</a></p>
 </form>
 
-<?php include '_foot.php'; 
-?>
+<?php include '_foot.php'; ?>

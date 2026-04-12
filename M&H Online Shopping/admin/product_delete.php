@@ -22,4 +22,6 @@ $stm->execute([$id]);
 temp('info', "Product $id has been deleted.");
 
 // 5. Redirect back to the Product List (not the user list!)
-redirect('product_list.php');
+if (!$id){
+    redirect('product_list.php');
+}
