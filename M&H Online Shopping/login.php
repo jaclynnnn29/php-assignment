@@ -1,10 +1,11 @@
 <?php
 require '_base.php';
 
+// If already logged in, sent to index
 if ($_user) redirect('index.php');
 
 if (is_post()) {
-    $email = trim(post('email'));
+    $email    = trim(post('email'));
     $password = trim(post('password'));
 
     // 1. Check database for user
@@ -21,29 +22,31 @@ if (is_post()) {
             $wait = ceil(($lock_time - $now) / 60);
             $_err['login'] = "Account locked. Try again in $wait mins.";
         } 
-        // 3. Verify Password
-        // TEMPORARY: Compare plain text password directly
-        // TEMPORARY BYPASS - REMOVE AFTER TESTING
-    else if ($email == 'jaclyn@gmail.com' || password_verify($password, $user->password_hash)) {
-    // This allows you to enter even if the password in the DB is broken
-        $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
-        $stm->execute([$user->user_id]);
+        
+        // 3. Verify Password (using the hash we verified in your DB)
+        else if (password_verify($password, $user->password_hash)) {
+            // Reset attempts on success
+            $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
+            $stm->execute([$user->user_id]);
 
-    if ($user->role == 'Admin') {
-        temp('info', 'Emergency Admin Access Granted!');
-        login($user, 'admin/product_list.php');
-    } else {
-        login($user, 'product/list.php');
-    }
-}
+            // Determine redirect URL based on role
+            if ($user->role == 'Admin') {
+                temp('info', 'Admin login successful!');
+                $url = 'admin/product_list.php';
+            } else {
+                temp('info', 'Member login successful!');
+                $url = 'product/list.php';
+            }
 
-            // 5. Log in and Redirect (This function handles session_start and exit)
+            // Log in and Redirect
             login($user, $url);
         } 
-        // 5. Handling Wrong Passwords
+        
+        // 4. Handling Wrong Passwords
         else {
             $attempts = $user->failed_attempts + 1;
             if ($attempts >= 3) {
+                // Lock for 1 minute after 3 tries
                 $until = date('Y-m-d H:i:s', strtotime('+1 minutes'));
                 $stm = $_db->prepare("UPDATE user SET failed_attempts = ?, locked_until = ? WHERE user_id = ?");
                 $stm->execute([$attempts, $until, $user->user_id]);
@@ -55,30 +58,41 @@ if (is_post()) {
             }
         }
     } else {
+        // Runs if email field is empty or not in database
         $_err['login'] = "Email not found.";
     }
+}
 
 $_title = 'User Login';
 include '_head.php';
 ?>
 
-<?php if ($msg = temp('info')) echo "<p style='color:green'>$msg</p>"; ?>
+<div class="container">
 
-<form method="post">
-    <?php err('login'); ?><br>
-    
-    <label for="email">Email</label><br>
-    <?php html_text('email'); ?><br>
+    <?php if ($msg = temp('info')) echo "<p style='color:green'>$msg</p>"; ?>
 
-    <label for="password">Password</label><br>
-    <?php html_password('password'); ?><br>
+    <form method="post" class="form">
+        <div class="form-group">
+            <?php err('login'); ?>
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email</label>
+            <?php html_text('email', 'class="form-control" placeholder="Enter your email"'); ?>
+        </div>
 
-    <section>
-        <button type="submit">Login</button>
-        <button type="reset">Reset</button>
-    </section>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <?php html_password('password', 'class="form-control" placeholder="Enter your password"'); ?>
+        </div>
 
-    <p>Don't have an account? <a href="user/register.php">Join Our Membership</a></p>
-</form>
+        <section class="form-actions">
+            <button type="submit" class="btn-submit">Login</button>
+            <button type="reset" class="btn-reset">Reset</button>
+        </section>
+
+        <p class="mt-3">Don't have an account? <a href="user/register.php">Join Our Membership</a></p>
+    </form>
+</div>
 
 <?php include '_foot.php'; ?>
