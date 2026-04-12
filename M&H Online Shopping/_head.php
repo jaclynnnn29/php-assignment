@@ -48,7 +48,7 @@
     </header>
 
         <nav class="sub_nav">
-            <a href="/home.php">Index</a>
+            <a href="/index.php">Index</a>
             <a href="/order/checkout.php">CheckOut</a>
             <a href="/order/cart.php">
                 Shopping Cart
