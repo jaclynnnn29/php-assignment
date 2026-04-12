@@ -34,21 +34,27 @@ include '../_head.php';
         text-align: right;
     }
 </style>
-<form method="get" style="margin-bottom: 20px;">
-    <input type="text" name="search" value="<?= $search ?>" placeholder="Search cart items..." style="padding: 5px; width: 200px;">
-    <button type="submit">Search</button>
-    <?php if ($search): ?>
-        <a href="?">Clear Search</a>
-    <?php endif; ?>
-</form>
-<table class="table">
-    <tr>
-        <th>ID</th>
-        <th>Type of Product</th>
-        <th>Price (RM)</th>
-        <th>Unit</th>
-        <th>Subtotal (RM)</th>
-    </tr>
+
+<div class="login-container" style="max-width: 1000px;"> <h1>Shopping Cart</h1>
+
+        <form method="get" style="margin-bottom: 20px; text-align: left;">
+            <input type="text" name="search" value="<?= $search ?>" placeholder="Search items..." style="padding: 8px; width: 250px; border: 1px solid #ccc; border-radius: 4px;">
+            <button type="submit" class="btn-login" style="width: auto; display: inline-block; padding: 8px 15px;">Search</button>
+            <?php if ($search): ?>
+                <a href="?" style="margin-left: 10px; color: #666;">Clear Search</a>
+            <?php endif; ?>
+        </form>
+
+        <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Product</th>
+                <th class="right">Price (RM)</th>
+                <th>Unit</th>
+                <th class="right">Subtotal (RM)</th>
+            </tr>
+        </thead>
 
     <?php
         // TODO
@@ -115,4 +121,3 @@ include '../_head.php';
 </script>
 
 <?php
-include '../_foot.php';

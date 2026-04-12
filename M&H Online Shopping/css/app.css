@@ -529,6 +529,43 @@ label > * {
     filter: brightness(90%);
 }
 
+/* Solid Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 10px;
+}
+
+.table th {
+    background-color: #248faf !important; /* The signature blue */
+    color: #ffffff !important;
+    padding: 12px;
+    text-align: left;
+}
+
+.table td {
+    padding: 12px;
+    border-bottom: 1px solid #eeeeee;
+    color: #333;
+}
+
+/* Container for the cart */
+.login-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    margin: 40px auto;
+}
+
+/* Select box styling */
+.cart-select {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 
 
 
