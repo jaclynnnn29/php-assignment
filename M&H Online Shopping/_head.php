@@ -67,11 +67,8 @@
             <?php endif ?>
 
             <?php if ($_user?->role == 'Admin'): ?>
-                <a href="/admin/user_list.php">Order Listing (Admin)</a>
-                <a href="/admin/order_manage.php">Order Status (Admin)</a>
+                <a href="/admin/product_list.php">Product List (Admin)</a>
+                <a href="/admin/product_manage.php">Product Management (Admin)</a>
             <?php endif ?>
 
         </nav>
-
-    <main>
-        <h1><?= $_title ?? 'Untitled' ?></h1>

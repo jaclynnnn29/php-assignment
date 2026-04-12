@@ -8,15 +8,14 @@ body, input, button, textarea, select {
 
 /* Layout ------------------------------------------------------------------ */
 
+/* Ensure the overall background is fixed and consistent */
 body {
+    background-image: url('/images/BG_front.png');
+    background-attachment: fixed;
+    background-size: cover;
     margin: 0;
-    height: 100vh;
-    display: grid;
-    grid: auto auto 1fr auto / auto;
-    background-image: url('/images/BG_front.png'); /* change */
-    background-attachment: fixed;  /* change */
-    background-size: cover; /* change */
 }
+
 
 header, footer {
     padding: 10px 50px;
@@ -171,10 +170,12 @@ nav div { /* NEW */
 }
 
 main {
-    padding: 20px 50px;
-    background: rgba(255, 255, 255, 0.9); /* change */
-    margin: 20px 50px; /* change */
-    border-radius: 10px; /* change */
+    padding: 30px 50px;
+    background: #ffffff; /* Solid white */
+    margin: 30px 50px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-height: 500px;
 }
 
 main h1 {
@@ -314,11 +315,159 @@ label > * {
 
 /* Photo Upload ------------------------------------------------------------ */
 
-label.upload img {
+/* Login Container Styling */
+.login-container {
+    max-width: 400px;
+    margin: 80px auto; /* Centers the box vertically and horizontally */
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95); /* Semi-transparent white */
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.login-container h1 {
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 24px;
+    border-bottom: 2px solid #248faf; /* Matches your table header color */
+    padding-bottom: 10px;
+}
+
+/* Form Group Styling - Stacked Layout */
+.form-group {
+    margin-bottom: 20px;
+    text-align: center; /* Labels stay left-aligned */
+}
+
+.form-group label {
     display: block;
-    border: 1px solid #333;
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.form-group input {
+    color: #333333 !important; /* Keep the text you type DARK */
+    background: rgba(255, 255, 255, 0.9); /* Keep the box light */
+}
+
+/* Button Styling */
+.btn-login {
+    width: 80%;            /* Your requested width */
+    margin: 10px auto;     /* Centers the button */
+    padding: 12px;
+    background-color: #248faf;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    display: inline-block; /* Allows width and centering to work */
+}
+
+.btn-login:hover {
+    background-color: #1a6b83;
+}
+
+.btn-reset {
+    background: none;
+    border: none;
+    color: #888;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+/* Error Message Styling */
+.err-msg {
+    color: #d9534f;
+    background: #f9d6d5;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+/* Fix for the Table Visibility */
+/* Solid Professional Table */
+/* Solid Login/Register Card */
+/* Center the form container itself */
+.login-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background: #ffffff; /* Solid white */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center; /* Centers the headings and text */
+}
+
+/* Force Form Groups to be centered columns */
+.form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* This centers the children horizontally */
+}
+
+/* Make inputs a consistent width and centered */
+.form-group input, 
+.form-group select {
+    width: 90%; /* Standardize width */
+    max-width: 400px;
+    padding: 12px;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    box-sizing: border-box; /* Crucial: stops boxes from leaking */
+}
+
+/* Center labels above inputs */
+.form-group label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+    display: block;
+}
+
+/* Buttons must also be consistent */
+.btn-login, .btn-reset {
+    width: 90%;
+    max-width: 400px;
+    margin: 10px auto; /* Centers the button */
+    padding: 12px;
+    display: block;
+    border-radius: 6px;
+    border: none;
     cursor: pointer;
 }
+
+/* Shopping Cart Table Fix */
+.table, .cart-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;    /* Solid background for table body */
+    margin-top: 20px;
+}
+
+.table th, .cart-table th {
+    background-color: #248faf !important; /* Your signature blue */
+    color: #ffffff !important;
+    padding: 15px;
+    text-align: left;
+    border: none;
+}
+
+.table td, .cart-table td {
+    padding: 12px 15px;
+    color: #333333 !important; /* Dark text for readability */
+    border-bottom: 1px solid #eeeeee;
+}
+
+.table tr:hover td {
+    background-color: #f9f9f9; /* Subtle light grey hover */
+}
+
+
+
+

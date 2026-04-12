@@ -12,23 +12,36 @@ $_title = 'User List';
 include '_head.php';
 ?>
 
-<table class="table">
-    <tr>
-        <th>User ID</th>
-        <th>User Name</th>
-        <th>Email</th>
-    </tr>
-    </thead>
-    <tbody>
-        <?php foreach ($user as $u): ?>
-            <tr>
-                <td><?= encode($u->user_id) ?></td>
-                <td><?= encode($u->user_name) ?></td>
-                <td><?= encode($u->email) ?></td>
-            </tr>
-        <?php endforeach; ?>
-    </tbody>
-</table>
+<main>
+    <div class="login-container" style="max-width: 600px;"> 
+        <h1>Registered Users</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User ID</th>
+                    <th>User Name</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($user as $u): ?>
+                    <tr>
+                        <td><?= $u->user_id ?></td>
+                        <td><?= $u->user_name ?></td>
+                        <td><?= $u->email ?></td>
+                    </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 10px;">
+            <a href="register.php" class="btn-login" style="text-decoration: none; display: inline-block; width: auto; padding: 5px 10px;">
+                + Add New User
+            </a>
+        </div>
+    </div>
+</main>
 
 <?php
 include '_foot.php';

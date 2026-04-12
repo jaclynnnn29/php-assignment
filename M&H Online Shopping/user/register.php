@@ -48,20 +48,44 @@ $_title = 'JOIN OUR MEMBERSHIP';
 include '../_head.php';
 ?>
 
-<form method="post" enctype="multipart/form-data">
-    <label>Email</label><br>
-    <?php html_text('email'); err('email'); ?><br>
+<main>
+    <div class="login-container" style="max-width: 500px;"> <h1>Member Registration</h1>
 
-    <label>Create a Password</label><br>
-    <?php html_password('password'); err('password'); ?><br>
+        <form method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <?php html_text('email', 'placeholder="e.g. jaclyn@gmail.com"'); ?>
+                <div class="err"><?php err('email'); ?></div>
+            </div>
 
-    <label>Confirm Password</label><br>
-    <?php html_password('confirm'); err('confirm'); ?><br>
+            <div class="form-group">
+                <label for="password">Create a Password</label>
+                <?php html_password('password', 'placeholder="Min. 8 characters"'); ?>
+                <div class="err"><?php err('password'); ?></div>
+            </div>
 
-    <label>Profile Photo</label><br>
-    <?php html_file('photo', 'image/*'); err('photo'); ?><br>
+            <div class="form-group">
+                <label for="confirm">Confirm Password</label>
+                <?php html_password('confirm', 'placeholder="Repeat password"'); ?>
+                <div class="err"><?php err('confirm'); ?></div>
+            </div>
 
-    <button>Register</button>
-</form>
+            <div class="form-group">
+                <label>Profile Photo</label>
+                <label class="upload">
+                    <?php html_file('photo', 'accept="image/*"'); ?>
+                    <img src="/images/photo.jpg" alt="Preview">
+                </label>
+            </div>
+
+            <button type="submit" class="btn-login">Register Account</button>
+            <button type="reset" class="btn-reset">Clear Fields</button>
+
+            <p style="margin-top: 20px;">
+                Already a member? <a href="login.php" style="color: #318cdb; font-weight: bold;">Login here</a>
+            </p>
+        </form>
+    </div>
+</main>
 
 <?php include '../_foot.php'; ?>

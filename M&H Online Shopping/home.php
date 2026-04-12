@@ -19,8 +19,8 @@ include '_head.php';
     background-attachment: fixed;
     ">
 
-    <h2 style="font-size: 2.5em; color: #333; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Welcome to M&H Online Shopping</h2>
-    <p style="font-size: 1.2em; color: #444; margin-bottom: 30px; font-weight: 500;">
+    <h2 style="font-size: 2.5em; color: #fff1f1; text-shadow: 1px 1px 2px rgba(0,0,0,0.1);">Welcome to M&H Online Shopping</h2>
+    <p style="font-size: 1.2em; color: #fff1f1; margin-bottom: 30px; font-weight: 500;">
         Discover our latest collection and enjoy the best shopping experience.
     </p>
     
