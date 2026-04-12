@@ -17,7 +17,7 @@
 
     <header>
         <h1>
-            <a href="index.php">
+            <a href="/home.php">
                 <img src="/images/MnH_Logo.png" alt="M&H Logo"> 
                 <span>M&H Online Shopping</span>
             </a>
@@ -48,7 +48,7 @@
     </header>
 
         <nav class="sub_nav">
-            <a href="/home.php">Index</a>
+            <a href="/index.php">Index</a>
             <a href="/order/checkout.php">CheckOut</a>
             <a href="/order/cart.php">
                 Shopping Cart
