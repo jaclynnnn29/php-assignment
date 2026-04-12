@@ -20,14 +20,14 @@ body {
 
 header, footer {
     padding: 10px 50px;
-    background: #aafff4;
+    background: #aaaaa9;
 }
 
 header { /* NEW */
     display: flex;
     gap: 10px 50px;
     align-items:center;  /* change */
-    background: #aafff4;
+    background: #aaa9a9;
     padding:10px 50px; /* make sure to keep the same */
 }
 
