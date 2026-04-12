@@ -62,7 +62,7 @@ header img { /* NEW */
 .header-main {
     display: flex;             
     justify-content: space-between; 
-    align-items: center;      
+    align-items: right;      
     padding: 10px 20px;
     background-color: #99f2e8; 
 }
