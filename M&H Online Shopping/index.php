@@ -39,5 +39,4 @@ include '_head.php';
             + Add New User
         </a>
     </div>
-
-<?php include '_foot.php';
+</main>·

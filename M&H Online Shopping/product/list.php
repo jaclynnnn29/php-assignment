@@ -11,11 +11,25 @@ if (is_post()) {
 }
 
 $search = req('search');
-$query = 'SELECT * FROM product';
+$category = req('category');
+
+// Fetch categories for the filter dropdown
+$stm = $_db->query("SELECT * FROM categories ORDER BY cat_name");
+$categories = $stm->fetchAll();
+$cat_list = [];
+foreach ($categories as $c) {
+    $cat_list[$c->cat_id] = $c->cat_name;
+}
+
+$query = 'SELECT * FROM product WHERE 1=1';
 $params = [];
 if ($search) {
-    $query .= ' WHERE product_name LIKE ?';
+    $query .= ' AND product_name LIKE ?';
     $params[] = '%' . $search . '%';
+}
+if ($category) {
+    $query .= ' AND cat_id = ?';
+    $params[] = $category;
 }
 $stm = $_db->prepare($query);
 $stm->execute($params);
@@ -113,8 +127,9 @@ include '../_head.php';
 
 <form method="get" style="margin-bottom: 20px; text-align: left; padding-left: 100px;">
     <input type="text" name="search" value="<?= $search ?>" placeholder="Search products..." style="padding: 5px; width: 200px;">
+    <?= html_select('category', $cat_list, $category, '- All Categories -', 'style="padding: 5px;"') ?>
     <button type="submit">Search</button>
-    <?php if ($search): ?>
+    <?php if ($search || $category): ?>
         <a href="?">Clear Search</a>
     <?php endif; ?>
     <a href="favourites.php" style="font-size: 18px; margin-left: 40px; text-decoration: none; vertical-align: middle; color: #ffffff;">❤️ View My Wishlist</a>
@@ -202,7 +217,3 @@ include '../_head.php';
         window.location = $(this).data('get');
     });
 </script>
-
-<?php
-include '../_foot.php';
-?>
