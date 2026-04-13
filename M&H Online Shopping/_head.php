@@ -30,19 +30,21 @@
             <a href="/product/list.php">
                 <i class="bx bx-package"></i> Products
             </a>
-            <a href="/about.php">
-                <i class="bx bx-info-circle"></i> About
-            </a>
-            <a href="/contact.php">
-                <i class="bx bx-id-card"></i> Contact
-            </a>
-
+            
             <?php if ($_user): ?>
                 <a href="/logout.php"><i class="bx bx-door-open-alt"></i> Logout</a>
             <?php else: ?>
                 <a href="/login.php"><i class="bx bx-key"></i> Login</a>
                 <a href="/user/register.php"><i class="bx bx-user-plus"></i> Register</a>
-            <?php endif ?>        
+            <?php endif ?>  
+
+            <a href="/contact.php">
+                <i class="bx bx-id-card"></i> Contact
+            </a>
+
+            <a href="/about.php">
+                <i class="bx bx-info-circle"></i> About
+            </a>
                 
         </div>
     </header>

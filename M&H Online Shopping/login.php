@@ -85,11 +85,16 @@ include '_head.php';
                 <?php html_password('password', 'placeholder="••••••••"'); ?>
             </div>
 
+            <div class="form-group" style="flex-direction: row; justify-content: left; gap: 10px;margin-left: 50px;margin-bottom: 20px;">
+                <input type="checkbox" name="remember" id="remember" style="width: 18px; height: 18px; cursor: pointer;">
+                <label for="remember" style="margin-bottom: 0; cursor: pointer; font-weight: normal; color: #555;">Remember Me</label>
+            </div>
+
             <button type="submit" class="btn-login">Login to Account</button>
             <button type="reset" class="btn-reset">Clear Fields</button>
 
             <p style="margin-top: 20px;">
-                New here? <a href="user/register.php" style="color: #248faf; font-weight: bold;">Join Membership</a>
+                New here? <a href="user/register.php" style="color: #248faf; font-weight: bold;">Join Our Membership</a>
             </p>
         </form>
     </div>

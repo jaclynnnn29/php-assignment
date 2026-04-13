@@ -12,36 +12,40 @@ $_title = 'User List';
 include '_head.php';
 ?>
 
+<style>
+    .table {
+        width: auto; /* Overrides the 100% width from app.css */
+        min-width: 400px; /* Keeps it wide enough to look professional */
+    }
+</style>
+
 <main>
-    <div class="login-container" style="max-width: 600px;"> 
-        <h1>Registered Users</h1>
+    <h1>Registered Users</h1>
 
-        <table class="table">
-            <thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($user as $u): ?>
                 <tr>
-                    <th>User ID</th>
-                    <th>User Name</th>
-                    <th>Email</th>
+                    <td><?= $u->user_id ?></td>
+                    <td><?= $u->user_name ?></td>
+                    <td><?= $u->email ?></td>
                 </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($user as $u): ?>
-                    <tr>
-                        <td><?= $u->user_id ?></td>
-                        <td><?= $u->user_name ?></td>
-                        <td><?= $u->email ?></td>
-                    </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
 
-        <div style="margin-top: 10px;">
-            <a href="register.php" class="btn-login" style="text-decoration: none; display: inline-block; width: auto; padding: 5px 10px;">
-                + Add New User
-            </a>
-        </div>
+    <div style="margin-top: 10px;">
+        <a href="user/register.php" class="btn-login" style="text-decoration: none; display: inline-block; width: auto; padding: 5px 10px;">
+            + Add New User
+        </a>
     </div>
-</main>
 
 <?php
 include '_foot.php';

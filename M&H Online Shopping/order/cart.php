@@ -40,16 +40,28 @@ include '../_head.php';
 ?>
 
 <style>
+    .table {
+        width: auto; /* Allows the table to shrink to the size of its content */
+        min-width: 700px; /* Ensures it remains readable on larger screens */
+        margin-left: 100px; /* Indents the table from the left edge to match search form */
+    }
+
+    .table th, .table td {
+        padding: 8px 12px; /* Reduces the bulky 15px padding from app.css */
+        font-size: 0.95rem; /* Makes the text slightly smaller and professional */
+    }
+
     .popup {
-        width: 100px;
-        height: 100px;
+        width: 60px; /* Shrinks the hover/preview image */
+        height: 60px;
     }
 
     .table select {
         text-align: right;
+        padding: 2px;
     }
 </style>
-<form method="get" style="margin-bottom: 20px;">
+<form method="get" style="margin-bottom: 20px; padding-left: 100px;">
     <input type="text" name="search" value="<?= $search ?>" placeholder="Search cart items..." style="padding: 5px; width: 200px;">
     <button type="submit">Search</button>
     <?php if ($search): ?>
@@ -131,7 +143,7 @@ include '../_head.php';
     </tr>
 </table>
 
-<p>
+<p style="padding-left: 100px;">
     <!-- TODO -->
     <?php if ($cart): ?>
         <button data-post="?btn=clear">Clear All</button>
@@ -148,5 +160,3 @@ include '../_head.php';
     // TODO
     $('select').on('change', e => e.target.form.submit());
 </script>
-
-<?php

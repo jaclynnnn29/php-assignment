@@ -32,6 +32,7 @@ include '../_head.php';
         display: flex;
         gap: 10px;
         flex-wrap: wrap;
+        justify-content: center;
     }
 
     .product {
@@ -110,12 +111,13 @@ include '../_head.php';
     }
 </style>
 
-<form method="get" style="margin-bottom: 20px;">
+<form method="get" style="margin-bottom: 20px; text-align: left; padding-left: 100px;">
     <input type="text" name="search" value="<?= $search ?>" placeholder="Search products..." style="padding: 5px; width: 200px;">
     <button type="submit">Search</button>
     <?php if ($search): ?>
         <a href="?">Clear Search</a>
     <?php endif; ?>
+    <a href="favourites.php" style="font-size: 18px; margin-left: 40px; text-decoration: none; vertical-align: middle; color: #ffffff;">❤️ View My Wishlist</a>
 </form>
 
 <div id="product">
@@ -190,11 +192,6 @@ include '../_head.php';
             </div>
         </div>
     <?php endforeach ?>
-</div>
-
-<!-- WISHLIST LINK -->
-<div style="margin: 20px; text-align: center;">
-    <a href="favorites.php" style="font-size: 18px;">❤️ View My Wishlist</a>
 </div>
 
 <script>
