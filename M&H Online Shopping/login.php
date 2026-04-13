@@ -43,10 +43,10 @@ if (is_post()) {
 
             // Determine redirect URL based on role
             if ($user->role == 'Admin') {
-                temp('info', 'Admin login successful!');
+                temp('info', 'Log-in successful as Admin!');
                 $url = 'admin/product_list.php';
             } else {
-                temp('info', 'Member login successful!');
+                temp('info', 'Log-in successful as Member!');
                 $url = 'product/list.php';
             }
 
@@ -83,7 +83,8 @@ if (is_get()) {
         $_POST['remember'] = 'on'; // Also auto-check the 'Remember Me' box
     }
 }
-
+$_title = 'Login';
+include '../_head.php';
 include '_head.php';
 ?>
 
@@ -120,4 +121,5 @@ include '_head.php';
         </form>
     </div>
 </main>
+
 <?php include '_foot.php'; ?>

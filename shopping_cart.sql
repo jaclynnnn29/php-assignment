@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2026 at 09:39 AM
+-- Generation Time: Apr 13, 2026 at 03:15 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -75,7 +75,8 @@ CREATE TABLE `item` (
 
 INSERT INTO `item` (`item_id`, `order_id`, `variant_id`, `unit`, `price`) VALUES
 (9, 9, 'P10003', 2, 28.50),
-(10, 9, 'P10006', 3, 32.00);
+(10, 9, 'P10006', 3, 32.00),
+(11, 10, 'P10006', 3, 32.00);
 
 -- --------------------------------------------------------
 
@@ -97,7 +98,8 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `datetime`, `total`, `quantity`, `user_id`, `status`) VALUES
-(9, '2026-04-13 07:38:05', 153.00, 5, 'U001', 'Pending');
+(9, '2026-04-13 07:38:05', 153.00, 5, 'U001', 'Pending'),
+(10, '2026-04-13 12:53:32', 96.00, 3, 'U003', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -118,7 +120,6 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `description`, `photo`, `cat_id`) VALUES
-('P20001', 'Green T-shirt', 'A classic, breathable cotton t-shirt in Green.', 'm_tshirt_grn.png', 'C00001'),
 ('P20002', 'Black T-shirt', 'A classic, breathable cotton t-shirt in Black.', 'm_tshirt_blk.png', 'C00001'),
 ('P20003', 'Navy Blue T-shirt', 'A classic, breathable cotton t-shirt in Navy Blue.', 'm_tshirt_nvb.png', 'C00001'),
 ('P20004', 'Brown T-shirt', 'A classic, breathable cotton t-shirt in Brown.', 'm_tshirt_brown.png', 'C00001'),
@@ -231,9 +232,6 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`variant_id`, `product_id`, `size`, `colour`, `stock_quantity`, `price`, `photo`) VALUES
-('P10001', 'P20001', 'S', 'Green', 45, 28.50, 'm_tshirt_grn.png'),
-('P10002', 'P20001', 'M', 'Green', 32, 28.50, 'm_tshirt_grn.png'),
-('P10003', 'P20001', 'L', 'Green', 18, 28.50, 'm_tshirt_grn.png'),
 ('P10004', 'P20002', 'S', 'Black', 50, 32.00, 'm_tshirt_blk.png'),
 ('P10005', 'P20002', 'M', 'Black', 12, 32.00, 'm_tshirt_blk.png'),
 ('P10006', 'P20002', 'L', 'Black', 25, 32.00, 'm_tshirt_blk.png'),
@@ -459,7 +457,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('A001', '', 'jaclyn@gmail.com', '$2y$10$8K9V/9v2.Y3A5E5f7z6uqe6Y6G8z9O5m9X0W2V3u4y5z6a7b8c9d1', 1, NULL, '69db8d13d23be.jpg', 'Admin'),
+('A001', 'jaclyn', 'jaclyn@gmail.com', '$2y$10$1hwTsu8k.XN2EbjkLMqON.pwx5/vEuQz/CRe6Ga8z.MzxoecGXTwi', 0, NULL, '69dce73988f8d.jpg', 'Admin'),
+('A002', 'xiang', 'xiang@gmail.com', '$2y$10$q7vmP/YkFKF9CqRYN7lc.ejP6AkX3PkM.895n9o3pNmMBKNKuE8.6', 0, NULL, '69dce402dd00a.jpg', 'Admin'),
 ('U001', 'qwer', 'qwer@gmail.com', '$2y$10$TLur8oSdyjksV28lO6QY3uusK1PkXAY.yP91VTf0KRk2pSWIaxvyG', 0, NULL, '69d9f2f940d7c.jpg', 'Member');
 
 --
@@ -534,13 +533,13 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
