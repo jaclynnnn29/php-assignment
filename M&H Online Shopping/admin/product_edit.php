@@ -4,10 +4,11 @@ auth('Admin');
 
 $id = req('id');
 
-// 1. Fetch product details and the latest price from the item table
+// Fetch product details, category name, and the price from the item table
 $stm = $_db->prepare("
-    SELECT p.*, i.price 
+    SELECT p.*, c.cat_name, i.price 
     FROM product p
+    JOIN categories c ON p.cat_id = c.cat_id
     LEFT JOIN item i ON p.product_id = i.variant_id
     WHERE p.product_id = ?
     ORDER BY i.item_id DESC LIMIT 1
