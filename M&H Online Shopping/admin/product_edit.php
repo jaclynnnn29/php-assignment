@@ -47,7 +47,7 @@ if (is_post()) {
         }
 
         // 3. Update the PRODUCT record
-        $stm = $_db->prepare("UPDATE product SET product_name = ?, price = ?, colour = ?, size = ?, photo = ? WHERE product_id = ?");
+        $stm = $_db->prepare("UPDATE product SET product_name = ?, price = ?, description = ?, photo = ? , cat_id = ? WHERE product_id = ?");
         $stm->execute([$product_name, $price, $colour, $size, $photo, $id]);
 
         temp('info', 'Product updated successfully');
@@ -61,10 +61,12 @@ include '../_head.php';
 
 <form method="post" enctype="multipart/form-data">
     <table class="table" style="width: 40%; background-color: #fff; border-radius: 8px; margin-top: 10px;">
+
         <tr>
             <th style="width: 150px;">Product ID</th>
             <td><input type="text" value="<?= $p->product_id ?>" disabled style="background: #f9f9f9; border: 1px solid #ddd; padding: 8px;"></td>
         </tr>
+
         <tr>
             <th>Product Name</th>
             <td>
@@ -73,6 +75,24 @@ include '../_head.php';
                 <?php err('product_name') ?>
             </td>
         </tr>
+
+        <tr>
+            <th>Desccription</th>
+            <td>
+                <?php html_text('description'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->description ?></div>
+                <?php err('description') ?>
+            </td>
+        </tr>
+
+        <tr>
+            <th>Category</th>
+            <td>
+                <?php html_text('category'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->cat_id ?><?= $p->cat_name ?></div>
+            </td>
+        </tr>
+
         <tr>
             <th>Price (RM)</th>
             <td>
@@ -81,13 +101,7 @@ include '../_head.php';
                 <?php err('price') ?>
             </td>
         </tr>
-        <tr>
-            <th>Colour</th>
-            <td>
-                <?php html_text('colour'); ?>
-                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->colour ?></div>
-            </td>
-        </tr>
+        
         <tr>
             <th>Current Photo</th>
             <td>
