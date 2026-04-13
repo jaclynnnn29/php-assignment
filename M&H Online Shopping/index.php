@@ -12,17 +12,10 @@ $_title = 'User List';
 include '_head.php';
 ?>
 
-<style>
-    .table {
-        width: auto; /* Overrides the 100% width from app.css */
-        min-width: 400px; /* Keeps it wide enough to look professional */
-    }
-</style>
-
 <main>
     <h1>Registered Users</h1>
 
-    <table class="table">
+    <table class="table" >
         <thead>
             <tr>
                 <th>User ID</th>

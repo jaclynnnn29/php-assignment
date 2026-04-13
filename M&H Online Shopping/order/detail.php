@@ -44,7 +44,7 @@ include '../_head.php';
 
 <form class="form">
     <label>Order Id</label>
-    <b><?= $o->order_id ?></b>
+    <b>ORD<?= str_pad($o->order_id, 3, '0', STR_PAD_LEFT) ?></b>
     <br>
 
     <label>Datetime</label>
