@@ -276,6 +276,13 @@ nav.pager a.active {
     opacity: 0;
 }
 
+.no-results {
+    text-align: center;
+    font-size: 18px;
+    color: #ffffff;
+    margin: 40px 0;
+}
+
 #info:not(:empty) {
     animation: fade 5s;
 }

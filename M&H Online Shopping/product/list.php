@@ -136,30 +136,35 @@ include '../_head.php';
 </form>
 
 <div id="product">
-    <?php foreach ($arr as $p): 
-        $cart = get_cart();
-        $product_id = $p->product_id;
-        $stm2 = $_db->prepare("SELECT variant_id FROM product_variants WHERE product_id = ? ORDER BY size LIMIT 1");
-        $stm2->execute([$product_id]);
-        $default_variant = $stm2->fetch();
-        $variant_id = $default_variant->variant_id ?? $product_id;
-        $unit = $cart[$variant_id] ?? 0;
-        
-        // Get average rating for this product
-        $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
-        $stm->execute([$p->product_id]);
-        $rating_data = $stm->fetch();
-        $avg_rating = round($rating_data->avg_rating ?? 0, 1);
-        $total_reviews = $rating_data->total ?? 0;
-        
-        // Check if product is in user's favorites
-        $is_favorite = false;
-        if ($_user) {
-            $stm = $_db->prepare("SELECT * FROM favorites WHERE user_id = ? AND product_id = ?");
-            $stm->execute([$_user->user_id, $product_id]);
-            $is_favorite = $stm->fetch() ? true : false;
-        }
-    ?>
+    <?php if (empty($arr)): ?>
+        <div class="no-results">
+            No products found for your search.
+        </div>
+    <?php else: ?>
+        <?php foreach ($arr as $p): 
+            $cart = get_cart();
+            $product_id = $p->product_id;
+            $stm2 = $_db->prepare("SELECT variant_id FROM product_variants WHERE product_id = ? ORDER BY size LIMIT 1");
+            $stm2->execute([$product_id]);
+            $default_variant = $stm2->fetch();
+            $variant_id = $default_variant->variant_id ?? $product_id;
+            $unit = $cart[$variant_id] ?? 0;
+            
+            // Get average rating for this product
+            $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
+            $stm->execute([$p->product_id]);
+            $rating_data = $stm->fetch();
+            $avg_rating = round($rating_data->avg_rating ?? 0, 1);
+            $total_reviews = $rating_data->total ?? 0;
+            
+            // Check if product is in user's favorites
+            $is_favorite = false;
+            if ($_user) {
+                $stm = $_db->prepare("SELECT * FROM favorites WHERE user_id = ? AND product_id = ?");
+                $stm->execute([$_user->user_id, $product_id]);
+                $is_favorite = $stm->fetch() ? true : false;
+            }
+        ?>
     
         <div class="product">
             <!-- FAVORITE BUTTON -->
@@ -198,15 +203,15 @@ include '../_head.php';
                         <span style="font-size: 10px; display: block;">No reviews</span>
                     <?php endif; ?>
                 </div>
-
             </div>
             
             <!-- CART INFO -->
-            <div class="cart-info">
-                In cart: <?= $unit ?>
+                <div class="cart-info">
+                    In cart: <?= $unit ?>
+                </div>
             </div>
-        </div>
-    <?php endforeach ?>
+        <?php endforeach ?>
+    <?php endif; ?>
 </div>
 
 <script>
