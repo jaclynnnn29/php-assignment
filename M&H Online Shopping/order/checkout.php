@@ -6,18 +6,19 @@ if (is_post()) {
     $cart = get_cart();
     if (!$cart) redirect('cart.php');
 
+    // Fetch all prices at once instead of inside the loop
+    $ids = array_keys($cart);
+    $placeholders = str_repeat('?,', count($ids) - 1) . '?';
+    $stm_prices = $_db->prepare("SELECT product_id, price FROM product WHERE product_id IN ($placeholders)");
+    $stm_prices->execute($ids);
+    $prices = $stm_prices->fetchAll(PDO::FETCH_KEY_PAIR);
+
     $total_qty = 0;
     $total_amt = 0;
 
-    // 1. MUST calculate totals BEFORE inserting the order
-    foreach ($cart as $variant_id => $unit) {
-        $s = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
-        $s->execute([$variant_id]);
-        $price = $s->fetchColumn();
-        
-        $total_amt += ($price * $unit);
+    foreach ($cart as $id => $unit) {
+        $total_amt += ($prices[$id] * $unit);
         $total_qty += $unit;
-    }
 
     try {
         $_db->beginTransaction();

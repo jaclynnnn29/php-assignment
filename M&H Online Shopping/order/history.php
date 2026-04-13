@@ -5,15 +5,14 @@ include '../_base.php';
 
 // (1) Authorization (member)
 // TODO
-auth('Member');
+auth('Member', 'Admin');
 
 // (2) Return orders belong to the user (descending)
-// TODO
-$stm = $_db ->prepare('
+$stm = $_db->prepare('
     SELECT * FROM `order` 
-    JOIN `item` ON `order`.order_id = `item`.order_id 
-    WHERE `order`.user_id = ?
-    ');
+    WHERE user_id = ?
+    ORDER BY datetime DESC
+');
 $stm->execute([$_user->user_id]);
 $arr = $stm->fetchAll();
 
@@ -53,7 +52,7 @@ include '../_head.php';
         <th>Total (RM)</th>
         <th>User Id</th>
         <th>User email</th>
-    </tr>
+        <th>Action</th> </tr>
 
     <?php foreach ($arr as $o): ?>
     <tr>
@@ -64,26 +63,7 @@ include '../_head.php';
         <td><?= $o->user_id ?></td>
         <td><?= $_user->email ?></td>
         <td>
-            <button data-get="detail.php?id=<?= $o->order_id ?>">Detail</button>
-            <!-- (A) EXTRA: Product photos -->
-            <!-- TODO -->
-             <div class="popup">
-                <?php
-                $stm = $_db -> prepare('
-                    SELECT p.photo 
-                    FROM item AS i
-                    JOIN product AS p ON i.product_id = p.product_id
-                    WHERE i.order_id = ?
-                ');
-                
-                $stm->execute([$o->order_id]);
-                $photos = $stm->fetchAll(PDO::FETCH_COLUMN);
-
-                foreach ($photos as $photo) {
-                    echo "<img src='/images/$photo' class='pop'>";
-                }
-                ?>
-             </div>
+            <button type="button" onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
         </td>
     </tr>
     <?php endforeach ?>
