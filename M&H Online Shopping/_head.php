@@ -41,8 +41,10 @@
     </header>
 
     <nav class="sub_nav">
-        <a href="../index.php">Index</a>
-        <a href="../product/list.php">Products</a>
+    <a href="../index.php">Index</a>
+    <a href="../product/list.php">Products</a>
+
+    <?php if (($_user->role ?? '') != 'Admin'): ?>
         <a href="../order/cart.php">
             Shopping Cart
             <?php 
@@ -51,13 +53,14 @@
                 if ($count) echo "($count)";
             ?>
         </a>
+    <?php endif ?>
 
-        <?php if (($_user->role ?? '') == 'Member'): ?>
-            <a href="../order/history.php">Order History</a>
-        <?php endif ?>
+    <?php if (($_user->role ?? '') == 'Member'): ?>
+        <a href="../order/history.php">Order History</a>
+    <?php endif ?>
 
-        <?php if (($_user->role ?? '') == 'Admin'): ?>
-            <a href="../admin/product_list.php">Product List (Admin)</a>
-            <a href="../admin/product_manage.php">Order Management (Admin)</a>
-        <?php endif ?>
-    </nav>
+    <?php if (($_user->role ?? '') == 'Admin'): ?>
+        <a href="../admin/product_list.php">Product List (Admin)</a>
+        <a href="../admin/product_manage.php">Order Management (Admin)</a>
+    <?php endif ?>
+</nav>
