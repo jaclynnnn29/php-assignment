@@ -1,31 +1,35 @@
 <?php
 include '../_base.php';
-
-// Authorization (member only)
 auth('Member');
 
-// Get order ID
-$id = req('id');
-$stm = $_db->prepare('SELECT * FROM `order` WHERE order_id = ? AND user_id = ?');
+// 1. Get order_id from the URL (sent by checkout.php)
+$id = req('order_id');
+
+// 2. Fetch the order record from the database
+// We use `orders` (plural) and backticks because 'order' is a reserved SQL word
+$stm = $_db->prepare('SELECT * FROM `orders` WHERE order_id = ? AND user_id = ?');
 $stm->execute([$id, $_user->user_id]);
 $o = $stm->fetch();
 
-if (!$o) redirect('history.php');
+// 3. If order not found, redirect to history
+if (!$o) {
+    temp('info', 'Order not found or already processed.');
+    redirect('history.php');
+}
 
-// Handle payment submission
+// 4. Handle payment submission
 if (is_post()) {
     $payment_method = post('payment_method');
     
     if (!$payment_method) {
         $_err['payment_method'] = 'Please select a payment method';
     } else {
-        // Note: Your database schema does not have 'payment_method' or 'payment_status' columns.
-        // We will skip the database update so the page doesn't crash.
-        // $stm = $_db->prepare('UPDATE `order` SET payment_method = ?, payment_status = ? WHERE order_id = ?');
-        // $stm->execute([$payment_method, 'Paid', $id]);
+        // Update order status to 'Paid' (Make sure your table has these columns)
+        $stm = $_db->prepare('UPDATE `orders` SET status = ?, payment_method = ? WHERE order_id = ?');
+        $stm->execute(['Paid', $payment_method, $id]);
         
         temp('info', 'Payment successful! Your order is confirmed.');
-        redirect("detail.php?id=$id");
+        redirect("order_detail.php?id=$id");
     }
 }
 
@@ -35,155 +39,101 @@ include '../_head.php';
 
 <style>
     .payment-container {
-        max-width: 500px;
-        margin: 20px auto;
-        padding: 20px;
+        max-width: 600px;
+        margin: 30px auto;
+        padding: 30px;
         border: 1px solid #ddd;
-        border-radius: 5px;
-        background-color: #f9f9f9;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     
     .order-summary {
-        background: white;
-        padding: 15px;
+        background: #f8f9fa;
+        padding: 20px;
         border-radius: 5px;
-        margin-bottom: 20px;
-        border: 1px solid #eee;
-    }
-    
-    .order-summary h3 {
-        margin-top: 0;
-    }
-    
-    .payment-methods {
-        margin: 20px 0;
+        margin-bottom: 25px;
+        border-left: 5px solid #2b91af;
     }
     
     .payment-option {
-        margin: 15px 0;
+        margin: 10px 0;
         padding: 15px;
-        border: 2px solid #ddd;
+        border: 1px solid #eee;
         border-radius: 5px;
+        display: block;
         cursor: pointer;
-        transition: all 0.3s;
+        transition: 0.2s;
     }
     
     .payment-option:hover {
-        border-color: #4CAF50;
-        background-color: #f0f8f0;
+        background: #f0f7f9;
+        border-color: #2b91af;
     }
-    
-    .payment-option input[type="radio"] {
-        margin-right: 10px;
-    }
-    
-    .payment-option label {
-        cursor: pointer;
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
+
+    .payment-option input { margin-right: 15px; }
     
     .btn-pay {
-        background-color: #4CAF50;
+        background-color: #2b91af;
         color: white;
-        padding: 12px 30px;
+        padding: 15px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 16px;
+        font-size: 18px;
         width: 100%;
+        font-weight: bold;
+        margin-top: 20px;
     }
     
-    .btn-pay:hover {
-        background-color: #45a049;
-    }
-    
-    .error {
-        color: red;
-        margin-top: 5px;
-    }
+    .btn-pay:hover { background-color: #237a94; }
+    .error { color: #ca5959; font-weight: bold; margin-bottom: 15px; }
 </style>
 
-<h1>Payment</h1>
+<main>
+    <div class="payment-container">
+        <h1>Complete Your Payment</h1>
 
-<div class="payment-container">
-    <!-- Order Summary -->
-    <div class="order-summary">
-        <h3>Order Summary</h3>
-        <table class="table">
-            <tr>
-                <th>Order ID:</th>
-                <td>ORD<?= str_pad($o->order_id, 3, '0', STR_PAD_LEFT) ?></td>
-            </tr>
-            <tr>
-                <th>Order Date:</th>
-                <td><?= $o->datetime ?></td>
-            </tr>
-            <tr>
-                <th>Total Items:</th>
-                <td><?= $o->quantity ?></td>
-            </tr>
-            <tr>
-                <th>Total Amount:</th>
-                <td><strong>RM <?= sprintf('%.2f', $o->total) ?></strong></td>
-            </tr>
-        </table>
-    </div>
-
-    <!-- Payment Form -->
-    <form method="post">
-        <h3>Select Payment Method</h3>
-        
-        <div class="payment-methods">
-            <div class="payment-option">
-                <label>
-                    <input type="radio" name="payment_method" value="Credit Card">
-                    💳 Credit Card / Debit Card
-                </label>
-            </div>
-            
-            <div class="payment-option">
-                <label>
-                    <input type="radio" name="payment_method" value="Online Banking">
-                    🏦 Online Banking
-                </label>
-            </div>
-            
-            <div class="payment-option">
-                <label>
-                    <input type="radio" name="payment_method" value="E-Wallet">
-                    📱 E-Wallet (GCash, PayMaya, etc)
-                </label>
-            </div>
-            
-            <div class="payment-option">
-                <label>
-                    <input type="radio" name="payment_method" value="Bank Transfer">
-                    🏧 Bank Transfer
-                </label>
-            </div>
-            
-            <div class="payment-option">
-                <label>
-                    <input type="radio" name="payment_method" value="Cash on Delivery">
-                    📦 Cash on Delivery
-                </label>
-            </div>
+        <div class="order-summary">
+            <h3>Order #<?= str_pad($o->order_id, 5, '0', STR_PAD_LEFT) ?></h3>
+            <p><strong>Date:</strong> <?= date('d-M-Y H:i', strtotime($o->order_date)) ?></p>
+            <p style="font-size: 1.2em; color: #2b91af;">
+                <strong>Total Amount: RM <?= number_format($o->total_price, 2) ?></strong>
+            </p>
         </div>
-        
-        <?php if ($_err['payment_method'] ?? false): ?>
-            <div class="error"><?= $_err['payment_method'] ?></div>
-        <?php endif; ?>
-        
-        <button type="submit" class="btn-pay">Proceed to Payment</button>
-    </form>
-    
-    <p style="margin-top: 20px; text-align: center;">
-        <a href="cart.php">← Back to Cart</a>
-    </p>
-</div>
 
-<?php
-include '../_foot.php';
-?>
+        <form method="post">
+            <h3>How would you like to pay?</h3>
+            
+            <?php if (isset($_err['payment_method'])): ?>
+                <div class="error"><?= $_err['payment_method'] ?></div>
+            <?php endif; ?>
+
+            <div class="payment-methods">
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Credit Card">
+                    💳 Credit / Debit Card
+                </label>
+                
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="Online Banking">
+                    🏦 Online Banking (FPX)
+                </label>
+                
+                <label class="payment-option">
+                    <input type="radio" name="payment_method" value="E-Wallet">
+                    📱 E-Wallet (TNG / GrabPay)
+                </label>
+                
+            </div>
+            
+            <button type="submit" class="btn-pay">Pay RM <?= number_format($o->total_price, 2) ?></button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 20px;">
+            <a href="cart.php" style="color: #666; text-decoration: none;">← Return to Cart</a>
+        </p>
+    </div>
+</main>
+
+<?php include '../_foot.php'; ?>
