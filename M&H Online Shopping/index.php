@@ -40,5 +40,4 @@ include '_head.php';
         </a>
     </div>
 
-<?php
-include '_foot.php';
+<?php include '_foot.php';
