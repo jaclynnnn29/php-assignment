@@ -10,8 +10,14 @@ $stm = $_db->prepare("SELECT * FROM product WHERE product_id = ?");
 $stm->execute([$id]);
 $p = $stm->fetch();
 
-// If product doesn't exist, redirect to product list
-if (!$p) redirect('product_list.php');
+if ($p) {
+    // This creates the variable we will use in the <img> tag later
+    $image_path = "/images/" . ($p->photo ?? 'no_image.png');
+} else {
+    // Fallback if the product isn't found
+    temp('error', 'Product not found');
+    redirect('product_list.php');
+}
 
 // Populate $_POST with database values if it's a GET request
 // This allows html_text('field') to show existing data automatically
