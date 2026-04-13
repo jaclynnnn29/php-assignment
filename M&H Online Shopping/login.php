@@ -83,7 +83,8 @@ if (is_get()) {
         $_POST['remember'] = 'on'; // Also auto-check the 'Remember Me' box
     }
 }
-
+$_title = 'Login';
+include '../_head.php';
 include '_head.php';
 ?>
 
