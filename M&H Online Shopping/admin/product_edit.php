@@ -60,39 +60,53 @@ include '../_head.php';
 ?>
 
 <form method="post" enctype="multipart/form-data">
-    <label>Product ID</label>
-    <input type="text" value="<?= $p->product_id ?>" disabled> 
-    <br>
-
-    <label>Product Name</label>
-    <?php html_text('product_name'); ?>
-    <?php err('product_name') ?>
-    <br>
-
-    <label>Price (RM)</label>
-    <?php html_text('price'); ?>
-    <?php err('price') ?>
-    <br>
-
-    <label>Colour</label>
-    <?php html_text('colour'); ?>
-    <br>
-
-    <label>Size</label>
-    <?php html_text('size'); ?>
-    <br>
-
-    <label>Current Photo</label><br>
-    <img src="../uploads/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; margin: 10px 0;"><br>
-    
-    <label>Upload New Photo (Leave blank to keep current)</label><br>
-    <?php html_file('photo', 'image/*'); ?>
-    <br>
-
-    <section style="margin-top: 20px;">
-        <button type="submit">Update Product</button>
-        <a href="product_list.php">Cancel</a>
-    </section>
+    <table class="table" style="width: 40%; background-color: #fff; border-radius: 8px; margin-top: 10px;">
+        <tr>
+            <th style="width: 150px;">Product ID</th>
+            <td><input type="text" value="<?= $p->product_id ?>" disabled style="background: #f9f9f9; border: 1px solid #ddd; padding: 8px;"></td>
+        </tr>
+        <tr>
+            <th>Product Name</th>
+            <td>
+                <?php html_text('product_name'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->product_name ?></div>
+                <?php err('product_name') ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Price (RM)</th>
+            <td>
+                <?php html_text('price'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: RM <?= number_format($p->price, 2) ?></div>
+                <?php err('price') ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Colour</th>
+            <td>
+                <?php html_text('colour'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->colour ?></div>
+            </td>
+        </tr>
+        <tr>
+            <th>Current Photo</th>
+            <td>
+                <img src="../images/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; border-radius: 4px;">
+            </td>
+        </tr>
+        <tr>
+            <th>Upload New Photo</th>
+            <td>
+                <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current</p>
+                <?php html_file('photo', 'image/*'); ?>
+            </td>
+        </tr>
+        <tr>
+            <th>Actions</th>
+            <td>
+                <button type="submit" class="btn-update">Update Product</button>
+                <a href="product_list.php" class="back-link" style="background-color: #666; margin-left: 10px;">Cancel</a>
+            </td>
+        </tr>
+    </table>
 </form>
-
-<?php include '../_foot.php'; ?>
