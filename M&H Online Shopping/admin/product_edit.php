@@ -92,57 +92,51 @@ include '../_head.php';
                 </td>
             </tr>
 
-            <tr>
-                <th>Desccription</th>
-                <td>
-                    <?php html_text('description', 'style="width:300px;"'); ?>
-                    <span class="current-val">Current: <?= $p->description ?></span>
-                </td>
-            </tr>
+        <tr>
+            <th>Desccription</th>
+            <td>
+                <?php html_text(''); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->description ?></div>
+                <?php err('description') ?>
+            </td>
+        </tr>
 
-            <tr>
-                <th>Category</th>
-                <td>
-                    <?php html_text('cat_id', 'style="width:300px;"'); ?>
-                    <span class="current-val">Current: <?= $p->cat_id ?></span>
-                    <?php // For the error shown in your screenshot, 
-                          // ensure your database query selects the correct column name. ?>
-                </td>
-            </tr>
+        <tr>
+            <th>Category</th>
+            <td>
+                <?php html_text('cat_name'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->cat_id ?><?= $p->cat_name ?></div>
+            </td>
+        </tr>
 
-            <tr>
-                <th>Price (RM)</th>
-                <td>
-                    <input type="text" value="<?= number_format($p->price, 2) ?>" style="width:300px;">
-                    <span class="current-val">Current: RM <?= number_format($p->price, 2) ?></span>
-                    <p style="font-size: 0.75em; color: #cc0000; margin-top: 5px;">*Price is pulled from latest order item record</p>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Current Photo</th>
-                <td>
-                    <img src="../images/<?= $p->photo ?>" style="width:120px; border:1px solid #ddd; padding:4px; display:block;">
-                </td>
-            </tr>
-
-            <tr>
-                <th>Upload New Photo</th>
-                <td>
-                    <span style="color: #ca5959; font-size: 0.9em;">*Leave blank to keep current</span><br>
-                    <?php html_file('photo', 'accept="image/*"'); ?>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Actions</th>
-                <td>
-                    <button type="submit" class="btn-update">Update Product</button>
-                    <a href="product_list.php" class="btn-cancel">Cancel</a>
-                </td>
-            </tr>
-        </table>
-    </form>
-</main>
-
-<?php include '../_foot.php'; ?>
+        <tr>
+            <th>Price (RM)</th>
+            <td>
+                <?php html_text('price'); ?>
+                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: RM <?= number_format($p->price, 2) ?></div>
+                <?php err('price') ?>
+            </td>
+        </tr>
+        
+        <tr>
+            <th>Current Photo</th>
+            <td>
+                <img src="../images/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; border-radius: 4px;">
+            </td>
+        </tr>
+        <tr>
+            <th>Upload New Photo</th>
+            <td>
+                <?php html_file('photo', 'image/*'); ?>
+                <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current</p>
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <button type="submit" class="btn-update">Update Product</button>
+                <a href="product_list.php" class="back-link" style="background-color: #666; margin-left: 10px;">Cancel</a>
+            </td>
+        </tr>
+    </table>
+</form>
