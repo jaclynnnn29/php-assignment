@@ -60,7 +60,7 @@
     <?php endif ?>
 
     <?php if (($_user->role ?? '') == 'Admin'): ?>
-        <a href="../admin/product_list.php">Product List (Admin)</a>
-        <a href="../admin/product_manage.php">Order Management (Admin)</a>
+        <a href="../admin/product_list.php">Admin Product Management</a>
+        <a href="../admin/product_manage.php">Admin Order Management</a>
     <?php endif ?>
 </nav>

@@ -1,4 +1,3 @@
-// Order Status Update (Admin)  Additional function 
 <?php
 require '../_base.php';
 auth('Admin'); // Restrict access to Admins only
@@ -40,29 +39,30 @@ include '../_head.php';
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($order as $o): ?>
-                <tr>
-                    <form method="post">
-                        <td><strong><?= $o->order_id ?></strong></td>
-                        <td><?= $o->datetime ?></td>
-                        <td>RM <?= number_format($o->total, 2) ?></td>
-                        <td>
-                            <?php
-                            $arr = [
-                                'Pending'    => 'Pending',
-                                'Processing' => 'Processing',
-                                'Shipped'    => 'Shipped',
-                                'Delivered'  => 'Delivered',
-                                'Cancelled'  => 'Cancelled'
-                            ];
-                            html_select('status', $arr, $o->status, null); 
-                            ?>
-                            <input type="hidden" name="order_id" value="<?= $o->order_id ?>">
-                        </td>
-                        <td><button type="submit" class="btn-update">Update</button></td>
-                    </form>
-                </tr>
-                <?php endforeach; ?>
+                <?php foreach ($orders as $o): ?>
+            <tr>
+    <       <form method="post">
+            <td><strong><?= $o->order_id ?></strong></td>
+            <td><?= $o->datetime ?></td>
+            <td>RM <?= number_format($o->total, 2) ?></td>
+            <td>
+            <?php
+            $arr = [
+                'Pending'    => 'Pending',
+                'Processing' => 'Processing',
+                'Shipped'    => 'Shipped',
+                'Delivered'  => 'Delivered',
+                'Cancelled'  => 'Cancelled'
+            ];
+            // Uses your helper function to generate the dropdown
+            html_select('status', $arr, $o->status, null); 
+            ?>
+            <input type="hidden" name="order_id" value="<?= $o->order_id ?>">
+        </td>
+        <td><button type="submit" class="btn-update">Update Status</button></td>
+    </form>
+        </tr>
+        <?php endforeach; ?>
 
                 <?php if (empty($orders)): ?>
                 <tr>
