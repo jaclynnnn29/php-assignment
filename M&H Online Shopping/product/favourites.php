@@ -34,7 +34,7 @@ include '../_head.php';
     }
 </style>
 
-<h1>My Wishlist ❤️</h1>
+<h1 style="color: #ffffff;">My Wishlist ❤️</h1>
 
 <?php
 // Get user's favorite products
@@ -81,11 +81,9 @@ if (count($favorites) > 0):
         </tbody>
     </table>
 <?php else: ?>
-    <p>Your wishlist is empty 😢</p>
-    <p><a href="list.php">Browse products and add to wishlist!</a></p>
+    <p style="color: #ffffff;">Your wishlist is empty 😢</p>
+    <p><a href="list.php"  style="color: #ffffff;">Browse products and add to wishlist!</a></p>
 <?php endif; ?>
 
 <br>
-<a href="list.php">← Continue Shopping</a>
-
-<?php include '../_foot.php'; ?>
+<a href="list.php" style="color: #ffffff;">← Continue Shopping</a>
