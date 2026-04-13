@@ -67,6 +67,12 @@ include '../_head.php';
     </div>
 </main>
 
+<a href="product_delete.php?id=<?= $p->product_id ?>" 
+   class="btn-delete" 
+   onclick="return confirm('Are you sure you want to delete this product?')">
+   Delete
+</a>
+
 <p><?= count($products) ?> product(s) found.</p>
 
 <?php include '../_foot.php'; ?>
