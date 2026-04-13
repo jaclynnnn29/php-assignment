@@ -63,15 +63,15 @@ $avg_rating = round($rating_data->avg_rating ?? 0, 1);
 $total_reviews = $rating_data->total ?? 0;
 
 // Get all reviews for this product
-$stm = $_db->prepare("
-    SELECT r.*, u.email 
-    FROM product_reviews r 
-    JOIN user u ON r.user_id = u.user_id 
-    WHERE r.product_id = ? 
-    ORDER BY r.created_at DESC
-");
+// Join item (i) and product (p)
+$stm = $_db->prepare('
+    SELECT i.price, i.unit, p.product_name, p.photo 
+    FROM item i 
+    JOIN product p ON i.variant_id = p.product_id 
+    WHERE i.order_id = ?
+');
 $stm->execute([$id]);
-$reviews = $stm->fetchAll();
+$items = $stm->fetchAll();
 
 // Get user's existing review (if logged in)
 $user_review = null;
