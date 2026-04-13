@@ -114,7 +114,7 @@ include '../_head.php';
         <table class="table">
             <tr>
                 <th>Order ID:</th>
-                <td><?= $o->order_id ?></td>
+                <td>ORD<?= str_pad($o->order_id, 3, '0', STR_PAD_LEFT) ?></td>
             </tr>
             <tr>
                 <th>Order Date:</th>

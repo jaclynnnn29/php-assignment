@@ -56,7 +56,7 @@ include '../_head.php';
 
     <?php foreach ($arr as $o): ?>
     <tr>
-        <td><?= $o->order_id ?></td>
+        <td>ORD<?= str_pad($o->order_id, 3, '0', STR_PAD_LEFT) ?></td>
         <td><?= $o->datetime ?></td>
         <td class="right"><?= $o->quantity ?></td>
         <td class="right"><?= $o->total ?></td>
