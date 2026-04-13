@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 12, 2026 at 06:18 PM
+-- Generation Time: Apr 13, 2026 at 09:39 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,13 +62,20 @@ CREATE TABLE `favorites` (
 --
 
 CREATE TABLE `item` (
-  `item_id` varchar(10) NOT NULL,
-  `order_id` varchar(10) DEFAULT NULL,
-  `product_id` varchar(10) DEFAULT NULL,
-  `price` decimal(10,2) NOT NULL,
+  `item_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `variant_id` varchar(10) DEFAULT NULL,
   `unit` int(11) NOT NULL,
-  `subtotal` decimal(10,2) NOT NULL
+  `price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `item`
+--
+
+INSERT INTO `item` (`item_id`, `order_id`, `variant_id`, `unit`, `price`) VALUES
+(9, 9, 'P10003', 2, 28.50),
+(10, 9, 'P10006', 3, 32.00);
 
 -- --------------------------------------------------------
 
@@ -77,13 +84,20 @@ CREATE TABLE `item` (
 --
 
 CREATE TABLE `order` (
-  `order_id` varchar(10) NOT NULL,
+  `order_id` int(11) NOT NULL,
   `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(10,2) NOT NULL,
-  `quantity` int(11) DEFAULT NULL,
+  `quantity` int(11) NOT NULL,
   `user_id` varchar(10) DEFAULT NULL,
-  `status` enum('Pending','Processing','Shipped','Delivered','Cancelled') NOT NULL DEFAULT 'Pending'
+  `status` enum('Pending','Processing','Shipped','Delivered','Cancelled') DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order`
+--
+
+INSERT INTO `order` (`order_id`, `datetime`, `total`, `quantity`, `user_id`, `status`) VALUES
+(9, '2026-04-13 07:38:05', 153.00, 5, 'U001', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -445,7 +459,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('A001', '', 'jaclyn@gmail.com', '$2y$10$8K9V/9v2.Y3A5E5f7z6uqe6Y6G8z9O5m9X0W2V3u4y5z6a7b8c9d1', 0, NULL, '69db8d13d23be.jpg', 'Admin'),
+('A001', '', 'jaclyn@gmail.com', '$2y$10$8K9V/9v2.Y3A5E5f7z6uqe6Y6G8z9O5m9X0W2V3u4y5z6a7b8c9d1', 1, NULL, '69db8d13d23be.jpg', 'Admin'),
 ('U001', 'qwer', 'qwer@gmail.com', '$2y$10$TLur8oSdyjksV28lO6QY3uusK1PkXAY.yP91VTf0KRk2pSWIaxvyG', 0, NULL, '69d9f2f940d7c.jpg', 'Member');
 
 --
@@ -471,15 +485,13 @@ ALTER TABLE `favorites`
 --
 ALTER TABLE `item`
   ADD PRIMARY KEY (`item_id`),
-  ADD KEY `order_id` (`order_id`),
-  ADD KEY `product_id` (`product_id`);
+  ADD KEY `fk_item_order` (`order_id`);
 
 --
 -- Indexes for table `order`
 --
 ALTER TABLE `order`
-  ADD PRIMARY KEY (`order_id`),
-  ADD KEY `user_id` (`user_id`);
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `product`
@@ -519,6 +531,18 @@ ALTER TABLE `favorites`
   MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `item`
+--
+ALTER TABLE `item`
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `order`
+--
+ALTER TABLE `order`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
@@ -539,14 +563,7 @@ ALTER TABLE `favorites`
 -- Constraints for table `item`
 --
 ALTER TABLE `item`
-  ADD CONSTRAINT `item_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`),
-  ADD CONSTRAINT `item_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`);
-
---
--- Constraints for table `order`
---
-ALTER TABLE `order`
-  ADD CONSTRAINT `order_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
+  ADD CONSTRAINT `fk_item_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_reviews`
