@@ -75,7 +75,7 @@ include '../_head.php';
         <td class="right"><?= $i->unit ?></td>
         <td class="right">
             <?= $i->subtotal ?>
-            <img src="/products/<?= $i->photo ?>" class="popup">
+            <img src="/images/<?= $i->photo ?>" class="popup">
         </td>
     </tr>
     <?php endforeach ?>
