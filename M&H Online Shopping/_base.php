@@ -232,6 +232,7 @@ function update_cart($id, $unit) {
 // Corrected connection string (No spaces, includes host)
 $_db = new PDO('mysql:host=localhost;dbname=shopping_cart', 'root', '', [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
+    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 ]);
 
 // Auto-login logic (only runs if user hasn't explicitly clicked 'Logout' in this session)

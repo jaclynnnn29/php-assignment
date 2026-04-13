@@ -170,12 +170,15 @@ nav div { /* NEW */
 }
 
 main {
-    padding: 30px 50px;
+    padding: 20px 40px;
     background: #ffffff; /* Solid white */
     margin: 30px 50px;
+    margin: 20px auto;
+    max-width: 1100px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     min-height: 500px;
+    min-height: 400px;
 }
 
 main h1 {

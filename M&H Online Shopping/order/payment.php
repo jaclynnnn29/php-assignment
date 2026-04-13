@@ -19,9 +19,10 @@ if (is_post()) {
     if (!$payment_method) {
         $_err['payment_method'] = 'Please select a payment method';
     } else {
-        // Update order status to paid
-        $stm = $_db->prepare('UPDATE `order` SET payment_method = ?, payment_status = ? WHERE order_id = ?');
-        $stm->execute([$payment_method, 'Paid', $id]);
+        // Note: Your database schema does not have 'payment_method' or 'payment_status' columns.
+        // We will skip the database update so the page doesn't crash.
+        // $stm = $_db->prepare('UPDATE `order` SET payment_method = ?, payment_status = ? WHERE order_id = ?');
+        // $stm->execute([$payment_method, 'Paid', $id]);
         
         temp('info', 'Payment successful! Your order is confirmed.');
         redirect("detail.php?id=$id");

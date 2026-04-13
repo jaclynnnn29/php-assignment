@@ -12,8 +12,8 @@ if (is_post()) {
         // (B) Insert into 'order' table using your specific columns
         // Note: Default 'status' to 'Pending' if not set in DB defaults
         $stm = $_db->prepare('
-            INSERT INTO `order` (user_id, status, datetime)
-            VALUES (?, "Pending", NOW())
+            INSERT INTO `order` (user_id, datetime, total, quantity)
+            VALUES (?, NOW(), 0, 0)
         ');
         $stm->execute([$_user->user_id]);
         $id = $_db->lastInsertId();
@@ -28,18 +28,27 @@ if (is_post()) {
             WHERE pv.variant_id = ?
         ');
         
+        $total_qty = 0;
+        $total_amt = 0;
+        
+        // We need the price to calculate totals in PHP to avoid MySQL Update subquery errors
+        $stm_price = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
+
         foreach ($cart as $variant_id => $unit) {
+            $stm_price->execute([$variant_id]);
+            $v = $stm_price->fetch();
+            
+            $total_qty += $unit;
+            $total_amt += ($v->price * $unit);
+
             $stm->execute([$id, $unit, $unit, $variant_id]);
         }
 
         // (D) Update the 'order' table totals
         $stm = $_db->prepare('
-            UPDATE `order` 
-            SET quantity = (SELECT SUM(unit) FROM item WHERE order_id = ?),
-                total = (SELECT SUM(subtotal) FROM item WHERE order_id = ?)
-            WHERE order_id = ?
+            UPDATE `order` SET quantity = ?, total = ? WHERE order_id = ?
         ');
-        $stm->execute([$id, $id, $id]);
+        $stm->execute([$total_qty, $total_amt, $id]);
 
         $_db->commit();
         set_cart(); // Clear cart after successful DB commit
@@ -49,7 +58,7 @@ if (is_post()) {
         
     } catch (Exception $e) {
         $_db->rollBack();
-        temp('error', 'Checkout Failed: ' . $e->getMessage());
+        temp('info', 'Checkout Failed: ' . $e->getMessage());
         redirect('cart.php');
     } 
 }
@@ -89,12 +98,17 @@ if ($ids) {
         padding: 8px 12px !important; /* Reduces bulky 15px padding */
         font-size: 0.9rem; /* Makes the list look more professional and compact */
     }
+    .btn-checkout.small {
+        width: auto !important; /* Overrides the 100% width in app.css */
+        padding: 10px 30px !important;
+        font-size: 1rem !important;
+    }
 </style>
 
 <main>
     <div class="checkout-wrapper">
         <div class="checkout-left">
-            <h1>Shopping Cart</h1>
+            <h1>Checkout Order</h1>
             
             <table class="table plain-table">
                 <thead>
@@ -135,14 +149,16 @@ if ($ids) {
         </div>
 
         <div class="checkout-right">
-            <form method="post">
-                <button type="submit" class="btn-checkout">Check Out</button>
+            <form method="post" style="display: flex; gap: 15px; align-items: center; margin-top: 20px;">
+                <button type="submit" 
+                        class="btn-checkout small" 
+                        data-confirm="Are you sure you want to place this order?">
+                    Check Out
+                </button>
         
-                <div class="back-link-container">
-                    <a href="../product/list.php" class="back-link">
-                        <i class="fa fa-angle-left"></i> Continue Shopping
-                    </a>
-                </div>
+                <a href="../product/list.php" class="back-link" style="white-space: nowrap;">
+                    <i class="fa fa-angle-left"></i> Continue Shopping
+                </a>
             </form>
         </div>
     </div>

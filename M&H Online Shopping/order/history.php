@@ -37,6 +37,8 @@ include '../_head.php';
         outline:1px solid #333;
     }
 </style>
+
+<main>
 <p>
     <button data-post="reset.php" data-confirm>Reset</button>
 </p>
@@ -75,7 +77,7 @@ include '../_head.php';
                 $photos = $stm->fetchAll(PDO::FETCH_COLUMN);
 
                 foreach ($photos as $photo) {
-                    echo "<img src='../$uploads/$photo' class='pop'>";
+                    echo "<img src='/images/$photo' class='pop'>";
                 }
                 ?>
              </div>
@@ -83,6 +85,7 @@ include '../_head.php';
     </tr>
     <?php endforeach ?>
 </table>
+ </main>
 
 <?php
 include '../_foot.php';
