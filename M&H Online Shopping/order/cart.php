@@ -129,10 +129,14 @@ include '../_head.php';
 
         <div style="margin-top: 20px; text-align: right;">
             <?php if ($cart): ?>
-                <button data-post="?btn=clear" style="background: #eee; color: #333;">Clear All Items</button>
+                <button class="btn-clear" data-post="cart.php?action=clear">
+                Clear all items
+                </button>
                 
                 <?php if ($_user?->role == 'Member'): ?>
-                    <button data-get="checkout.php" class="btn-add" style="margin-left: 10px;">Proceed to Checkout</button>
+                    <a href="checkout.php" class="btn-clear" style="text-decoration: none; display: inline-block;">
+                        Check Out
+                    </a>
                 <?php else: ?>
                     <span style="margin-left: 10px; color: #666;">
                         Please <a href="/login.php">login</a> to checkout.

@@ -9,51 +9,39 @@ if (is_post()) {
     $total_qty = 0;
     $total_amt = 0;
 
-    // 1. Calculate totals first
-    $stm = $_db->prepare("INSERT INTO `order` (total, quantity, user_id) VALUES (?, ?, ?)");
-    $stm->execute([$total_amt, $total_qty, $_user->user_id]);
-
-// Get the NEW numeric ID
-    $order_id = $_db->lastInsertId(); 
-
-// Insert items using that numeric ID
-    // Prepare the statement with 4 slots
-    $stm_item = $_db->prepare('INSERT INTO item (order_id, variant_id, unit, price) VALUES (?, ?, ?, ?)');
-
+    // 1. MUST calculate totals BEFORE inserting the order
     foreach ($cart as $variant_id => $unit) {
-    // 1. Get the current price of this variant from the DB
-    $s = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
-    $s->execute([$variant_id]);
-    $price = $s->fetchColumn();
-
-    // 2. Now execute with all 4 required values
-    $stm_item->execute([$order_id, $variant_id, $unit, $price]);
+        $s = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
+        $s->execute([$variant_id]);
+        $price = $s->fetchColumn();
+        
+        $total_amt += ($price * $unit);
+        $total_qty += $unit;
     }
 
     try {
         $_db->beginTransaction();
 
-        // 2. Insert into 'order' table
-        // REMOVE 'order_id' from the column list and values. 
-        // The DB will generate it automatically.
+        // 2. Insert into 'order' table with the REAL totals
         $stm = $_db->prepare("INSERT INTO `order` (datetime, total, quantity, user_id, status) VALUES (NOW(), ?, ?, ?, 'Pending')");
         $stm->execute([$total_amt, $total_qty, $_user->user_id]);
 
-        // 3. Get the ID the database just created
         $order_id = $_db->lastInsertId();
 
-        // 4. Insert items using that new ID
-        $stm_item = $_db->prepare('INSERT INTO item (order_id, variant_id, unit, price) 
-                                   SELECT ?, variant_id, ?, price FROM product_variants WHERE variant_id = ?');
-        
+        // 3. Insert items
+        $stm_item = $_db->prepare('INSERT INTO item (order_id, variant_id, unit, price) VALUES (?, ?, ?, ?)');
         foreach ($cart as $variant_id => $unit) {
-            $stm_item->execute([$order_id, $unit, $variant_id]);
+            $s = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
+            $s->execute([$variant_id]);
+            $price = $s->fetchColumn();
+
+            $stm_item->execute([$order_id, $variant_id, $unit, $price]);
         }
 
         $_db->commit();
-        set_cart(); // Clear the cart
+        set_cart(); // Clear the cart after successful checkout
 
-        temp('info', 'Order placed successfully! Order ID: ' . $order_id);
+        temp('info', 'Order placed successfully!');
         redirect("payment.php?id=$order_id");
         
     } catch (Exception $e) {
