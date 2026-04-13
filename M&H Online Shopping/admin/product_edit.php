@@ -79,7 +79,7 @@ include '../_head.php';
         <tr>
             <th>Desccription</th>
             <td>
-                <?php html_text('description'); ?>
+                <?php html_text(''); ?>
                 <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->description ?></div>
                 <?php err('description') ?>
             </td>
@@ -88,7 +88,7 @@ include '../_head.php';
         <tr>
             <th>Category</th>
             <td>
-                <?php html_text('category'); ?>
+                <?php html_text('cat_name'); ?>
                 <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->cat_id ?><?= $p->cat_name ?></div>
             </td>
         </tr>
@@ -111,12 +111,12 @@ include '../_head.php';
         <tr>
             <th>Upload New Photo</th>
             <td>
-                <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current</p>
                 <?php html_file('photo', 'image/*'); ?>
+                <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current</p>
             </td>
         </tr>
         <tr>
-            <th>Actions</th>
+            <th></th>
             <td>
                 <button type="submit" class="btn-update">Update Product</button>
                 <a href="product_list.php" class="back-link" style="background-color: #666; margin-left: 10px;">Cancel</a>
