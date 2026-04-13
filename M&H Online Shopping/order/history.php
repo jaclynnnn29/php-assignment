@@ -51,7 +51,8 @@ include '../_head.php';
         <th>Datetime</th>
         <th>Quantity</th>
         <th>Total (RM)</th>
-        <th></th>
+        <th>User Id</th>
+        <th>User email</th>
     </tr>
 
     <?php foreach ($arr as $o): ?>
@@ -59,7 +60,9 @@ include '../_head.php';
         <td>ORD<?= str_pad($o->order_id, 3, '0', STR_PAD_LEFT) ?></td>
         <td><?= $o->datetime ?></td>
         <td class="right"><?= $o->quantity ?></td>
-        <td class="right"><?= $o->total ?></td>
+        <td class="right">RM <?= number_format($o->total, 2) ?></td>
+        <td><?= $o->user_id ?></td>
+        <td><?= $_user->email ?></td>
         <td>
             <button data-get="detail.php?id=<?= $o->order_id ?>">Detail</button>
             <!-- (A) EXTRA: Product photos -->
