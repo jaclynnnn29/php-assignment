@@ -8,7 +8,7 @@ $id = req('id');
 $stm = $_db->prepare("
     SELECT p.*, c.cat_name, i.price 
     FROM product p
-    JOIN categories c ON p.cat_id = c.cat_id
+    LEFT JOIN categories c ON p.cat_id = c.cat_id
     LEFT JOIN item i ON p.product_id = i.variant_id
     WHERE p.product_id = ?
     ORDER BY i.item_id DESC LIMIT 1
@@ -31,7 +31,6 @@ if (is_get()) {
 if (is_post()) {
     $product_name = post('product_name');
     $description  = post('description');
-    $cat_id       = post('cat_id');
     // Note: Usually, you don't 'update' an old order item's price. 
     // If you want to change the price for NEW orders, you should add a price column to the product table.
     $f = get_file('photo');
@@ -50,10 +49,10 @@ if (is_post()) {
         // 2. Update the product table
         $stm = $_db->prepare("
             UPDATE product 
-            SET product_name = ?, description = ?, cat_id = ?, photo = ? 
+            SET product_name = ?, description = ?, photo = ? 
             WHERE product_id = ?
         ");
-        $stm->execute([$product_name, $description, $cat_id, $photo, $id]);
+        $stm->execute([$product_name, $description, $photo, $id]);
 
         temp('info', 'Product updated successfully');
         redirect('product_list.php');
@@ -96,29 +95,12 @@ include '../_head.php';
         <tr>
             <th>Desccription</th>
             <td>
-                <?php html_text(''); ?>
+                <?php html_text('description', 'style="width:300px;"'); ?>
                 <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->description ?></div>
                 <?php err('description') ?>
             </td>
         </tr>
 
-        <tr>
-            <th>Category</th>
-            <td>
-                <?php html_text('cat_name'); ?>
-                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->cat_id ?><?= $p->cat_name ?></div>
-            </td>
-        </tr>
-
-        <tr>
-            <th>Price (RM)</th>
-            <td>
-                <?php html_text('price'); ?>
-                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: RM <?= number_format($p->price, 2) ?></div>
-                <?php err('price') ?>
-            </td>
-        </tr>
-        
         <tr>
             <th>Current Photo</th>
             <td>
