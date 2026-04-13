@@ -95,6 +95,16 @@ include '../_head.php';
         height: 200px;
     }
     
+    .table.detail {
+        width: auto; /* Shrink table to content size */
+        min-width: 450px; /* Ensure it doesn't get too narrow */
+    }
+
+    .table.detail th, .table.detail td {
+        padding: 8px 12px; /* Reduced from global 15px */
+        font-size: 0.95rem;
+    }
+    
     .rating-stars {
         font-size: 20px;
         margin: 10px 0;

@@ -125,7 +125,7 @@ function html_text($key, $attr = '') {
 
 // Generate <input type='password'>
 function html_password($key, $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+    $value = encode($_POST[$key] ?? '');
     echo "<input type='password' id='$key' name='$key' value='$value' $attr>";
 }
 
@@ -183,6 +183,7 @@ function login($user, $url = '/') {
 
 function logout($url = '/') {
     unset($_SESSION['user']);
+    $_SESSION['logout'] = true; // Prevent auto-login loop until next manual login
     redirect($url);
 }
 
@@ -232,6 +233,17 @@ function update_cart($id, $unit) {
 $_db = new PDO('mysql:host=localhost;dbname=shopping_cart', 'root', '', [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
 ]);
+
+// Auto-login logic (only runs if user hasn't explicitly clicked 'Logout' in this session)
+if (!$_user && isset($_COOKIE['remember']) && !isset($_SESSION['logout'])) {
+    $email = $_COOKIE['remember'];
+    $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
+    $stm->execute([$email]);
+    $u = $stm->fetch();
+    if ($u) {
+        $_user = $_SESSION['user'] = $u; // Restore session from database using cookie
+    }
+}
 
 function is_unique($value, $table, $field) {
     global $_db;

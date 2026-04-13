@@ -168,22 +168,22 @@ include '../_head.php';
                 data-get="/product/detail.php?id=<?= $p->product_id ?>" 
                 alt="Product Image">
             
-            <!-- RATING STARS -->
-            <div class="rating-stars" style="position: absolute; bottom: 70px; left: 8px; background: #0009; padding: 3px 8px; border-radius: 10px;">
-                <?php if ($total_reviews > 0): ?>
-                    <?php for($i = 1; $i <= 5; $i++): ?>
-                        <?= $i <= $avg_rating ? '⭐' : '☆' ?>
-                    <?php endfor; ?>
-                    <span style="font-size: 10px;">(<?= $total_reviews ?>)</span>
-                <?php else: ?>
-                    <span style="font-size: 10px;">No reviews yet</span>
-                <?php endif; ?>
-            </div>
-            
             <!-- PRODUCT INFO -->
             <div class="product-info">
                 <strong><?= encode($p->product_name) ?></strong><br>
                 <?= nl2br(encode($p->description)) ?>
+                <!-- RATING STARS -->
+                <div class="rating-stars">
+                    <?php if ($total_reviews > 0): ?>
+                        <?php for($i = 1; $i <= 5; $i++): ?>
+                            <?= $i <= $avg_rating ? '⭐' : '☆' ?>
+                        <?php endfor; ?>
+                        <span style="font-size: 10px; display: block;">(<?= $total_reviews ?> reviews)</span>
+                    <?php else: ?>
+                        <span style="font-size: 10px; display: block;">No reviews</span>
+                    <?php endif; ?>
+                </div>
+
             </div>
             
             <!-- CART INFO -->

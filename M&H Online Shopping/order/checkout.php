@@ -12,22 +12,24 @@ if (is_post()) {
         // (B) Insert into 'order' table using your specific columns
         // Note: Default 'status' to 'Pending' if not set in DB defaults
         $stm = $_db->prepare('
-            INSERT INTO `order` (user_id, status)
-            VALUES (?, "Pending")
+            INSERT INTO `order` (user_id, status, datetime)
+            VALUES (?, "Pending", NOW())
         ');
         $stm->execute([$_user->user_id]);
         $id = $_db->lastInsertId();
 
         // (C) Insert into 'item' table
-        // Ensure your 'item' table columns match: order_id, product_id, unit, subtotal
+        // We join product and variants to get the correct product_id and price
         $stm = $_db->prepare('
             INSERT INTO `item` (order_id, product_id, unit, subtotal)
-            SELECT ?, product_id, ?, price * ? 
-            FROM product WHERE product_id = ?
+            SELECT ?, pv.product_id, ?, pv.price * ? 
+            FROM product_variants pv
+            JOIN product p ON pv.product_id = p.product_id
+            WHERE pv.variant_id = ?
         ');
         
-        foreach ($cart as $product_id => $unit) {
-            $stm->execute([$id, $unit, $unit, $product_id]);
+        foreach ($cart as $variant_id => $unit) {
+            $stm->execute([$id, $unit, $unit, $variant_id]);
         }
 
         // (D) Update the 'order' table totals
@@ -43,7 +45,7 @@ if (is_post()) {
         set_cart(); // Clear cart after successful DB commit
 
         temp('info', 'Order created successfully.');
-        redirect("/payment.php?id=$id");
+        redirect("payment.php?id=$id");
         
     } catch (Exception $e) {
         $_db->rollBack();
@@ -68,11 +70,26 @@ $subtotal = 0;
 
 if ($ids) {
     $placeholders = str_repeat('?,', count($ids) - 1) . '?';
-    $stm = $_db->prepare("SELECT * FROM product WHERE product_id IN ($placeholders)");
+    $stm = $_db->prepare("
+        SELECT pv.variant_id, p.product_id, p.product_name, pv.price, p.photo, pv.size
+        FROM product_variants pv
+        JOIN product p ON pv.product_id = p.product_id
+        WHERE pv.variant_id IN ($placeholders)");
     $stm->execute($ids);
     $items = $stm->fetchAll();
 }
 ?>
+
+<style>
+    .plain-table {
+        width: auto !important; /* Shrinks the table to fit its content */
+        min-width: 550px;
+    }
+    .plain-table th, .plain-table td {
+        padding: 8px 12px !important; /* Reduces bulky 15px padding */
+        font-size: 0.9rem; /* Makes the list look more professional and compact */
+    }
+</style>
 
 <main>
     <div class="checkout-wrapper">
@@ -83,6 +100,7 @@ if ($ids) {
                 <thead>
                     <tr>
                         <th>Product</th>
+                        <th>Size</th>
                         <th>Quantity</th>
                         <th>Total Price</th>
                         <th></th>
@@ -91,36 +109,39 @@ if ($ids) {
                 <tbody>
                     <?php foreach ($items as $p): ?>
                         <?php 
-                            $unit = $cart[$p->product_id];
+                            $unit = $cart[$p->variant_id];
                             $item_total = $p->price * $unit;
                             $subtotal += $item_total;
                         ?>
                         <tr>
                             <td class="product-col">
-                                <img src="/images/<?= $p->photo ?>" alt="Photo" style="width: 50px;">
+                                <img src="/images/<?= $p->photo ?>" alt="Photo" style="width: 40px; vertical-align: middle; margin-right: 10px;">
                                 <span><?= $p->product_name ?></span>
                             </td>
+                            <td><?= $p->size ?></td>
                             <td><?= $unit ?></td>
-                            <td>$<?= number_format($item_total, 2) ?></td>
-                            <td class="action-col"><i class="fa fa-times"></i></td>
+                            <td>RM <?= number_format($item_total, 2) ?></td>
+                            <td class="action-col">
+                                <a href="cart.php?id=<?= $p->variant_id ?>&unit=0" style="color: red; text-decoration: none;" onclick="return confirm('Remove this item?')"><i class="fa fa-times"></i></a>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
 
             <div class="totals-section">
-                <div class="total-row grand-total">Total: <span>$<?= number_format($subtotal, 2) ?></span></div>
+                <div class="total-row grand-total">Total: <span>RM <?= number_format($subtotal, 2) ?></span></div>
+            </div>
+        </div>
 
-
-            <div class="checkout-right">
+        <div class="checkout-right">
             <form method="post">
-            <button type="submit" class="btn-checkout">Check Out</button>
+                <button type="submit" class="btn-checkout">Check Out</button>
         
-            <div class="back-link-container">
-                <a href="product_list.php" class="back-link">
-                    <i class="fa fa-angle-left"></i> Continue Shopping
-                </a>
-                    </div>
+                <div class="back-link-container">
+                    <a href="../product/list.php" class="back-link">
+                        <i class="fa fa-angle-left"></i> Continue Shopping
+                    </a>
                 </div>
             </form>
         </div>

@@ -25,6 +25,18 @@ if (is_post()) {
         
         // 3. Verify Password (using the hash we verified in your DB)
         else if (password_verify($password, $user->password_hash)) {
+            // Set "Remember Me" cookie if checked (expires in 30 days)
+            if (post('remember')) {
+                setcookie('remember', $user->email, time() + 30 * 24 * 60 * 60, '/');
+                setcookie('remember_pw', $password, time() + 30 * 24 * 60 * 60, '/');
+        } else {
+            setcookie('remember', '', time() - 3600, '/'); // Clear if they unchecked it
+            setcookie('remember_pw', '', time() - 3600, '/');
+            }
+
+        // Clear the manual logout flag now that they are logging in again
+        unset($_SESSION['logout']);
+
             // Reset attempts on success
             $stm = $_db->prepare("UPDATE user SET failed_attempts = 0, locked_until = NULL WHERE user_id = ?");
             $stm->execute([$user->user_id]);
@@ -63,6 +75,15 @@ if (is_post()) {
     }
 }
 
+// Pre-fill the email field from the cookie if this is a fresh page visit (GET)
+if (is_get()) {
+    $_POST['email'] = $_COOKIE['remember'] ?? '';
+    $_POST['password'] = $_COOKIE['remember_pw'] ?? '';
+    if ($_POST['email']) {
+        $_POST['remember'] = 'on'; // Also auto-check the 'Remember Me' box
+    }
+}
+
 include '_head.php';
 ?>
 
@@ -86,7 +107,7 @@ include '_head.php';
             </div>
 
             <div class="form-group" style="flex-direction: row; justify-content: left; gap: 10px;margin-left: 50px;margin-bottom: 20px;">
-                <input type="checkbox" name="remember" id="remember" style="width: 18px; height: 18px; cursor: pointer;">
+                <input type="checkbox" name="remember" id="remember" <?= post('remember') ? 'checked' : '' ?> style="width: 18px; height: 18px; cursor: pointer;">
                 <label for="remember" style="margin-bottom: 0; cursor: pointer; font-weight: normal; color: #555;">Remember Me</label>
             </div>
 

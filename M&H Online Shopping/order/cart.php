@@ -76,6 +76,7 @@ include '../_head.php';
         <th>Price (RM)</th>
         <th>Unit</th>
         <th>Subtotal (RM)</th>
+        <th></th>
     </tr>
 
     <?php
@@ -131,6 +132,10 @@ include '../_head.php';
             </td>
             <td class="right">
                 <?= sprintf('%.2f', $subtotal) ?>
+                
+            </td>
+            <td>
+                <button data-post="?id=<?= $p->variant_id ?>&unit=0" data-confirm="Remove this item?" style="color: red; background: none; border: none; cursor: pointer; padding: 0;"><i class="fa fa-times"></i></button>
                 <img src="/images/<?= $p->photo ?>" class="popup">
             </td>
         </tr>
@@ -140,6 +145,7 @@ include '../_head.php';
         <th colspan="4"></th>
         <th class="right"><?= $displayed_count ?></th>
         <th class="right"><?= sprintf('%.2f', $displayed_total) ?></th>
+        <th></th>
     </tr>
 </table>
 
@@ -149,7 +155,7 @@ include '../_head.php';
         <button data-post="?btn=clear">Clear All</button>
 
         <?php if ($_user?->role == 'Member'): ?>
-            <button data-post="checkout.php">Checkout</button>
+            <button data-get="checkout.php" data-confirm="Check your details before checkout?">Checkout</button>
         <?php else: ?>
             Please <a href="/login.php">login</a> as member to checkout
         <?php endif ?>
