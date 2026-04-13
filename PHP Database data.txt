@@ -1,19 +1,3 @@
-('U90001','ethan_lee','654321','ethan.lee@gmail.com',NULL,'admin'),
-('U90002','sophia_tan','654321','sophia.tan@gmail.com',NULL,'admin'),
-('U90003','daniel_wong','654321','daniel.wong@gmail.com',NULL,'admin'),
-('U90004','amelia_ng','654321','amelia.ng@gmail.com',NULL,'admin'),
-('U90005','ryan_choo','654321','ryan.choo@gmail.com',NULL,'admin'),
-
-('U00001','liam_koh','123456','liam.koh@gmail.com',NULL,'member'),
-('U00002','noah_lim','123456','noah.lim@gmail.com',NULL,'member'),
-('U00003','ava_teo','123456','ava.teo@gmail.com',NULL,'member'),
-('U00004','lucas_yap','123456','lucas.yap@gmail.com',NULL,'member'),
-('U00005','mia_goh','123456','mia.goh@gmail.com',NULL,'member'),
-('U00006','benjamin_ong',,'benjamin.ong@gmail.com',NULL,'member'),
-('U00007','ella_tay',,'ella.tay@gmail.com',NULL,'member'),
-('U00008','jacob_foo',,'jacob.foo@gmail.com',NULL,'member'),
-('U00009','chloe_yeo',,'chloe.yeo@gmail.com',NULL,'member'),
-('U00010','aaron_chin',,'aaron.chin@gmail.com',NULL,'member');
 
 ('C00001','Men'),
 ('C00002','Women'),
