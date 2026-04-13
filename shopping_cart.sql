@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2026 at 03:15 PM
+-- Generation Time: Apr 13, 2026 at 05:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -74,9 +74,7 @@ CREATE TABLE `item` (
 --
 
 INSERT INTO `item` (`item_id`, `order_id`, `variant_id`, `unit`, `price`) VALUES
-(9, 9, 'P10003', 2, 28.50),
-(10, 9, 'P10006', 3, 32.00),
-(11, 10, 'P10006', 3, 32.00);
+(15, 14, 'P10006', 1, 32.00);
 
 -- --------------------------------------------------------
 
@@ -98,8 +96,7 @@ CREATE TABLE `order` (
 --
 
 INSERT INTO `order` (`order_id`, `datetime`, `total`, `quantity`, `user_id`, `status`) VALUES
-(9, '2026-04-13 07:38:05', 153.00, 5, 'U001', 'Pending'),
-(10, '2026-04-13 12:53:32', 96.00, 3, 'U003', 'Pending');
+(14, '2026-04-13 14:29:34', 32.00, 1, 'U001', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -533,13 +530,13 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `item`
 --
 ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order`
 --
 ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
