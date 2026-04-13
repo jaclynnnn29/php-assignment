@@ -11,8 +11,8 @@ auth('Member');
 // TODO
 $stm = $_db ->prepare('
     SELECT * FROM `order` 
-    WHERE user_id = ? 
-    ORDER BY datetime DESC
+    JOIN `item` ON `order`.order_id = `item`.order_id 
+    WHERE `order`.user_id = ?
     ');
 $stm->execute([$_user->user_id]);
 $arr = $stm->fetchAll();

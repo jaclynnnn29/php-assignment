@@ -7,10 +7,16 @@ auth('Admin');
 // 2. Fetch all products and their category names
 // We use a JOIN to show 'T-Shirt' instead of 'C001'
 
+// Update your SQL to include the price from your variants table
 $stm = $_db->query("
-    SELECT p.*, c.cat_name 
+    SELECT p.*, c.cat_name, v.price 
     FROM product p
     LEFT JOIN categories c ON p.cat_id = c.cat_id
+    LEFT JOIN (
+        SELECT product_id, MIN(price) as price 
+        FROM product_variants 
+        GROUP BY product_id
+    ) v ON p.product_id = v.product_id
     ORDER BY p.product_id ASC
 ");
 $products = $stm->fetchAll();

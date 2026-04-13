@@ -6,59 +6,59 @@ if (is_post()) {
     $cart = get_cart();
     if (!$cart) redirect('cart.php');
 
-    $_db->beginTransaction();
+    $total_qty = 0;
+    $total_amt = 0;
+
+    // 1. Calculate totals first
+    $stm = $_db->prepare("INSERT INTO `order` (total, quantity, user_id) VALUES (?, ?, ?)");
+    $stm->execute([$total_amt, $total_qty, $_user->user_id]);
+
+// Get the NEW numeric ID
+    $order_id = $_db->lastInsertId(); 
+
+// Insert items using that numeric ID
+    // Prepare the statement with 4 slots
+    $stm_item = $_db->prepare('INSERT INTO item (order_id, variant_id, unit, price) VALUES (?, ?, ?, ?)');
+
+    foreach ($cart as $variant_id => $unit) {
+    // 1. Get the current price of this variant from the DB
+    $s = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
+    $s->execute([$variant_id]);
+    $price = $s->fetchColumn();
+
+    // 2. Now execute with all 4 required values
+    $stm_item->execute([$order_id, $variant_id, $unit, $price]);
+    }
 
     try {
-        // (B) Insert into 'order' table using your specific columns
-        // Note: Default 'status' to 'Pending' if not set in DB defaults
-        $stm = $_db->prepare('
-            INSERT INTO `order` (user_id, datetime, total, quantity)
-            VALUES (?, NOW(), 0, 0)
-        ');
-        $stm->execute([$_user->user_id]);
-        $id = $_db->lastInsertId();
+        $_db->beginTransaction();
 
-        // (C) Insert into 'item' table
-        // We join product and variants to get the correct product_id and price
-        $stm = $_db->prepare('
-            INSERT INTO `item` (order_id, product_id, unit, subtotal)
-            SELECT ?, pv.product_id, ?, pv.price * ? 
-            FROM product_variants pv
-            JOIN product p ON pv.product_id = p.product_id
-            WHERE pv.variant_id = ?
-        ');
-        
-        $total_qty = 0;
-        $total_amt = 0;
-        
-        // We need the price to calculate totals in PHP to avoid MySQL Update subquery errors
-        $stm_price = $_db->prepare('SELECT price FROM product_variants WHERE variant_id = ?');
+        // 2. Insert into 'order' table
+        // REMOVE 'order_id' from the column list and values. 
+        // The DB will generate it automatically.
+        $stm = $_db->prepare("INSERT INTO `order` (datetime, total, quantity, user_id, status) VALUES (NOW(), ?, ?, ?, 'Pending')");
+        $stm->execute([$total_amt, $total_qty, $_user->user_id]);
 
+        // 3. Get the ID the database just created
+        $order_id = $_db->lastInsertId();
+
+        // 4. Insert items using that new ID
+        $stm_item = $_db->prepare('INSERT INTO item (order_id, variant_id, unit, price) 
+                                   SELECT ?, variant_id, ?, price FROM product_variants WHERE variant_id = ?');
+        
         foreach ($cart as $variant_id => $unit) {
-            $stm_price->execute([$variant_id]);
-            $v = $stm_price->fetch();
-            
-            $total_qty += $unit;
-            $total_amt += ($v->price * $unit);
-
-            $stm->execute([$id, $unit, $unit, $variant_id]);
+            $stm_item->execute([$order_id, $unit, $variant_id]);
         }
 
-        // (D) Update the 'order' table totals
-        $stm = $_db->prepare('
-            UPDATE `order` SET quantity = ?, total = ? WHERE order_id = ?
-        ');
-        $stm->execute([$total_qty, $total_amt, $id]);
-
         $_db->commit();
-        set_cart(); // Clear cart after successful DB commit
+        set_cart(); // Clear the cart
 
-        temp('info', 'Order created successfully.');
-        redirect("payment.php?id=$id");
+        temp('info', 'Order placed successfully! Order ID: ' . $order_id);
+        redirect("payment.php?id=$order_id");
         
     } catch (Exception $e) {
         $_db->rollBack();
-        temp('info', 'Checkout Failed: ' . $e->getMessage());
+        temp('error', 'Checkout Failed: ' . $e->getMessage());
         redirect('cart.php');
     } 
 }

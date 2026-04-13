@@ -25,7 +25,7 @@ include '_head.php';
     </p>
     
     <div class="hero-buttons">
-        <a href="/product/list.php" style="padding: 12px 30px; background: #6e8efb; color: #fff; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(110,142,251,0.4);">
+        <a href="../product/list.php" style="padding: 12px 30px; background: #6e8efb; color: #fff; text-decoration: none; border-radius: 25px; font-weight: bold; box-shadow: 0 4px 15px rgba(110,142,251,0.4);">
             Browse Products
         </a>
     </div>
@@ -40,8 +40,8 @@ include '_head.php';
             
             <?php foreach ($products as $p): ?>
                 <div class="product-card">
-                    <a href="/product/detail.php?id=<?= $p->product_id ?>">
-                        <img src="/images/<?= $p->photo ?>" alt="<?= encode($p->product_name) ?>">
+                    <a href="../product/detail.php?id=<?= $p->product_id ?>">
+                        <img src="../images/<?= $p->photo ?>" alt="<?= encode($p->product_name) ?>">
                         <h4><?= encode($p->product_name) ?></h4>
                         <p class="price">RM <?= number_format($p->price, 2) ?></p>
                     </a>

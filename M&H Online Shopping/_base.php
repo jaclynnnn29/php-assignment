@@ -260,6 +260,23 @@ function is_exists($value, $table, $field) {
     return $stm->fetchColumn() > 0;
 }
 
+function generate_id($table, $column, $prefix, $length) {
+    global $_db;
+    $stm = $_db->prepare("SELECT MAX($column) FROM `$table` WHERE $column LIKE ?");
+    $stm->execute(["$prefix%"]);
+    $max = $stm->fetchColumn();
+
+    if ($max) {
+        $n = (int)substr($max, strlen($prefix)) + 1;
+    } else {
+        $n = 1;
+    }
+
+    return $prefix . str_pad($n, $length, '0', STR_PAD_LEFT);
+}
+
+
+
 // ============================================================================
 // Global Constants and Variables
 // ============================================================================
