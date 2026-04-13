@@ -58,7 +58,7 @@ include '../_head.php';
                         <td class="right"><?= number_format($p->price, 2) ?></td>
                         <td>
                             <a href="product_edit.php?id=<?= $p->product_id ?>" class="link-edit">Edit</a> | 
-                            <a href="product_delete.php?id=<?= $p->product_id ?>" class="link-delete">Delete</a>
+                            <a href="product_delete.php?id=<?= $p->product_id ?>" class="link-delete" onclick="return confirm('Are you sure you want to delete this product?')">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -66,13 +66,6 @@ include '../_head.php';
         </table>
     </div>
 </main>
-
-<a href="product_delete.php?id=<?= $p->product_id ?>" 
-   class="btn-delete" 
-   onclick="return confirm('Are you sure you want to delete this product?')">
-   Delete
-</a>
-
 <p><?= count($products) ?> product(s) found.</p>
 
 <?php include '../_foot.php'; ?>
