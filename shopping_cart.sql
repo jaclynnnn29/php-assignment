@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 13, 2026 at 08:56 PM
+-- Generation Time: Apr 14, 2026 at 07:42 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -80,16 +80,65 @@ CREATE TABLE `order` (
   `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
   `total` decimal(10,2) NOT NULL,
   `quantity` int(11) NOT NULL,
-  `user_id` varchar(10) DEFAULT NULL,
-  `status` enum('Pending','Processing','Shipped','Delivered','Cancelled') DEFAULT 'Pending'
+  `user_id` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `order`
 --
 
-INSERT INTO `order` (`order_id`, `datetime`, `total`, `quantity`, `user_id`, `status`) VALUES
-(14, '2026-04-13 14:29:34', 32.00, 1, 'U001', 'Pending');
+INSERT INTO `order` (`order_id`, `datetime`, `total`, `quantity`, `user_id`) VALUES
+(1, '2026-04-13 14:29:34', 32.00, 1, 'U001');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `order_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `total_price` decimal(10,2) NOT NULL,
+  `status` varchar(50) DEFAULT 'Pending',
+  `payment_method` varchar(50) DEFAULT NULL,
+  `order_date` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_method`, `order_date`) VALUES
+(47, 0, 64.00, 'Paid', 'E-Wallet', '2026-04-15 00:48:58'),
+(48, 0, 29.99, 'Paid', 'Credit Card', '2026-04-15 01:27:28');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_items`
+--
+
+CREATE TABLE `order_items` (
+  `order_id` int(11) NOT NULL,
+  `variant_id` int(11) NOT NULL,
+  `unit` int(11) NOT NULL,
+  `unit_price` decimal(10,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `order_items`
+--
+
+INSERT INTO `order_items` (`order_id`, `variant_id`, `unit`, `unit_price`) VALUES
+(1, 0, 5, 50.00),
+(2, 0, 4, 32.00),
+(3, 0, 7, 45.90),
+(4, 0, 5, 32.00),
+(45, 0, 1, 28.50),
+(46, 0, 1, 120.00),
+(47, 0, 2, 32.00),
+(48, 0, 1, 29.99);
 
 -- --------------------------------------------------------
 
@@ -201,6 +250,13 @@ CREATE TABLE `product_reviews` (
   `review` text DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `product_reviews`
+--
+
+INSERT INTO `product_reviews` (`review_id`, `product_id`, `user_id`, `rating`, `review`, `created_at`) VALUES
+(1, 'P20067', 'U001', 5, '', '2026-04-14 16:13:41');
 
 -- --------------------------------------------------------
 
@@ -488,6 +544,18 @@ ALTER TABLE `order`
   ADD PRIMARY KEY (`order_id`);
 
 --
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`order_id`);
+
+--
+-- Indexes for table `order_items`
+--
+ALTER TABLE `order_items`
+  ADD PRIMARY KEY (`order_id`,`variant_id`);
+
+--
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
@@ -537,10 +605,16 @@ ALTER TABLE `order`
   MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+
+--
 -- AUTO_INCREMENT for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
