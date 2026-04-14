@@ -5,7 +5,7 @@ $_title = 'About Us';
 include '_head.php'; 
 ?>
 
-<div class="about-container" style="padding: 40px 50px; line-height: 1.6; color: #333;">
+<div class="about-container" style="padding: 40px 50px; line-height: 1.6; color: #f7f4f4;">
     <section class="about-hero" style="text-align: center; margin-bottom: 50px;">
         <h2 style="font-size: 2.5em; color: #6e8efb;">About M&H Online Shopping</h2>
         <p style="font-size: 1.2em; max-width: 800px; margin: 20px auto;">
@@ -31,11 +31,7 @@ include '_head.php';
         </div>
     </div>
 
-    <section class="contact-info" style="background: #f9f9f9; padding: 30px; border-radius: 10px; text-align: center;">
-        <h3>Visit Us</h3>
-        <p>If you have any questions, feel free to visit our office or reach out to our support team.</p>
-        <a href="/contact.php" style="display: inline-block; margin-top: 15px; padding: 10px 25px; background: #6e8efb; color: #fff; text-decoration: none; border-radius: 5px; font-weight: bold;">Contact Us</a>
-    </section>
+    
 </div>
 
 <?php
