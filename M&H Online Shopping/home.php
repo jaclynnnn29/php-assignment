@@ -2,8 +2,18 @@
 include '_base.php'; 
 
 // ----------------------------------------------------------------------------
-$stm = $_db->query("SELECT * FROM product ORDER BY RAND() LIMIT 8");
+$stm = $_db->query("
+    SELECT p.*, v.price 
+    FROM product p
+    JOIN product_variants v ON p.product_id = v.product_id
+    GROUP BY p.product_id 
+    ORDER BY RAND() 
+    LIMIT 8
+");
 $featured = $stm->fetchAll();
+
+//$stm = $_db->query("SELECT * FROM product ORDER BY RAND() LIMIT 8");
+//$featured = $stm->fetchAll();
 // ----------------------------------------------------------------------------
 
 $_title = 'Home';
@@ -55,9 +65,9 @@ include '_head.php';
     }
 </style>
 
-<div class="featured-products" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; padding: 20px;">
+<div class="featured-products" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 60px; padding: 60px;">
     <?php foreach ($featured as $p): ?>
-        <div class="product-card" style="background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
+        <div class="product-card" style="background: white; padding: 10px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center;">
             
             <img src="/images/<?= $p->photo ?>" style="width: 100%; height: 200px; object-fit: cover; border-radius: 5px;">
             
