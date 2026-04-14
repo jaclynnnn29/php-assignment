@@ -5,27 +5,40 @@ auth('Member');
 // --- Logic ---
 if (is_post()) {
     $btn = req('btn');
-    if ($btn == 'clear'){
-        set_cart();
-        redirect('?');
+    $id = req('id');
+
+    // 1. Handle Clear All
+    if ($btn == 'clear') {
+        set_cart(); // Clear the session array
+        temp('info', 'Cart cleared.');
+        redirect('cart.php');
     }
 
-    $original_id = req('id');
-    $new_variant_id = req('variant_id') ?: $original_id;
-    $unit = req('unit');
+    // 2. Handle Remove Single Item
+    if ($btn == 'delete' || req('unit') === '0') {
+        update_cart($id, 0); // Set quantity to 0 to remove it
+        temp('info', 'Item removed.');
+        redirect('cart.php');
+    }
+    
 
-    if ($new_variant_id != $original_id) {
+    // 3. Handle Variant Swapping or Quantity Updates
+    $new_variant_id = req('variant_id') ?: $id;
+
+    if ($new_variant_id != $id) {
+        // Switching to a different size/variant
         $cart = get_cart();
-        unset($cart[$original_id]);
+        unset($cart[$id]); // Remove the old variant
 
-        if ($unit >= 1 && $unit <= 10 && is_exists($new_variant_id, 'product_variants', 'variant_id')) {
-            $cart[$new_variant_id] = min(10, ($cart[$new_variant_id] ?? 0) + $unit);
+        if ($unit >= 1 && $unit <= 10) {
+            // Add quantity to the new variant
+            $cart[$new_variant_id] = ($cart[$new_variant_id] ?? 0) + $unit;
             ksort($cart);
         }
-
         set_cart($cart);
     } else {
-        update_cart($original_id, $unit);
+        // Standard quantity update for the same item
+        update_cart($id, $unit);
     }
     redirect();
 }
@@ -40,10 +53,10 @@ include '../_head.php';
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
             <h2>Your Shopping Cart</h2>
             <form method="get" style="display: flex; gap: 5px;">
-                <input type="text" name="search" value="<?= $search ?>" placeholder="Search items..." style="padding: 5px; width: 200px;">
+                <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search items..." style="padding: 5px; width: 200px;">
                 <button type="submit">Search</button>
                 <?php if ($search): ?>
-                    <a href="?" style="font-size: 0.8rem; align-self: center;">Clear</a>
+                    <a href="?" style="font-size: 0.8rem; align-self: center; margin-left: 5px;">Clear Search</a>
                 <?php endif; ?>
             </form>
         </div>
@@ -65,15 +78,26 @@ include '../_head.php';
                 $displayed_count = 0;
                 $displayed_total = 0;
                 
-                $stm = $_db->prepare('SELECT pv.*, p.product_name, p.photo FROM product_variants pv JOIN product p ON pv.product_id = p.product_id WHERE pv.variant_id = ?');
+                // Query to get product details via variant
+                $stm = $_db->prepare('
+                    SELECT pv.*, p.product_name, p.photo 
+                    FROM product_variants pv 
+                    JOIN product p ON pv.product_id = p.product_id 
+                    WHERE pv.variant_id = ?
+                ');
+                
+                // Query to get all available sizes for the size-dropdown
                 $stm_variants = $_db->prepare('SELECT variant_id, size FROM product_variants WHERE product_id = ? ORDER BY size');
+                
                 $cart = get_cart();
 
                 foreach ($cart as $id => $unit):
                     $stm->execute([$id]);
                     $p = $stm->fetch();
+                    
                     if (!$p) continue;
 
+                    // Filter display if searching
                     if ($search && stripos($p->product_name, $search) === false) continue;
 
                     $stm_variants->execute([$p->product_id]);
@@ -85,7 +109,7 @@ include '../_head.php';
                 ?>
                     <tr>
                         <td><img src="/images/<?= $p->photo ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
-                        <td><?= $p->product_name ?></td>
+                        <td><?= htmlspecialchars($p->product_name) ?></td>
                         <td>
                             <form method="post">
                                 <?= html_hidden('id', $id) ?>
@@ -103,8 +127,11 @@ include '../_head.php';
                         </td>
                         <td class="right"><?= number_format($subtotal, 2) ?></td>
                         <td>
-                            <button data-post="?id=<?= $id ?>&unit=0" data-confirm="Remove?" class="link-delete" style="background:none; border:none; cursor:pointer;">
-                                <i class="fa fa-trash"></i> Remove
+                            <button data-post="?id=<?= $id ?>&unit=0&btn=delete" 
+                                data-confirm="Remove this item?" 
+                                class="link-delete" 
+                                style="background:none; border:none; cursor:pointer; color: #d9534f;">
+                                🗑️ Remove
                             </button>
                         </td>
                     </tr>
@@ -128,31 +155,26 @@ include '../_head.php';
             </tfoot>
         </table>
 
-        <div style="margin-top: 20px; text-align: right;">
+        <div style="margin-top: 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
             <?php if ($cart): ?>
-                <button class="btn-clear" data-post="cart.php?action=clear">
-                Clear all items
+                <button class="btn-clear" 
+                    data-post="?btn=clear" 
+                    data-confirm="Clear all items in your cart?">
+                    Clear all items
                 </button>
                 
-                <?php if ($_user?->role == 'Member'): ?>
-                    <a href="checkout.php" class="btn-clear" style="text-decoration: none; display: inline-block;">
-                        Check Out
-                    </a>
-                <?php else: ?>
-                    <span style="margin-left: 10px; color: #666;">
-                        Please <a href="/login.php">login</a> to checkout.
-                    </span>
-                <?php endif ?>
+                <a href="checkout.php" class="btn-clear" style="text-decoration: none; background-color: #2b91af; color: white;">
+                    Check Out
+                </a>
             <?php endif ?>
         </div>
     </div>
 </main>
 
 <script>
+    // Automatically submit the form when a dropdown (size or quantity) changes
     $('select').on('change', e => e.target.form.submit());
 </script>
 
-<?php 
-?>
-</body>
-</html>
+
+<?php include '../_foot.php'; ?>

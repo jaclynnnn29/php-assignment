@@ -13,23 +13,20 @@ if (is_post()) {
     }
     
     // Handle review submission
-    if (isset($_POST['rating'])) {
+    if (isset($_POST['rating']) && $_user) {
         $rating = req('rating');
         $review = req('review');
-        $product_id = req('id');
+        $product_id = req('product_id'); // Hidden field for the main product
         
-        // Check if user already reviewed THIS product
         $stm = $_db->prepare("SELECT * FROM product_reviews WHERE user_id = ? AND product_id = ?");
         $stm->execute([$_user->user_id, $product_id]);
         $existing = $stm->fetch();
         
         if ($existing) {
-            // Update existing review
             $stm = $_db->prepare("UPDATE product_reviews SET rating = ?, review = ? WHERE user_id = ? AND product_id = ?");
             $stm->execute([$rating, $review, $_user->user_id, $product_id]);
             temp('info', 'Review updated!');
         } else {
-            // Add new review for THIS product only
             $stm = $_db->prepare("INSERT INTO product_reviews (product_id, user_id, rating, review) VALUES (?, ?, ?, ?)");
             $stm->execute([$product_id, $_user->user_id, $rating, $review]);
             temp('info', 'Review added!');
@@ -39,19 +36,25 @@ if (is_post()) {
 }
 
 $id = req('id');
-$stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
+$stm = $_db->prepare('
+    SELECT p.*, pv.price, pv.size, pv.variant_id 
+    FROM product p 
+    LEFT JOIN product_variants pv ON p.product_id = pv.product_id 
+    WHERE p.product_id = ? 
+    LIMIT 1
+');
 $stm->execute([$id]);
 $p = $stm->fetch();
+
 if (!$p) redirect('list.php');
 
-// Get average rating for THIS product ONLY
+// 2. RATINGS LOGIC
 $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
 $stm->execute([$id]);
 $rating_data = $stm->fetch();
 $avg_rating = round($rating_data->avg_rating ?? 0, 1);
 $total_reviews = $rating_data->total ?? 0;
 
-// Get reviews for THIS product ONLY - FILTERED BY product_id!
 $stm = $_db->prepare("
     SELECT r.*, u.email 
     FROM product_reviews r 
@@ -168,22 +171,26 @@ include '../_head.php';
     </tr>
     <tr>
         <th>Price</th>
-        <td>RM <?= $p->price ?></td>
+        <td>RM <?= number_format($p->price, 2) ?></td>
     </tr>
     <tr>
-        <th>Unit</th>
-        <td>
-            <form method="post">
-                <?= html_hidden('id', $p->product_id) ?>
-                <?= html_select('quantity', $_units, '') ?>
-                <?php
-                $cart = get_cart();
-                $unit = $cart[$p->product_id] ?? 0;
-                echo $unit ? " ✅ In cart: $unit" : '';
-                ?>
-            </form>
-        </td>
-    </tr>
+            <th>Add to Cart</th>
+            <td>
+                <form method="post">
+                    <?= html_hidden('id', $p->variant_id) ?>
+                    <?= html_select('quantity', $_units, (get_cart()[$p->variant_id] ?? '')) ?>
+                    <?php 
+                        $unit_in_cart = get_cart()[$p->variant_id] ?? 0;
+                        if ($unit_in_cart) echo " <span style='color: green;'>✅ ($unit_in_cart in cart)</span>";
+                    ?>
+                </form>
+            </td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td><?= nl2br($p->description) ?></td>
+        </tr>
+
 </table>
 
 <!-- RATINGS SECTION -->

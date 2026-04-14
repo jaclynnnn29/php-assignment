@@ -1,78 +1,96 @@
 <?php
 include '../_base.php';
 
-// (1) Authorization: Only Members and Admins can view order details
+// 1. Authorization: Allow Members to see their own and Admins to see all
 auth('Member', 'Admin');
 
-// (2) Get Order ID from URL
+// 2. Get Order ID from URL
 $id = req('id');
 
-// (3) Fetch order items + product details
-// We JOIN on variant_id to avoid the "product_id not found" error
+// 3. Fetch order items + product details
+// Must JOIN item -> product_variants -> product to get the name and photo
 $stm = $_db->prepare('
-    SELECT i.*, p.product_name, p.photo 
+    SELECT i.*, p.product_name, p.photo, pv.size 
     FROM item i 
-    JOIN product p ON i.variant_id = p.product_id 
+    JOIN product_variants pv ON i.variant_id = pv.variant_id 
+    JOIN product p ON pv.product_id = p.product_id 
     WHERE i.order_id = ?
 ');
 $stm->execute([$id]);
 $items = $stm->fetchAll();
 
-// (4) Fetch the main order info (to show the Date/Total at the top)
-$stm = $_db->prepare('SELECT * FROM `order` WHERE order_id = ?');
+// 4. Fetch the main order info
+// Table is `orders` (plural) and we use backticks for safety
+$stm = $_db->prepare('SELECT * FROM `orders` WHERE order_id = ?');
 $stm->execute([$id]);
 $order = $stm->fetch();
 
-// If order doesn't exist, go back to history
-if (!$order) redirect('history.php');
+// Redirect if order doesn't exist
+if (!$order) {
+    temp('info', 'Order record not found.');
+    redirect('history.php');
+}
 
-// ----------------------------------------------------------------------------
+// Security: If not Admin, ensure the user can only see their own order
+if ($_user->role == 'Member' && $order->user_id != $_user->user_id) {
+    redirect('history.php');
+}
 
 $_title = 'Order | Detail';
 include '../_head.php';
 ?>
 
 <main>
-    <h1>Order Details (ID: ORD<?= str_pad($order->order_id, 3, '0', STR_PAD_LEFT) ?>)</h1>
+    <div class="solid-container">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div>
+                <h1>Order #<?= str_pad($order->order_id, 5, '0', STR_PAD_LEFT) ?></h1>
+                <p><strong>Status:</strong> <span class="status-badge"><?= $order->status ?></span></p>
+            </div>
+            <div style="text-align: right;">
+                <p><strong>Date:</strong> <?= date('d-M-Y H:i', strtotime($order->order_date)) ?></p>
+                <p><strong>Payment:</strong> <?= $orders->payment_method ?? 'Pending' ?></p>
+            </div>
+        </div>
 
-    <p>
-        <strong>Order Date:</strong> <?= $order->datetime ?><br>
-        <strong>Status:</strong> <?= $order->status ?? 'Completed' ?>
-    </p>
+        <table class="table solid-table">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Product Name</th>
+                    <th>Size</th>
+                    <th class="right">Price (RM)</th>
+                    <th class="center">Unit</th>
+                    <th class="right">Subtotal (RM)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($items as $i): ?>
+        <tr>
+            <td><img src="/images/<?= $i->photo ?>" style="width: 50px;"></td>
+            <td><?= htmlspecialchars($i->product_name) ?></td>
+            <td><?= $i->size ?></td>
+            <td class="right">RM <?= number_format($i->price, 2) ?></td>
+            <td class="center"><?= $i->unit ?></td>
+            <td class="right">RM <?= number_format($i->price * $i->unit, 2) ?></td>
+        </tr>
+                <?php endforeach ?>
+            </tbody>
+            <tfoot>
+                <tr style="font-size: 1.2rem; font-weight: bold; background: #f9f9f9;">
+                    <td colspan="5" class="right">Grand Total:</td>
+                    <td class="right" style="color: #2b91af;">RM <?= number_format($order->total_price, 2) ?></td>
+                </tr>
+            </tfoot>
+        </table>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Photo</th>
-                <th>Product Name</th>
-                <th>Price (RM)</th>
-                <th>Quantity</th>
-                <th>Subtotal (RM)</th>
-            </tr>
-        </thead>
-        <tbody>
-        <?php foreach ($items as $i): ?>
-    <tr>
-    <td><img src="/images/<?= $i->photo ?>" style="width: 50px;"></td>
-    <td><?= $i->product_name ?></td>
-    <td>RM <?= number_format($i->price, 2) ?></td>
-    <td><?= $i->unit ?></td> <td>RM <?= number_format($i->price * $i->unit, 2) ?></td>
-</tr>
-<?php endforeach ?>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th colspan="4" class="right">Grand Total:</th>
-                <th>RM <?= number_format($order->total, 2) ?></th>
-            </tr>
-        </tfoot>
-    </table>
-
-    <p style="margin-top: 20px;">
-        <a href="history.php" class="button">Back to History</a>
-    </p>
+        <div style="margin-top: 30px;">
+            <a href="history.php" class="btn-clear" style="text-decoration: none;">← Back to Order History</a>
+            <button onclick="window.print()" class="btn-clear" style="margin-left: 10px; background-color: #eee; color: #333;">
+                🖨️ Print Receipt
+            </button>
+        </div>
+    </div>
 </main>
 
-<?php
-include '../_foot.php';
-?>
+<?php include '../_foot.php'; ?>

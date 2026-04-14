@@ -24,12 +24,14 @@ if (is_post()) {
     if (!$payment_method) {
         $_err['payment_method'] = 'Please select a payment method';
     } else {
-        // Update order status to 'Paid' (Make sure your table has these columns)
+        
+        // ... inside your if (is_post()) block ...
         $stm = $_db->prepare('UPDATE `orders` SET status = ?, payment_method = ? WHERE order_id = ?');
         $stm->execute(['Paid', $payment_method, $id]);
-        
+
         temp('info', 'Payment successful! Your order is confirmed.');
-        redirect("order_detail.php?id=$id");
+// Redirect to detail.php, NOT order_detail.php
+        redirect("detail.php?id=$id");
     }
 }
 
