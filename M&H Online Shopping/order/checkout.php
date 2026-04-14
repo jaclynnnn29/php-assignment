@@ -42,7 +42,7 @@ if (is_post()) {
 
         // D. Clear the cart and go to payment
         set_cart(); 
-        redirect("payment.php?order_id=$order_id");
+        redirect("/order/payment.php?order_id=$order_id");
 
     } catch (Exception $e) {
         $_db->rollBack(); // Something went wrong, undo DB changes
@@ -115,7 +115,7 @@ include '../_head.php';
                 <input type="hidden" name="total_amount" value="<?= $total_payable ?>">
                 
                 <button type="submit" style="padding: 12px 50px; background: #2b91af; color: white; border: none; cursor: pointer; border-radius: 4px; font-weight: bold;">
-                    PROCEED TO PAYMENT →
+                     PROCEED TO PAYMENT →
                 </button>
             </form>
         </div>
