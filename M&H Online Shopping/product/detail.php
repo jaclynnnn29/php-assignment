@@ -18,7 +18,7 @@ if (is_post()) {
         $review = req('review');
         $product_id = req('id');
         
-        // Check if user already reviewed
+        // Check if user already reviewed THIS product
         $stm = $_db->prepare("SELECT * FROM product_reviews WHERE user_id = ? AND product_id = ?");
         $stm->execute([$_user->user_id, $product_id]);
         $existing = $stm->fetch();
@@ -29,51 +29,40 @@ if (is_post()) {
             $stm->execute([$rating, $review, $_user->user_id, $product_id]);
             temp('info', 'Review updated!');
         } else {
-            // Add new review
+            // Add new review for THIS product only
             $stm = $_db->prepare("INSERT INTO product_reviews (product_id, user_id, rating, review) VALUES (?, ?, ?, ?)");
             $stm->execute([$product_id, $_user->user_id, $rating, $review]);
-            temp('info', 'Review added! Thank you!');
+            temp('info', 'Review added!');
         }
         redirect("detail.php?id=$product_id");
     }
 }
 
 $id = req('id');
-$stm = $_db->prepare('SELECT pv.*, p.product_name FROM product_variants pv JOIN product p ON pv.product_id = p.product_id WHERE pv.product_id = ? ORDER BY pv.size');
+$stm = $_db->prepare('SELECT * FROM product WHERE product_id = ?');
 $stm->execute([$id]);
-$variants = $stm->fetchAll();
-if (!$variants) redirect('list.php');
+$p = $stm->fetch();
+if (!$p) redirect('list.php');
 
-// Select variant
-$selected_variant_id = req('variant_id') ?: ($variants[0]->variant_id ?? null);
-$p = null;
-foreach ($variants as $v) {
-    if ($v->variant_id == $selected_variant_id) {
-        $p = $v;
-        break;
-    }
-}
-if (!$p) $p = $variants[0];
-
-// Get average rating for this product
+// Get average rating for THIS product ONLY
 $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
 $stm->execute([$id]);
 $rating_data = $stm->fetch();
 $avg_rating = round($rating_data->avg_rating ?? 0, 1);
 $total_reviews = $rating_data->total ?? 0;
 
-// Get all reviews for this product
-// Join item (i) and product (p)
-$stm = $_db->prepare('
-    SELECT i.price, i.unit, p.product_name, p.photo 
-    FROM item i 
-    JOIN product p ON i.variant_id = p.product_id 
-    WHERE i.order_id = ?
-');
+// Get reviews for THIS product ONLY - FILTERED BY product_id!
+$stm = $_db->prepare("
+    SELECT r.*, u.email 
+    FROM product_reviews r 
+    JOIN user u ON r.user_id = u.user_id 
+    WHERE r.product_id = ?
+    ORDER BY r.created_at DESC
+");
 $stm->execute([$id]);
-$items = $stm->fetchAll();
+$reviews = $stm->fetchAll();
 
-// Get user's existing review (if logged in)
+// Get user's existing review for THIS product ONLY
 $user_review = null;
 if ($_user) {
     $stm = $_db->prepare("SELECT * FROM product_reviews WHERE user_id = ? AND product_id = ?");
@@ -93,16 +82,6 @@ include '../_head.php';
         border: 1px solid #333;
         width: 200px;
         height: 200px;
-    }
-    
-    .table.detail {
-        width: auto; /* Shrink table to content size */
-        min-width: 450px; /* Ensure it doesn't get too narrow */
-    }
-
-    .table.detail th, .table.detail td {
-        padding: 8px 12px; /* Reduced from global 15px */
-        font-size: 0.95rem;
     }
     
     .rating-stars {
@@ -172,6 +151,8 @@ include '../_head.php';
     }
 </style>
 
+<h1>Product Details</h1>
+
 <p>
     <img src="/images/<?= $p->photo ?>" id="photo">
 </p>
@@ -183,42 +164,23 @@ include '../_head.php';
     </tr>
     <tr>
         <th>Type of Product</th>
-        <td><?= $p->product_name ?></td>        
+        <td><?= $p->product_name ?> <?= $p->size ?? '' ?></td>
     </tr>
     <tr>
         <th>Price</th>
         <td>RM <?= $p->price ?></td>
     </tr>
     <tr>
-        <th>Select Size:</th>
-        <td>
-            <form method="get" style="display: inline;">
-            <input type="hidden" name="id" value="<?= $id ?>">
-            <select name="variant_id" id="variant_id" onchange="this.form.submit()">
-                <?php foreach ($variants as $v): ?>
-                    <option value="<?= $v->variant_id ?>" <?= $v->variant_id == $p->variant_id ? 'selected' : '' ?>><?= $v->size ?? 'Default' ?></option>
-                <?php endforeach; ?>
-            </select>
-    </form>
-    
-        </td>        
-    </tr>
-    <tr>
         <th>Unit</th>
         <td>
             <form method="post">
+                <?= html_hidden('id', $p->product_id) ?>
+                <?= html_select('quantity', $_units, '') ?>
                 <?php
                 $cart = get_cart();
-                $unit = $cart[$p->variant_id] ?? 0;
-                ?>
-                <?= html_hidden('id', $p->variant_id) ?>
-                <?= html_select('quantity', $_units, $unit, '', 'id="quantity"') ?>               
-                <?php
+                $unit = $cart[$p->product_id] ?? 0;
                 echo $unit ? " ✅ In cart: $unit" : '';
                 ?>
-                <div style="margin-top: 15px;">
-                    <button type="submit">Add to Cart</button>
-                </div>
             </form>
         </td>
     </tr>
@@ -270,7 +232,7 @@ include '../_head.php';
     </p>
 <?php endif; ?>
 
-<!-- ALL REVIEWS LIST -->
+<!-- ALL REVIEWS LIST - ONLY FOR THIS PRODUCT -->
 <h3>Customer Reviews (<?= $total_reviews ?>)</h3>
 
 <?php if (count($reviews) > 0): ?>
@@ -303,7 +265,7 @@ include '../_head.php';
 
 <script>
     // Handle cart quantity change
-    $('select').not('#quantity').on('change', function(e) {
+    $('select').on('change', function(e) {
         e.target.form.submit();
     });
     
