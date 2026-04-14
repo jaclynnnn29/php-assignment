@@ -31,31 +31,6 @@ include '_head.php';
     </div>
 </div>
 
-// change idk ahh aaaaaaa
-<div class="popular-products" style="padding: 40px 50px;">
-    <h2 style="text-align: center; margin-bottom: 30px;">Popular Products</h2>
-    
-    <div class="product-grid">
-        <?php if (!empty($products)): ?>
-            
-            <?php foreach ($products as $p): ?>
-                <div class="product-card">
-                    <a href="../product/detail.php?id=<?= $p->product_id ?>">
-                        <img src="../images/<?= $p->photo ?>" alt="<?= encode($p->product_name) ?>">
-                        <h4><?= encode($p->product_name) ?></h4>
-                        <p class="price">RM <?= number_format($p->price, 2) ?></p>
-                    </a>
-                    <button class="add-to-cart">Add to Cart</button>
-                </div>
-            <?php endforeach; ?>
-
-        <?php else: ?>
-            <p style="text-align: center; grid-column: 1 / -1;">No products found.</p>
-        <?php endif; ?>
-    </div>
-</div>
-
-//change
 
 <div class="features" style="display: flex; justify-content: space-around; padding: 40px; background: #f9f9f9;">
     <div class="feature-item">

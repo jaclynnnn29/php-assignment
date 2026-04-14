@@ -35,7 +35,7 @@
                 <a href="../user/register.php"><i class="bx bx-user-plus"></i> Register</a>
             <?php endif ?>  
 
-            <a href="../contact.php"><i class="bx bx-id-card"></i> Contact</a>
+            
             <a href="../about.php"><i class="bx bx-info-circle"></i> About</a>
         </div>
     </header>
