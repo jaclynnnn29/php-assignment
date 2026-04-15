@@ -27,7 +27,53 @@ include '../_head.php';
 ?>
 
 <main>
-    <h1>Reset Password for <?= htmlspecialchars($email) ?></h1>
+    <style>
+    /* Centers the main container and limits its width */
+    main {
+    max-width: 500px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+    /* Makes the input and button look more balanced */
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+
+    input[type="text"], 
+    input[type="email"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #248faf;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    button:hover {
+        background-color: #1a6d87;
+    }
+</style>
+
+    <h1>Resetting Password \n for \n <?= htmlspecialchars($email) ?></h1>
     <form method="post">
         <label>New Password:</label>
         <?php html_password('pass1'); ?>
@@ -39,5 +85,3 @@ include '../_head.php';
         <button type="submit">Update Password</button>
     </form>
 </main>
-
-<?php include '../_foot.php'; ?>
