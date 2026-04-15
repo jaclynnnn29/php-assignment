@@ -148,18 +148,55 @@ include '../_head.php';
 </main>
 
 <script>
-// Logic to trigger File Explorer
-const browseBtn = document.getElementById('browse-click');
+// 1. Declare variables ONCE at the top
+const dropZone = document.getElementById('drop-zone');
 const fileInput = document.getElementById('photo-input');
+const browseBtn = document.getElementById('browse-click');
+const imgPreview = document.getElementById('img-preview');
 
-browseBtn.addEventListener('click', (e) => {
-    e.stopPropagation(); // Prevents double-triggering if click bubbles to drop-zone
-    fileInput.click();
+// 2. Drag & Drop Logic
+['dragover', 'drop'].forEach(name => {
+    dropZone.addEventListener(name, e => e.preventDefault());
 });
 
-// Click the whole zone to trigger explorer
-document.getElementById('drop-zone').addEventListener('click', () => {
-    fileInput.click();
+// Visual hover effect
+dropZone.addEventListener('dragover', () => dropZone.classList.add('hover'));
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('hover'));
+
+dropZone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropZone.classList.remove('hover');
+    
+    // CRITICAL: This line moves the dropped file into the form
+    fileInput.files = e.dataTransfer.files; 
+
+    // Update the preview so you can see the photo before clicking Update
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imgPreview.src = e.target.result;
+            imgPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+});
+
+// 3. Click Logic (triggers file explorer)
+browseBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    fileInput.click(); 
+});
+
+// Also update preview when choosing file via "Browse"
+fileInput.addEventListener('change', () => {
+    if (fileInput.files && fileInput.files[0]) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            imgPreview.src = e.target.result;
+            imgPreview.style.display = 'block';
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
 });
 </script>
 
