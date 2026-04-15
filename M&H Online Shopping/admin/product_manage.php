@@ -15,7 +15,7 @@ if (is_post()) {
     redirect(); 
 }
 
-//Order Listing (Additional)
+// Order Listing 
 // Select from the correct table and use correct date column
 $orders = $_db->query("SELECT * FROM `orders` ORDER BY order_date DESC")->fetchAll();
 
