@@ -108,6 +108,10 @@ include '_head.php';
                 <label for="password">Password</label>
                 <?php html_password('password', 'placeholder="••••••••"'); ?>
             </div>
+            
+            <p style="margin-top: 10px;">
+                <a href="user/forgot_password.php" style="color: #248faf;">Forgot Password?</a>
+            </p>
 
             <div class="form-group" style="flex-direction: row; justify-content: left; gap: 10px;margin-left: 50px;margin-bottom: 20px;">
                 <input type="checkbox" name="remember" id="remember" <?= post('remember') ? 'checked' : '' ?> style="width: 18px; height: 18px; cursor: pointer;">

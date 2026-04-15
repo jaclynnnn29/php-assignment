@@ -69,9 +69,9 @@ include '../_head.php';
                     <th>Photo</th>
                     <th>Type of Product</th>
                     <th>Size</th>
-                    <th class="right">Price (RM)</th>
+                    <th class="right">Price per Unit (RM)</th>
                     <th>Unit</th>
-                    <th class="right">Subtotal (RM)</th>
+                    <th class="right">SubTotal (RM)</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -151,7 +151,7 @@ include '../_head.php';
                 <tr style="background: #f9f9f9; font-weight: bold;">
                     <td colspan="4" style="text-align: right;">Total Units:</td>
                     <td><?= $displayed_count ?></td>
-                    <td class="right">RM <?= number_format($displayed_total, 2) ?></td>
+                    <td class="right">Total Amount: RM <?= number_format($displayed_total, 2) ?></td>
                     <td></td>
                 </tr>
             </tfoot>
