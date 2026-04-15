@@ -48,6 +48,24 @@ $p = $stm->fetch();
 
 if (!$p) redirect('list.php');
 
+// 2. GET ALL VARIANTS (SIZES) FOR THIS PRODUCT
+$stm_v = $_db->prepare('SELECT * FROM product_variants WHERE product_id = ? ORDER BY size');
+$stm_v->execute([$id]);
+$variants = $stm_v->fetchAll();
+
+// 3. DETERMINE SELECTED VARIANT
+// If user clicked a specific size, use that. Otherwise, default to the first available size.
+$selected_variant_id = req('variant_id') ?: ($variants[0]->variant_id ?? null);
+
+// Find the specific details for the selected size
+$current_variant = null;
+foreach ($variants as $v) {
+    if ($v->variant_id == $selected_variant_id) {
+        $current_variant = $v;
+        break;
+    }
+}
+
 // 2. RATINGS LOGIC
 $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
 $stm->execute([$id]);
@@ -174,17 +192,32 @@ include '../_head.php';
         <td>RM <?= number_format($p->price, 2) ?></td>
     </tr>
     <tr>
+        <th>Size</th>
+        <td>
+            <form method="get" id="size-form">
+                <input type="hidden" name="id" value="<?= $id ?>">
+                <?= html_select('variant_id', array_column($variants, 'size', 'variant_id'), $selected_variant_id) ?>
+            </form>
+        </td>
+    </tr>
+    <tr>
             <th>Add to Cart</th>
             <td>
-                <form method="post">
-                    <?= html_hidden('id', $p->variant_id) ?>
-                    <?= html_select('quantity', $_units, (get_cart()[$p->variant_id] ?? '')) ?>
-                    <?php 
-                        $unit_in_cart = get_cart()[$p->variant_id] ?? 0;
-                        if ($unit_in_cart) echo " <span style='color: green;'>✅ ($unit_in_cart in cart)</span>";
-                    ?>
-                </form>
-            </td>
+          <?php if ($selected_variant_id): ?>
+            <form method="post">
+                <?= html_hidden('id', $selected_variant_id) ?>
+                
+                <?= html_select('quantity', $_units, (get_cart()[$selected_variant_id] ?? '')) ?>
+                
+                <?php 
+                    $unit_in_cart = get_cart()[$selected_variant_id] ?? 0;
+                    if ($unit_in_cart) echo " <span style='color: green;'>✅ ($unit_in_cart in cart)</span>";
+                ?>
+            </form>
+        <?php else: ?>
+            <span style="color: red;">Out of stock</span>
+        <?php endif; ?>
+    </td>
         </tr>
         <tr>
             <th>Description</th>
