@@ -170,6 +170,10 @@ include '../_head.php';
         background-color: #f5f5f5;
         border-radius: 5px;
     }
+
+    h1 {
+    color: white;
+}
 </style>
 
 <h1>Product Details</h1>

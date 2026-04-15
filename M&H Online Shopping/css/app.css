@@ -201,6 +201,29 @@ nav.pager a.active {
 
 /* Table ------------------------------------------------------------------- */
 
+/* This ONLY affects the table with the class 'detail' */
+table.detail {
+    width: 70%;             /* Makes the table take up only half the screen width */
+    margin-bottom: 20px;    /* Adds space below the table */
+    border-collapse: collapse;
+}
+
+/* This ONLY affects headers inside the detail table */
+table.detail th {
+    background-color: #333; /* Gives the left labels a dark background */
+    color: white;           /* Makes the label text white */
+    width: 40%;             /* Keeps the label column narrow */
+    text-align: left;
+    padding: 10px;
+}
+
+/* This ONLY affects the data cells inside the detail table */
+table.detail td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #fff; /* Keeps the data area white */
+}
+
 .table {
     border-collapse: collapse;
 }
