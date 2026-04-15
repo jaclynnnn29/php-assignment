@@ -17,6 +17,17 @@ if (!$o) {
     redirect('history.php');
 }
 
+// --- ADD THIS BLOCK FOR PAYPAL ---
+if (req('paypal_success')) {
+    // Update the database: Set status to 'Paid' and method to 'PayPal'
+    $stm = $_db->prepare('UPDATE `orders` SET status = ?, payment_method = ? WHERE order_id = ?');
+    $stm->execute(['Paid', 'PayPal', $id]);
+
+    temp('info', 'PayPal Payment successful! Your order is confirmed.');
+    redirect("detail.php?id=$id");
+}
+// ---------------------------------
+
 // 4. Handle payment submission
 if (is_post()) {
     $payment_method = post('payment_method');
@@ -38,6 +49,8 @@ if (is_post()) {
 $_title = 'Order | Payment';
 include '../_head.php';
 ?>
+
+<script src="https://www.paypal.com/sdk/js?client-id=AUYbQd7KxkcMO_EDQcDGliBr0R9fMHn9TqIjDLxMWp2DyLvZYn8gT3kbg0MDdVTJQO0JGgLh5eOTGnh0&currency=MYR"></script>
 
 <style>
     .payment-container {
@@ -104,32 +117,19 @@ include '../_head.php';
             </p>
         </div>
 
+        
         <form method="post">
             <h3>How would you like to pay?</h3>
-            
+
+            <div id="paypal-button-container"></div>
+            <div class="paypal-divider"></div>
+
+
             <?php if (isset($_err['payment_method'])): ?>
                 <div class="error"><?= $_err['payment_method'] ?></div>
             <?php endif; ?>
 
-            <div class="payment-methods">
-                <label class="payment-option">
-                    <input type="radio" name="payment_method" value="Credit Card">
-                    💳 Credit / Debit Card
-                </label>
-                
-                <label class="payment-option">
-                    <input type="radio" name="payment_method" value="Online Banking">
-                    🏦 Online Banking (FPX)
-                </label>
-                
-                <label class="payment-option">
-                    <input type="radio" name="payment_method" value="E-Wallet">
-                    📱 E-Wallet (TNG / GrabPay)
-                </label>
-                
-            </div>
-            
-            <button type="submit" class="btn-pay">Pay RM <?= number_format($o->total_price, 2) ?></button>
+            <button type="submit" class="btn-pay">Confirm Manual Payment</button>
         </form>
         
         <p style="text-align: center; margin-top: 20px;">
@@ -137,5 +137,28 @@ include '../_head.php';
         </p>
     </div>
 </main>
+
+<script>
+    paypal.Buttons({
+        // Set up the transaction
+        createOrder: function(data, actions) {
+            return actions.order.create({
+                purchase_units: [{
+                    amount: {
+                        value: '<?= $o->total_price ?>' // Use your total_price variable
+                    }
+                }]
+            });
+        },
+
+        // Finalize the transaction
+        onApprove: function(data, actions) {
+            return actions.order.capture().then(function(orderData) {
+                // Redirect to handle the DB update
+                window.location.href = "payment.php?order_id=<?= $o->order_id ?>&paypal_success=1";
+            });
+        }
+    }).render('#paypal-button-container');
+</script>
 
 <?php include '../_foot.php'; ?>
