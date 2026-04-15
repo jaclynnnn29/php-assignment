@@ -1,5 +1,6 @@
 <?php
 include '_base.php';
+auth('Admin'); // Restrict access to Admins only
 
 // ----------------------------------------------------------------------------
 

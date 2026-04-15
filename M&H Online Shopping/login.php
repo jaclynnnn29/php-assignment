@@ -84,8 +84,8 @@ if (is_get()) {
     }
 }
 $_title = 'Login';
-include '../_head.php';
 include '_head.php';
+
 ?>
 
 <main>
