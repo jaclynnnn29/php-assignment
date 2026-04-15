@@ -28,7 +28,8 @@ include '../_head.php';
             <th>Id</th>
             <th>Date</th>
             <th>Total (RM)</th>
-            <th>Status</th>
+            <th>Payment Status</th>
+            <th>Shipment Status</th>
             <th>Action</th> 
         </tr>
 
@@ -37,7 +38,12 @@ include '../_head.php';
             <td>ORD<?= str_pad($o->order_id, 5, '0', STR_PAD_LEFT) ?></td>
             <td><?= $o->order_date ?></td>
             <td class="right">RM <?= number_format($o->total_price, 2) ?></td>
-            <td><?= $o->status ?></td>
+            <td>
+                <span style="color: <?= $o->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+                    <?= $o->status ?>
+                </span>
+            </td>
+            <td><?= $orders->payment_method ?? 'Pending' ?></td>
             <td>
             <button onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
             </td> 
