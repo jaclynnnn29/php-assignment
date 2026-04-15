@@ -2,7 +2,8 @@
 require '../_base.php';
 auth('Admin');
 
-$order_id = req('id');
+$stm->execute([$order_id]); 
+$items = $stm->fetchAll();
 
 // Update order status logic
 if (is_post()) {
@@ -40,9 +41,16 @@ include '../_head.php';
     <section class="order-summary">
         <p><strong>Customer:</strong> <?= htmlspecialchars($order->user_name) ?></p>
         <p><strong>Date:</strong> <?= $order->order_date ?></p>
+        
+        <p><strong>Payment Status:</strong> 
+            <span style="color: <?= $order->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+                <?= $order->status ?>
+            </span>
+        </p>
+        
         <form method="post" style="margin-top: 10px;">
             <label><strong>Current Status:</strong></label>
-            <select name="status">
+            <select name="shipment_status">
                 <?php html_options(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], $order->status); ?>
             </select>
             <button type="submit" class="btn-update" style="padding: 5px 10px;">Update Status</button>

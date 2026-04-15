@@ -26,7 +26,8 @@ include '../_head.php';
                 <th>Customer</th>
                 <th>Date</th>
                 <th>Total (RM)</th>
-                <th>Status</th>
+                <th>Payment Status</th>
+                <th>Shipment Status</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -37,13 +38,23 @@ include '../_head.php';
                 <td><?= htmlspecialchars($o->user_name) ?></td>
                 <td><?= date('d-m-Y H:i', strtotime($o->order_date)) ?></td>
                 <td><?= number_format($o->total_price, 2) ?></td>
+
                 <td>
-                    <span class="status-pill <?= strtolower($o->status) ?>">
+                    <span class="status-pill <?= strtolower($o->status) ?>" 
+                            style="color: <?= $o->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
                         <?= $o->status ?>
                     </span>
                 </td>
+
                 <td>
-                    <a href="order_detail.php?id=<?= $o->order_id ?>" class="btn-update">View Details</a>
+                    <span style="color: #0000ff; font-weight: bold;">
+                        <?= $o->shipment_status ?? 'Processing' ?>
+                    </span>
+                </td>
+
+                <td>
+                    
+                    <a style="color: #ff0000; font-weight: bold;" href="order_detail.php?id=<?= $o->order_id ?>" class="btn-update">View Details</a>
                 </td>
             </tr>
             <?php endforeach; ?>
