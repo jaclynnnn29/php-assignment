@@ -19,12 +19,12 @@ $order = $stm->fetch();
 
 // Fetch order items joined with product names
 $stm = $_db->prepare("
-    SELECT oi.*, p.product_name
+    SELECT oi.*, p.product_name 
     FROM order_items oi
     JOIN product p ON oi.variant_id = p.product_id
     WHERE oi.order_id = ?
 ");
-$stm->execute([$order_id]);
+$stm->execute([$id]); // Use the $id from your URL req('id')
 $items = $stm->fetchAll();
 
 $_title = "Order #$order_id";
@@ -60,13 +60,12 @@ include '../_head.php';
         </thead>
         <tbody>
             <?php foreach ($items as $i): ?>
-            <tr>
-                <td><?= htmlspecialchars($i->product_name) ?></td>
-                <td><?= $i->unit ?></td>
-                <td><?= number_format($i->unit_price, 2) ?></td>
-                <td><?= number_format($i->unit * $i->unit_price, 2) ?></td>
-            </tr>
-            <?php endforeach; ?>
+<tr>
+    <td><?= encode($i->product_name) ?></td>
+    <td><?= $i->unit ?></td> <td>RM <?= number_format($i->unit_price, 2) ?></td>
+    <td>RM <?= number_format($i->unit * $i->unit_price, 2) ?></td>
+</tr>
+<?php endforeach; ?>
             <tr style="font-weight: bold; background: #f9f9f9;">
                 <td colspan="3" style="text-align: right;">Total Amount:</td>
                 <td>RM <?= number_format($order->total_price, 2) ?></td>
@@ -74,5 +73,3 @@ include '../_head.php';
         </tbody>
     </table>
 </main>
-
-<?php include '../_foot.php'; ?>
