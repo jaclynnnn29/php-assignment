@@ -5,13 +5,12 @@ auth('Admin');
 $id = req('id');
 
 // Fetch product details
+// Fetch product details
 $stm = $_db->prepare("
-    SELECT p.*, c.cat_name, i.price 
+    SELECT p.*, c.cat_name
     FROM product p
     LEFT JOIN categories c ON p.cat_id = c.cat_id
-    LEFT JOIN item i ON p.product_id = i.variant_id
     WHERE p.product_id = ?
-    ORDER BY i.item_id DESC LIMIT 1
 ");
 $stm->execute([$id]);
 $p = $stm->fetch();

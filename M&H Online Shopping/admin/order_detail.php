@@ -69,7 +69,7 @@ include '../_head.php';
             <?php endforeach; ?>
             <tr style="font-weight: bold; background: #f9f9f9;">
                 <td colspan="3" style="text-align: right;">Total Amount:</td>
-                <td>RM <?= number_format($order->total_amount, 2) ?></td>
+                <td>RM <?= number_format($order->total_price, 2) ?></td>
             </tr>
         </tbody>
     </table>
