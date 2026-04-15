@@ -45,11 +45,14 @@ include '../_head.php';
         <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
             <div>
                 <h1>Order #<?= str_pad($order->order_id, 5, '0', STR_PAD_LEFT) ?></h1>
-                <p><strong>Status:</strong> <span class="status-badge"><?= $order->status ?></span></p>
+                <p><strong>Payment Status:</strong> 
+                <span class="status-badge" style="color: <?= $order->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+                    <?= $order->status ?>
+                </span></p>
             </div>
             <div style="text-align: right;">
                 <p><strong>Date:</strong> <?= date('d-M-Y H:i', strtotime($order->order_date)) ?></p>
-                <p><strong>Payment:</strong> <?= $orders->payment_method ?? 'Pending' ?></p>
+                <p><strong>Shipment Status:</strong> <?= $orders->payment_method ?? 'Pending' ?></p>
             </div>
         </div>
 
