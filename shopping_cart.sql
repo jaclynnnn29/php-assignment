@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 14, 2026 at 07:42 PM
+-- Generation Time: Apr 15, 2026 at 07:49 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -58,47 +58,12 @@ CREATE TABLE `favorites` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `item`
---
-
-CREATE TABLE `item` (
-  `item_id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `variant_id` varchar(10) DEFAULT NULL,
-  `unit` int(11) NOT NULL,
-  `price` decimal(10,2) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order`
---
-
-CREATE TABLE `order` (
-  `order_id` int(11) NOT NULL,
-  `datetime` timestamp NOT NULL DEFAULT current_timestamp(),
-  `total` decimal(10,2) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `user_id` varchar(10) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `order`
---
-
-INSERT INTO `order` (`order_id`, `datetime`, `total`, `quantity`, `user_id`) VALUES
-(1, '2026-04-13 14:29:34', 32.00, 1, 'U001');
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `orders`
 --
 
 CREATE TABLE `orders` (
   `order_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `user_id` varchar(10) NOT NULL,
   `total_price` decimal(10,2) NOT NULL,
   `status` varchar(50) DEFAULT 'Pending',
   `payment_method` varchar(50) DEFAULT NULL,
@@ -110,8 +75,11 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_method`, `order_date`) VALUES
-(47, 0, 64.00, 'Paid', 'E-Wallet', '2026-04-15 00:48:58'),
-(48, 0, 29.99, 'Paid', 'Credit Card', '2026-04-15 01:27:28');
+(83, 'U002', 114.00, 'Pending', NULL, '2026-04-16 00:09:41'),
+(84, 'U002', 57.00, 'Paid', 'PayPal', '2026-04-16 00:33:25'),
+(85, 'U002', 114.00, 'Pending', NULL, '2026-04-16 00:42:49'),
+(86, 'U001', 242.00, 'Paid', 'PayPal', '2026-04-16 00:52:04'),
+(87, 'U001', 28.50, 'Pending', NULL, '2026-04-16 00:54:35');
 
 -- --------------------------------------------------------
 
@@ -121,7 +89,7 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_m
 
 CREATE TABLE `order_items` (
   `order_id` int(11) NOT NULL,
-  `variant_id` int(11) NOT NULL,
+  `variant_id` varchar(10) NOT NULL,
   `unit` int(11) NOT NULL,
   `unit_price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -131,14 +99,12 @@ CREATE TABLE `order_items` (
 --
 
 INSERT INTO `order_items` (`order_id`, `variant_id`, `unit`, `unit_price`) VALUES
-(1, 0, 5, 50.00),
-(2, 0, 4, 32.00),
-(3, 0, 7, 45.90),
-(4, 0, 5, 32.00),
-(45, 0, 1, 28.50),
-(46, 0, 1, 120.00),
-(47, 0, 2, 32.00),
-(48, 0, 1, 29.99);
+(83, 'P10003', 4, 28.50),
+(84, 'P10003', 2, 28.50),
+(85, 'P10003', 4, 28.50),
+(86, 'P10003', 4, 28.50),
+(86, 'P10006', 4, 32.00),
+(87, 'P10003', 1, 28.50);
 
 -- --------------------------------------------------------
 
@@ -159,7 +125,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `description`, `photo`, `cat_id`) VALUES
-('P20001', 'Green T-shirt', 'A classic, breathable cotton t-shirt in Green.', 'm_tshirt_grn.png', 'C00001'),
+('P20001', 'Green T-shirt', 'A classic, breathable cotton t-shirt in Green.', '69dfc2f8ba679.jpg', 'C00001'),
 ('P20002', 'Black T-shirt', 'A classic, breathable cotton t-shirt in Black.', 'm_tshirt_blk.png', 'C00001'),
 ('P20003', 'Navy Blue T-shirt', 'A classic, breathable cotton t-shirt in Navy Blue.', 'm_tshirt_nvb.png', 'C00001'),
 ('P20004', 'Brown T-shirt', 'A classic, breathable cotton t-shirt in Brown.', 'm_tshirt_brown.png', 'C00001'),
@@ -256,7 +222,9 @@ CREATE TABLE `product_reviews` (
 --
 
 INSERT INTO `product_reviews` (`review_id`, `product_id`, `user_id`, `rating`, `review`, `created_at`) VALUES
-(1, 'P20067', 'U001', 5, '', '2026-04-14 16:13:41');
+(1, 'P20067', 'U001', 5, '', '2026-04-14 16:13:41'),
+(2, 'P20001', 'U002', 5, 'asjdb', '2026-04-15 11:35:35'),
+(3, 'P20002', 'U001', 5, '123', '2026-04-15 15:14:09');
 
 -- --------------------------------------------------------
 
@@ -279,9 +247,9 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`variant_id`, `product_id`, `size`, `colour`, `stock_quantity`, `price`, `photo`) VALUES
-('P10001', 'P20001', 'S', 'Green', 45, 28.50, 'm_tshirt_grn.png'),
-('P10002', 'P20001', 'M', 'Green', 32, 28.50, 'm_tshirt_grn.png'),
-('P10003', 'P20001', 'L', 'Green', 18, 28.50, 'm_tshirt_grn.png'),
+('P10001', 'P20001', 'S', 'Green', 45, 28.50, '69dfc2f8ba679.jpg'),
+('P10002', 'P20001', 'M', 'Green', 32, 28.50, '69dfc2f8ba679.jpg'),
+('P10003', 'P20001', 'L', 'Green', 18, 28.50, '69dfc2f8ba679.jpg'),
 ('P10004', 'P20002', 'S', 'Black', 50, 32.00, 'm_tshirt_blk.png'),
 ('P10005', 'P20002', 'M', 'Black', 12, 32.00, 'm_tshirt_blk.png'),
 ('P10006', 'P20002', 'L', 'Black', 25, 32.00, 'm_tshirt_blk.png'),
@@ -507,9 +475,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('A001', 'Jaclyn', 'jaclyn@gmail.com', '$2y$10$1hwTsu8k.XN2EbjkLMqON.pwx5/vEuQz/CRe6Ga8z.MzxoecGXTwi', 0, NULL, NULL, 'Admin'),
-('A002', 'Xiang', 'xiang@gmail.com', '$2y$10$q7vmP/YkFKF9CqRYN7lc.ejP6AkX3PkM.895n9o3pNmMBKNKuE8.6', 0, NULL, NULL, 'Admin'),
-('U001', 'asd', 'asd@gmail.com', '$2y$10$TLur8oSdyjksV28lO6QY3uusK1PkXAY.yP91VTf0KRk2pSWIaxvyG', 0, NULL, NULL, 'Member'),
+('A001', 'Jaclyn', 'jaclyn@gmail.com', '$2y$10$HO9mAaL4sPBp7N0Ju98Gj.D/unX8vG.8SJuyxki.LmS/AV1xiFzFe', 0, NULL, NULL, 'Admin'),
+('A002', 'Xiang', 'xiang@gmail.com', '$2y$10$0SeP3CzwYQMPxZi35qQJwORBwyikU1U495F38N8m2ovW.zXMx0S4.', 0, NULL, NULL, 'Admin'),
+('U001', 'asd', 'asd@gmail.com', '$2y$10$j2BnnJKTbLCSNbKhNLngJOOEgePLf4DC3J9ayqpp.aLXViyefAJR.', 0, NULL, NULL, 'Member'),
 ('U002', 'dsa', 'dsa@gmail.com', '$2y$10$GQ6T6Kk60oZvvLtu9E5JL.3RZm6jGzmwvBeW6jFx9iR/2VcxuQ8S6', 0, NULL, NULL, 'Member');
 
 --
@@ -529,19 +497,6 @@ ALTER TABLE `favorites`
   ADD PRIMARY KEY (`favorite_id`),
   ADD KEY `fk_favorites_user` (`user_id`),
   ADD KEY `fk_favorites_product` (`product_id`);
-
---
--- Indexes for table `item`
---
-ALTER TABLE `item`
-  ADD PRIMARY KEY (`item_id`),
-  ADD KEY `fk_item_order` (`order_id`);
-
---
--- Indexes for table `order`
---
-ALTER TABLE `order`
-  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `orders`
@@ -593,28 +548,16 @@ ALTER TABLE `favorites`
   MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT for table `item`
---
-ALTER TABLE `item`
-  MODIFY `item_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
-
---
--- AUTO_INCREMENT for table `order`
---
-ALTER TABLE `order`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
-
---
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- Constraints for dumped tables
@@ -626,12 +569,6 @@ ALTER TABLE `product_reviews`
 ALTER TABLE `favorites`
   ADD CONSTRAINT `fk_favorites_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`) ON DELETE CASCADE,
   ADD CONSTRAINT `fk_favorites_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`) ON DELETE CASCADE;
-
---
--- Constraints for table `item`
---
-ALTER TABLE `item`
-  ADD CONSTRAINT `fk_item_order` FOREIGN KEY (`order_id`) REFERENCES `order` (`order_id`) ON DELETE CASCADE;
 
 --
 -- Constraints for table `product_reviews`
