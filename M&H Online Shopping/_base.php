@@ -105,6 +105,15 @@ function encode($value) {
     return htmlentities($value ?? '');
 }
 
+// NEW: Added to fix red lines in admin pages
+function html_options($items, $selected = null) {
+    foreach ($items as $key => $value) {
+        $v = is_numeric($key) ? $value : $key;
+        $active = ($v == $selected) ? 'selected' : '';
+        printf("<option value='%s' %s>%s</option>\n", encode($v), $active, encode($value));
+    }
+}
+
 // Generate <input type='hidden'>
 function html_hidden($key, $value = '', $attr = '') {
     $value = encode($value);
@@ -113,7 +122,7 @@ function html_hidden($key, $value = '', $attr = '') {
 
 // Generate <input type='text'>
 function html_text($key, $attr = '') {
-    $value = encode($_POST[$key] ?? ''); // Look in $_POST instead of $GLOBALS
+    $value = encode($_POST[$key] ?? '');
     echo "<input type='text' id='$key' name='$key' value='$value' $attr>";
 }
 
@@ -125,7 +134,7 @@ function html_password($key, $attr = '') {
 
 // Generate <input type='number'>
 function html_number($key, $min = '', $max = '', $step = '', $attr = '') {
-    $value = encode($GLOBALS[$key] ?? '');
+    $value = encode($_POST[$key] ?? '');
     echo "<input type='number' id='$key' name='$key' value='$value' min='$min' max='$max' step='$step' $attr>";
 }
 
@@ -177,20 +186,21 @@ function login($user, $url = '/') {
 
 function logout($url = '/') {
     unset($_SESSION['user']);
-    $_SESSION['logout'] = true; // Prevent auto-login loop until next manual login
+    $_SESSION['logout'] = true; 
     redirect($url);
 }
 
+// Roles-based access control
 function auth(...$roles) {
     global $_user;
     if ($_user) {
         if ($roles) {
             if (in_array($_user->role, $roles)) {
-                return; // Access Granted
+                return; 
             }
         }
     }
-    redirect('/login.php'); // Access Denied
+    redirect('/login.php'); 
 }
 
 // ============================================================================
@@ -208,8 +218,7 @@ function set_cart($cart = []) {
 function update_cart($id, $unit) {
     $cart = get_cart();
 
-    // Cart keys are variant IDs, so validate against the variant table.
-    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'product_variants', 'variant_id')) {
+    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'item', 'variant_id')) {
         $cart[$id] = $unit;
         ksort($cart);
     }
@@ -223,20 +232,20 @@ function update_cart($id, $unit) {
 // Database Setups and Functions
 // ============================================================================
 
-// Corrected connection string (No spaces, includes host)
+// Database connection
 $_db = new PDO('mysql:host=localhost;dbname=shopping_cart', 'root', '', [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 ]);
 
-// Auto-login logic (only runs if user hasn't explicitly clicked 'Logout' in this session)
+// Auto-login logic
 if (!$_user && isset($_COOKIE['remember']) && !isset($_SESSION['logout'])) {
     $email = $_COOKIE['remember'];
     $stm = $_db->prepare("SELECT * FROM user WHERE email = ?");
     $stm->execute([$email]);
     $u = $stm->fetch();
     if ($u) {
-        $_user = $_SESSION['user'] = $u; // Restore session from database using cookie
+        $_user = $_SESSION['user'] = $u; 
     }
 }
 
@@ -268,8 +277,6 @@ function generate_id($table, $column, $prefix, $length) {
 
     return $prefix . str_pad($n, $length, '0', STR_PAD_LEFT);
 }
-
-
 
 // ============================================================================
 // Global Constants and Variables

@@ -44,24 +44,24 @@
     <nav class="sub_nav">
     <a href="../product/list.php">Products</a>
 
-    <?php if (($_user->role ?? '') != 'Admin'): ?>
+    <?php if (($_user->role ?? '') == 'Member'): ?>
         <a href="../order/cart.php">
             Shopping Cart
             <?php 
                 $cart = get_cart();
-                $count = count($cart);
-                if ($count) echo "($count)";
+                if ($count = count($cart)) echo "($count)";
             ?>
         </a>
-    <?php endif ?>
-
-    <?php if (($_user->role ?? '') == 'Member'): ?>
         <a href="../order/history.php">Order History</a>
     <?php endif ?>
 
     <?php if (($_user->role ?? '') == 'Admin'): ?>
         <a href="../index.php">Index</a>
-        <a href="../admin/product_list.php">Admin Product Management</a>
-        <a href="../admin/product_manage.php">Admin Order Management</a>
+        <a href="../admin/product_list.php">Product Management</a>
+        <a href="../admin/order_list.php">Order Management</a>
+        
+        <?php if (isset($id) && ($_title ?? '') == "Order Details #$id"): ?>
+            <a href="../admin/order_detail.php?id=<?= $id ?>" class="active">Order Details #<?= $id ?></a>
+        <?php endif ?>
     <?php endif ?>
 </nav>
