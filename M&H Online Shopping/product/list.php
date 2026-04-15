@@ -139,7 +139,7 @@ include '../_head.php';
     ?>
 
     <div class="product">
-        <a href="add_favorite.php?id=<?= $product_id ?>" class="favorite-btn">
+        <a href="add_favourite.php?id=<?= $product_id ?>" class="favorite-btn">
             <?= $is_fav ? '❤️' : '♡' ?>
         </a>
 
