@@ -40,7 +40,7 @@ include '../_head.php';
                     <?= $o->status ?>
                 </span>
             </td>
-            <td><?= $o->shipment_status ?? 'Pending' ?></td>
+            <td><span style="color: #0800ff; font-weight: bold;"><?= $o->shipment_status ?? 'Pending' ?></span></td>
             <td>
             <button onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
             </td> 

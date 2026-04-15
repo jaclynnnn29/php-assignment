@@ -52,7 +52,7 @@ include '../_head.php';
             </div>
             <div style="text-align: right;">
                 <p><strong>Date:</strong> <?= date('d-M-Y H:i', strtotime($order->order_date)) ?></p>
-                <p><strong>Shipment Status:</strong> <?= $order->shipment_status ?? 'Pending' ?></p>
+                <p ><strong>Shipment Status:</strong> <span style="color: #0800ff; font-weight: bold;"><?= $order->shipment_status ?? 'Pending' ?></span></p>
             </div>
         </div>
 
