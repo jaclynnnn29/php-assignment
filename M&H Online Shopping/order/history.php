@@ -17,9 +17,6 @@ include '../_head.php';
 ?>
 
 <main>
-    <p>
-        <button data-post="reset.php" data-confirm>Reset</button>
-    </p>
 
     <p><?= count($arr) ?> record(s)</p>
 
