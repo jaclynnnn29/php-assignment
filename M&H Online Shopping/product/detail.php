@@ -17,6 +17,7 @@ if (is_post()) {
         $rating = req('rating');
         $review = req('review');
         $product_id = req('product_id'); // Hidden field for the main product
+        $product_id = req('id'); 
         
         $stm = $_db->prepare("SELECT * FROM product_reviews WHERE user_id = ? AND product_id = ?");
         $stm->execute([$_user->user_id, $product_id]);
@@ -171,7 +172,7 @@ include '../_head.php';
         border-radius: 5px;
     }
 
-    h1 {
+    h1,h2 {
     color: white;
 }
 </style>
@@ -308,13 +309,17 @@ include '../_head.php';
 </p>
 
 <script>
-    // Handle cart quantity change
-    $('select').on('change', function(e) {
+    // ONLY handle quantity and size change automatically
+    // This targets the size form and the cart form specifically
+    $('#size-form select, .table.detail form select').on('change', function(e) {
         e.target.form.submit();
     });
     
-    // Handle back button
-    $('button').on('click', function() {
+    // The Review form will now wait for the button click 
+    // because it is NOT targeted by the script above.
+
+    // Handle the "Back to List" button
+    $('button[data-get]').on('click', function() {
         window.location = $(this).data('get');
     });
 </script>
