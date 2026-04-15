@@ -25,7 +25,7 @@ include '../_head.php';
 
 <main>
     <div class="solid-container">
-        <h1 style="margin-bottom: 20px;">Order Management</h1>
+        <h1 style="margin-bottom: 20px;">Order List</h1>
 
         <?php if ($msg = temp('info')): ?>
             <p style="color: green; font-weight: bold;"><?= $msg ?></p>
