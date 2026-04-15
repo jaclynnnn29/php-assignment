@@ -8,7 +8,7 @@ if (is_post()) {
     $status = post('status');
 
     // Update the plural `orders` table
-    $stm = $_db->prepare("UPDATE `orders` SET status = ? WHERE order_id = ?");
+    $stm = $_db->prepare("UPDATE `orders` SET shipment_status= ? WHERE order_id = ?");
     $stm->execute([$status, $order_id]);
 
     temp('info', "Order ORD" . str_pad($order_id, 5, '0', STR_PAD_LEFT) . " updated to $status"); 
@@ -37,7 +37,7 @@ include '../_head.php';
                     <th>Order ID</th>
                     <th>Date</th>
                     <th>Total</th>
-                    <th>Status</th>
+                    <th>Shipment Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -58,7 +58,7 @@ include '../_head.php';
                                 'Cancelled'  => 'Cancelled'
                             ];
                             // Now $o->status exists because we are using the correct table
-                            html_select('status', $arr, $o->status); 
+                            html_select('status', $arr, $o->shipment_status ?? 'Pending'); 
                             ?>
                             <input type="hidden" name="order_id" value="<?= $o->order_id ?>">
                         </td>

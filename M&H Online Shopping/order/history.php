@@ -17,9 +17,6 @@ include '../_head.php';
 ?>
 
 <main>
-    <p>
-        <button data-post="reset.php" data-confirm>Reset</button>
-    </p>
 
     <p><?= count($arr) ?> record(s)</p>
 
@@ -43,7 +40,7 @@ include '../_head.php';
                     <?= $o->status ?>
                 </span>
             </td>
-            <td><?= $orders->payment_method ?? 'Pending' ?></td>
+            <td><?= $o->shipment_status ?? 'Pending' ?></td>
             <td>
             <button onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
             </td> 
