@@ -158,18 +158,39 @@ include '../_head.php';
         </table>
 
         <div style="margin-top: 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
-            <?php if ($cart): ?>
-                <button class="btn-clear" 
-                    data-post="?btn=clear" 
-                    data-confirm="Clear all items in your cart?">
-                    Clear all items
-                </button>
-                
-                <a href="checkout.php" class="btn-clear" style="text-decoration: none; background-color: #2b91af; color: white;">
-                    Check Out
-                </a>
-            <?php endif ?>
-        </div>
+    <?php if ($cart): ?>
+        <button class="btn-clear" 
+                data-post="?btn=clear" 
+                data-confirm="Clear all items in your cart?"
+                style="
+                    background-color: #e74c3c; 
+                    color: white; 
+                    border: none; 
+                    padding: 8px 16px; 
+                    border-radius: 4px; 
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-family: inherit;
+                ">
+            Clear all items
+        </button>
+        
+        <a href="checkout.php" style="
+            text-decoration: none; 
+            background-color: #2b91af; 
+            color: white; 
+            padding: 8px 16px; 
+            border-radius: 4px; 
+            display: inline-block;
+            font-weight: bold;
+            font-family: inherit;
+            font-size: 13.33px;
+            transition: opacity 0.2s;
+        " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+            Check Out
+        </a>
+    <?php endif; ?>
+</div>
     </div>
 </main>
 
