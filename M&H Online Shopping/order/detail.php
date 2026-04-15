@@ -11,7 +11,7 @@ $id = req('id');
 // Must JOIN item -> product_variants -> product to get the name and photo
 $stm = $_db->prepare('
     SELECT i.*, p.product_name, p.photo, pv.size 
-    FROM item i 
+    FROM order_items i 
     JOIN product_variants pv ON i.variant_id = pv.variant_id 
     JOIN product p ON pv.product_id = p.product_id 
     WHERE i.order_id = ?
@@ -65,16 +65,16 @@ include '../_head.php';
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($items as $i): ?>
+        <?php foreach ($items as $i): ?>
         <tr>
             <td><img src="/images/<?= $i->photo ?>" style="width: 50px;"></td>
             <td><?= htmlspecialchars($i->product_name) ?></td>
             <td><?= $i->size ?></td>
-            <td class="right">RM <?= number_format($i->price, 2) ?></td>
+            <td class="right">RM <?= number_format($i->unit_price, 2) ?></td>
             <td class="center"><?= $i->unit ?></td>
-            <td class="right">RM <?= number_format($i->price * $i->unit, 2) ?></td>
+            <td class="right">RM <?= number_format($i->unit_price * $i->unit, 2) ?></td>
         </tr>
-                <?php endforeach ?>
+        <?php endforeach ?>
             </tbody>
             <tfoot>
                 <tr style="font-size: 1.2rem; font-weight: bold; background: #f9f9f9;">
