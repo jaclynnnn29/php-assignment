@@ -6,6 +6,8 @@ auth('Member');
 if (is_post()) {
     $btn = req('btn');
     $id = req('id');
+    $unit = req('unit'); // <--- ADD THIS LINE: It captures the quantity from the form
+    $new_variant_id = req('variant_id'); // <--- ADD THIS LINE: Capture the new variant if size changed
 
     // 1. Handle Clear All
     if ($btn == 'clear') {
@@ -15,7 +17,7 @@ if (is_post()) {
     }
 
     // 2. Handle Remove Single Item
-    if ($btn == 'delete' || req('unit') === '0') {
+    if ($btn == 'delete' || $unit === '0') {
         update_cart($id, 0); // Set quantity to 0 to remove it
         temp('info', 'Item removed.');
         redirect('cart.php');
@@ -23,16 +25,16 @@ if (is_post()) {
     
 
     // 3. Handle Variant Swapping or Quantity Updates
-    $new_variant_id = req('variant_id') ?: $id;
+    $target_id = $new_variant_id ?: $id;
 
-    if ($new_variant_id != $id) {
+    if ($target_id != $id) {
         // Switching to a different size/variant
         $cart = get_cart();
-        unset($cart[$id]); // Remove the old variant
+        unset($cart[$id]); // Remove the old size
 
+        // Ensure we have a valid quantity before adding
         if ($unit >= 1 && $unit <= 10) {
-            // Add quantity to the new variant
-            $cart[$new_variant_id] = ($cart[$new_variant_id] ?? 0) + $unit;
+            $cart[$target_id] = ($cart[$target_id] ?? 0) + $unit;
             ksort($cart);
         }
         set_cart($cart);
