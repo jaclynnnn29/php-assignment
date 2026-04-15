@@ -12,12 +12,12 @@ $stm = $_db->query("
 ");
 $orders = $stm->fetchAll();
 
-$_title = 'Manage Orders';
+$_title = 'Order List';
 include '../_head.php';
 ?>
 
 <main>
-    <h1>Order Maintenance</h1>
+    <h1>Order List</h1>
 
     <table class="table solid-table">
         <thead>

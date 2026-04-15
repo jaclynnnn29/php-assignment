@@ -4,11 +4,10 @@ include '../_base.php';
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
-    $id = req('id'); // This will be the variant_id from the hidden input
+    $id = req('id'); 
     $unit = req('quantity');
     
-    // IMPORTANT: Ensure update_cart in _base.php is updated 
-    // to check the 'product_variants' table instead of 'item'
+    // Update cart using the correct table 'product_variants'
     update_cart($id, $unit);
     redirect();
 }
@@ -16,7 +15,7 @@ if (is_post()) {
 $search = req('search');
 $category = req('category');
 
-// Fetch categories for the filter dropdown
+// 1. Fetch categories for the filter dropdown
 $stm = $_db->query("SELECT * FROM categories ORDER BY cat_name");
 $categories = $stm->fetchAll();
 $cat_list = [];
@@ -24,13 +23,18 @@ foreach ($categories as $c) {
     $cat_list[$c->cat_id] = $c->cat_name;
 }
 
-// Search logic for main products
+// 2. Build the search query
+// Build the search query to include Product ID
 $query = 'SELECT * FROM product WHERE 1=1';
 $params = [];
+
 if ($search) {
-    $query .= ' AND product_name LIKE ?';
+    // This allows you to search by name OR by the ID (P20002)
+    $query .= ' AND (product_name LIKE ? OR product_id LIKE ?)';
+    $params[] = '%' . $search . '%';
     $params[] = '%' . $search . '%';
 }
+
 if ($category) {
     $query .= ' AND cat_id = ?';
     $params[] = $category;
@@ -46,6 +50,15 @@ include '../_head.php';
 ?>
 
 <style>
+    /* Search Bar Styling */
+    .search-container {
+        margin: 20px auto;
+        text-align: center;
+        background: #f4f4f4;
+        padding: 20px;
+        border-radius: 5px;
+    }
+
     #product {
         display: flex;
         gap: 20px;
@@ -113,18 +126,34 @@ include '../_head.php';
     }
 </style>
 
+<div class="search-container">
+    <form method="get">
+        <input type="text" name="search" value="<?= encode($search) ?>" placeholder="Search products..." style="padding: 8px; width: 250px;">
+        
+        <?= html_select('category', $cat_list, $category, '- All Categories -', 'style="padding: 8px;"') ?>
+        
+        <button type="submit" style="padding: 8px 15px;">Search</button>
+        
+        <?php if ($search || $category): ?>
+            <a href="?" style="margin-left: 10px;">Clear</a>
+        <?php endif; ?>
+        
+        <a href="favourite.php" style="margin-left: 20px; text-decoration: none;">
+            <span style="color: red;">❤️</span> View Wishlist
+        </a>
+    </form>
+</div>
+
 <div id="product">
     <?php foreach ($arr as $p): 
         $cart = get_cart();
         $product_id = $p->product_id;
 
-        // FETCH THE FIRST VARIANT FOR THIS PRODUCT
-        // Using 'variant_id' as the primary key from your structure
+        // Fetch the specific variant and price
         $stm2 = $_db->prepare("SELECT variant_id, price FROM product_variants WHERE product_id = ? LIMIT 1");
         $stm2->execute([$product_id]);
         $v = $stm2->fetch();
         
-        // Use variant_id if it exists, otherwise fallback to product_id
         $variant_id = $v->variant_id ?? $product_id; 
         $unit = $cart[$variant_id] ?? 0;
         $display_price = $v->price ?? 0.00;
@@ -157,7 +186,7 @@ include '../_head.php';
         </div>
 
         <div class="cart-info">
-            <?= $unit > 0 ? "In Cart: $unit" : "Select Quantity" ?>
+            In Cart: <?= (int)$unit ?>
         </div>
     </div>
     <?php endforeach ?>

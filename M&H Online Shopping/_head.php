@@ -58,7 +58,7 @@
     <?php if (($_user->role ?? '') == 'Admin'): ?>
         <a href="../index.php">Index</a>
         <a href="../admin/product_list.php">Product Management</a>
-        <a href="../admin/order_list.php">Order Management</a>
+        <a href="../admin/order_list.php">Order List</a>
         
         <?php if (isset($id) && ($_title ?? '') == "Order Details #$id"): ?>
             <a href="../admin/order_detail.php?id=<?= $id ?>" class="active">Order Details #<?= $id ?></a>
