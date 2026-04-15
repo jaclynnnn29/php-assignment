@@ -14,17 +14,15 @@ if (is_post()) {
     } else {
         $filename = null;
 
-        // Check if a file was actually uploaded
-        if ($file['error'] === 0) {
-            $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+        if($file) {
+            $ext = pathinfo($file->name, PATHINFO_EXTENSION);
             $filename = $id . '.' . $ext; // Name the file after the ID
             $dest = "../images/$filename";
+        }
 
-            // Move the file to your images folder
-            if (!move_uploaded_file($file['tmp_name'], $dest)) {
-                temp('info', 'Error: Failed to save uploaded photo.');
-                $filename = null; // Reset if upload failed
-            }
+        if(!move_uploaded_file($file->tmp_name, $dest)) {
+            temp('info', 'Error: Failed to save uploaded photo.');
+            $filename = null; // Reset if upload failed
         }
 
         // Database logic: Insert or Update (UPSERT style)
@@ -56,23 +54,29 @@ include '../_head.php';
         <?php endif; ?>
 
         <section style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-            <h3>Add / Update Product</h3>
-            <form method="post" enctype="multipart/form-data" style="display: flex; gap: 15px; align-items: flex-end;">
-                <div>
-                    <label>Product ID:</label><br>
-                    <input type="text" name="product_id" required placeholder="e.g., P001">
-                </div>
-                <div>
-                    <label>Name:</label><br>
-                    <input type="text" name="product_name" required>
-                </div>
-                <div>
-                    <label>Photo:</label><br>
-                    <input type="file" name="photo" accept="image/png, image/jpeg">
-                </div>
-                <button type="submit" class="btn-update">Save Product</button>
-            </form>
-        </section>
+    <h3>Add / Update Product</h3>
+    <form method="post" enctype="multipart/form-data">
+        <div style="margin-bottom: 15px;">
+            <label>Product ID:</label><br>
+            <input type="text" name="product_id" required placeholder="e.g., P001">
+        </div>
+        <div style="margin-bottom: 15px;">
+            <label>Name:</label><br>
+            <input type="text" name="product_name" required>
+        </div>
+
+        <div id="drop-zone" style="border: 2px dashed #bbb; padding: 40px; text-align: center; border-radius: 8px; cursor: pointer; background: #fff; margin-bottom: 15px;">
+        <i class='bx bx-cloud-upload' style="font-size: 48px; color: #888;"></i>
+        <p style="margin: 10px 0;">Drag & Drop product photo here or <span style="color: #1a8a83; font-weight: bold;">Browse</span></p>
+    
+        <input type="file" name="photo" id="photo-input" accept="image/png, image/jpeg" hidden>
+    
+        <img id="img-preview" src="" style="display:none; max-width: 200px; margin: 15px auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        </div>
+
+        <button type="submit" class="btn-update">Save Product</button>
+    </form>
+</section>
 
         <table class="table solid-table">
             <thead>
@@ -96,8 +100,24 @@ include '../_head.php';
                     <td><strong><?= $p->product_id ?></strong></td>
                     <td><?= htmlspecialchars($p->product_name) ?></td>
                     <td>
-                        <button type="button" class="btn-clear" onclick="document.getElementsByName('product_id')[0].value='<?= $p->product_id ?>'; document.getElementsByName('product_name')[0].value='<?= htmlspecialchars($p->product_name) ?>';">Edit</button>
-                    </td>
+            <button type="button" class="btn-clear" 
+             onclick="
+            document.getElementsByName('product_id')[0].value='<?= $p->product_id ?>'; 
+            document.getElementsByName('product_name')[0].value='<?= htmlspecialchars($p->product_name) ?>';
+            
+            // Trigger the image preview
+            const preview = document.getElementById('img-preview');
+            <?php if ($p->photo): ?>
+                preview.src = '../images/<?= $p->photo ?>';
+                preview.style.display = 'block';
+            <?php else: ?>
+                preview.src = '';
+                preview.style.display = 'none';
+            <?php endif; ?>
+        ">
+        Edit
+    </button>
+</td>
                 </tr>
                 <?php endforeach; ?>
 

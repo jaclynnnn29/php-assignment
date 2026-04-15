@@ -4,7 +4,7 @@ auth('Admin');
 
 $id = req('id');
 
-// Fetch product details, category name, and the price from the item table
+// Fetch product details
 $stm = $_db->prepare("
     SELECT p.*, c.cat_name, i.price 
     FROM product p
@@ -21,9 +21,6 @@ if (!$p) {
     redirect('product_list.php');
 }
 
-// Fetch categories for the dropdown
-$categories = $_db->query("SELECT cat_id, cat_name FROM categories")->fetchAll(PDO::FETCH_KEY_PAIR);
-
 if (is_get()) {
     $_POST = (array)$p;
 }
@@ -31,22 +28,25 @@ if (is_get()) {
 if (is_post()) {
     $product_name = post('product_name');
     $description  = post('description');
-    // Note: Usually, you don't 'update' an old order item's price. 
-    // If you want to change the price for NEW orders, you should add a price column to the product table.
+    
+    // 1. Use your _base.php helper to get the uploaded file object
     $f = get_file('photo');
 
     if (!$product_name) $_err['product_name'] = 'Required';
 
     if (!$_err) {
         $photo = $p->photo; 
+        
+        // 2. Handle the photo replacement if a new one was dropped/selected
         if ($f) {
+            // Delete the old photo file if it exists
             if ($photo && file_exists("../images/$photo")) {
                 @unlink("../images/$photo");
             }
+            // Save the new photo using the helper
             $photo = save_photo($f, '../images');
         }
 
-        // 2. Update the product table
         $stm = $_db->prepare("
             UPDATE product 
             SET product_name = ?, description = ?, photo = ? 
@@ -71,8 +71,24 @@ include '../_head.php';
     }
     .edit-table td { padding: 15px; border-bottom: 1px solid #eee; background: #fff; }
     .current-val { display: block; color: #888; font-size: 0.85em; margin-top: 5px; }
-    .btn-update { background: #f0f0f0; border: 1px solid #999; padding: 6px 12px; cursor: pointer; border-radius: 2px; }
-    .btn-cancel { background: #666; color: white; border: none; padding: 7px 15px; text-decoration: none; border-radius: 3px; font-size: 14px; }
+    
+    /* Drag & Drop Styles */
+    #drop-zone {
+        border: 2px dashed #ccc;
+        padding: 30px;
+        text-align: center;
+        border-radius: 8px;
+        cursor: pointer;
+        background: #fafafa;
+        transition: all 0.3s ease;
+    }
+    #drop-zone.hover {
+        background-color: #f0f9ff;
+        border-color: #1a8a83 !important;
+        border-style: solid !important;
+    }
+    #drop-zone i { font-size: 40px; color: #aaa; }
+    #browse-click { color: #1a8a83; cursor: pointer; font-weight: bold; text-decoration: underline; }
 </style>
 
 <main>
@@ -92,34 +108,59 @@ include '../_head.php';
                 </td>
             </tr>
 
-        <tr>
-            <th>Desccription</th>
-            <td>
-                <?php html_text('description', 'style="width:300px;"'); ?>
-                <div style="font-size: 0.8em; color: #888; margin-top: 4px;">Current: <?= $p->description ?></div>
-                <?php err('description') ?>
-            </td>
-        </tr>
+            <tr>
+                <th>Description</th>
+                <td>
+                    <?php html_text('description', 'style="width:300px;"'); ?>
+                    <div class="current-val">Current: <?= $p->description ?></div>
+                </td>
+            </tr>
 
-        <tr>
-            <th>Current Photo</th>
-            <td>
-                <img src="../images/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; border-radius: 4px;">
-            </td>
-        </tr>
-        <tr>
-            <th>Upload New Photo</th>
-            <td>
-                <?php html_file('photo', 'image/*'); ?>
-                <p style="margin: 0 0 5px 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current</p>
-            </td>
-        </tr>
-        <tr>
-            <th></th>
-            <td>
-                <button type="submit" class="btn-update">Update Product</button>
-                <a href="product_list.php" class="back-link" style="background-color: #666; margin-left: 10px;">Cancel</a>
-            </td>
-        </tr>
-    </table>
-</form>
+            <tr>
+                <th>Current Photo</th>
+                <td>
+                    <img src="../images/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; border-radius: 4px;">
+                </td>
+            </tr>
+
+            <tr>
+                <th>Upload New Photo</th>
+                <td>
+                    <div id="drop-zone">
+                        <i class='bx bx-cloud-upload'></i>
+                        <p>Drag & Drop photo here or <span id="browse-click">Browse</span></p>
+                        <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
+                        <img id="img-preview" src="" style="display:none; max-width: 150px; margin: 10px auto; border-radius: 4px;">
+                    </div>
+                    <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current photo</p>
+                </td>
+            </tr>
+
+            <tr>
+                <th></th>
+                <td>
+                    <button type="submit" class="btn-update">Update Product</button>
+                    <a href="product_list.php" style="background-color: #666; color: white; padding: 8px 15px; text-decoration: none; margin-left: 10px; border-radius: 3px;">Cancel</a>
+                </td>
+            </tr>
+        </table>
+    </form>
+</main>
+
+<script>
+// Logic to trigger File Explorer
+const browseBtn = document.getElementById('browse-click');
+const fileInput = document.getElementById('photo-input');
+
+browseBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevents double-triggering if click bubbles to drop-zone
+    fileInput.click();
+});
+
+// Click the whole zone to trigger explorer
+document.getElementById('drop-zone').addEventListener('click', () => {
+    fileInput.click();
+});
+</script>
+
+<?php include '../_foot.php'; ?>

@@ -599,6 +599,43 @@ label > * {
     border-radius: 4px;
 }
 
+#drop-zone {
+    border: 2px dashed #f9a03f; /* Using your theme's orange */
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    background: #fffaf5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#drop-zone.hover {
+    background: #fdf2e9;
+    border-color: #1a8a83; /* Changes to teal on hover */
+}
+
+#drop-zone p span {
+    color: #1a8a83;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+#drop-zone {
+    border: 2px dashed #ccc;
+    padding: 30px;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #fafafa;
+    transition: all 0.3s ease;
+}
+
+#drop-zone.hover {
+    background-color: #f0f9ff;
+    border-color: #1a8a83 !important;
+    border-style: solid !important;
+}
+
 
 
 
