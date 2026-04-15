@@ -2,6 +2,7 @@
 require '../_base.php';
 auth('Admin'); // Restrict access to Admins only
 
+// Order Status Update (Additional)
 if (is_post()) {
     $order_id = post('order_id');
     $status = post('status');
@@ -14,6 +15,7 @@ if (is_post()) {
     redirect(); 
 }
 
+//Order Listing (Additional)
 // Select from the correct table and use correct date column
 $orders = $_db->query("SELECT * FROM `orders` ORDER BY order_date DESC")->fetchAll();
 

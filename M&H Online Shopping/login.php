@@ -4,6 +4,7 @@ require '_base.php';
 // If already logged in, sent to index
 if ($_user) redirect('index.php');
 
+// Handle Login Form Submission
 if (is_post()) {
     $email    = trim(post('email'));
     $password = trim(post('password'));
@@ -17,13 +18,13 @@ if (is_post()) {
         $now = time();
         $lock_time = $user->locked_until ? strtotime($user->locked_until) : 0;
 
-        // 1. 
+        //
         if ($lock_time > $now) {
             $wait = ceil(($lock_time - $now) / 60);
             $_err['login'] = "Account locked. Try again in $wait mins.";
         } 
         
-        // 3. Verify Password (using the hash we verified in your DB)
+        // Verify Password (using the hash we verified in your DB)
         else if (password_verify($password, $user->password_hash)) {
             // Set "Remember Me" cookie if checked (expires in 30 days)
             if (post('remember')) {
@@ -54,7 +55,8 @@ if (is_post()) {
             login($user, $url);
         } 
         
-        // 4. Handling Wrong Passwords
+        // Temporary Login Blocking (Additional)
+        // Handling Wrong Passwords
         else {
             $attempts = $user->failed_attempts + 1;
             if ($attempts >= 3) {
