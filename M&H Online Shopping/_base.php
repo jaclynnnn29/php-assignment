@@ -216,16 +216,13 @@ function set_cart($cart = []) {
 }
 
 function update_cart($id, $unit) {
-    $cart = get_cart();
-
-    if ($unit >= 1 && $unit <= 10 && is_exists($id, 'item', 'variant_id')) {
-        $cart[$id] = $unit;
-        ksort($cart);
+    // Change 'item' to 'product_variants' and ensure it uses 'variant_id'
+    if (is_exists($id, 'product_variants', 'variant_id')) {
+        $_SESSION['cart'][$id] = (int)$unit;
+        if ($_SESSION['cart'][$id] <= 0) {
+            unset($_SESSION['cart'][$id]);
+        }
     }
-    else {
-        unset($cart[$id]);
-    }
-    set_cart($cart);
 }
 
 // ============================================================================

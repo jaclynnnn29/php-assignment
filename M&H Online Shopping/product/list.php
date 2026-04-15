@@ -4,8 +4,11 @@ include '../_base.php';
 // ----------------------------------------------------------------------------
 
 if (is_post()) {
-    $id = req('id');
+    $id = req('id'); // This will be the variant_id from the hidden input
     $unit = req('quantity');
+    
+    // IMPORTANT: Ensure update_cart in _base.php is updated 
+    // to check the 'product_variants' table instead of 'item'
     update_cart($id, $unit);
     redirect();
 }
@@ -21,6 +24,7 @@ foreach ($categories as $c) {
     $cat_list[$c->cat_id] = $c->cat_name;
 }
 
+// Search logic for main products
 $query = 'SELECT * FROM product WHERE 1=1';
 $params = [];
 if ($search) {
@@ -44,181 +48,123 @@ include '../_head.php';
 <style>
     #product {
         display: flex;
-        gap: 10px;
+        gap: 20px;
         flex-wrap: wrap;
         justify-content: center;
+        padding: 20px;
     }
 
     .product {
-        border: 1px solid #333;
-        width: 250px;
+        border: 1px solid #ddd;
+        width: 280px;
         position: relative;
-        padding-bottom: 50px;
+        padding-bottom: 60px;
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
     .product img {
         display: block;
         width: 100%;
-        height: 200px;
+        height: 250px;
         object-fit: cover;
         cursor: pointer;
     }
 
-    .product form,
-    .product .cart-info {
+    .product form {
         position: absolute;
-        background: #0009;
+        top: 10px;
+        right: 10px;
+        background: rgba(0,0,0,0.7);
         color: #fff;
         padding: 5px;
-        text-align: center;
-    }
-
-    .product form {
-        top: 5px;
-        right: 5px;
-    }
-
-    .product form select {
-        text-align: right;
+        border-radius: 4px;
     }
 
     .product .cart-info {
+        position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
+        background: #2b91af;
+        color: #fff;
+        padding: 8px;
+        text-align: center;
+        font-size: 14px;
     }
     
     .product-info {
-        position: absolute;
-        bottom: 30px;
-        left: 0;
-        right: 0;
-        background: #0009;
-        color: #fff;
-        padding: 8px;
-        font-size: 12px;
-    }
-    
-    .product-info strong {
-        font-size: 16px;
+        padding: 10px;
     }
     
     .favorite-btn {
         position: absolute;
-        top: 5px;
-        left: 5px;
-        background: #fff9;
-        padding: 5px;
+        top: 10px;
+        left: 10px;
+        background: #fff;
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
         border-radius: 50%;
         text-decoration: none;
-        font-size: 20px;
-        z-index: 10;
-    }
-    
-    .favorite-btn:hover {
-        transform: scale(1.1);
-    }
-    
-    .rating-stars {
-        font-size: 12px;
-        margin-top: 5px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     }
 </style>
 
-<form method="get" style="margin-bottom: 20px; text-align: left; padding-left: 100px;">
-    <input type="text" name="search" value="<?= $search ?>" placeholder="Search products..." style="padding: 5px; width: 200px;">
-    <?= html_select('category', $cat_list, $category, '- All Categories -', 'style="padding: 5px;"') ?>
-    <button type="submit">Search</button>
-    <?php if ($search || $category): ?>
-        <a href="?">Clear Search</a>
-    <?php endif; ?>
-    <a href="favourites.php" style="font-size: 18px; margin-left: 40px; text-decoration: none; vertical-align: middle; color: #ffffff;">❤️ View My Wishlist</a>
-</form>
-
 <div id="product">
-    <?php if (empty($arr)): ?>
-        <div class="no-results">
-            No products found for your search.
+    <?php foreach ($arr as $p): 
+        $cart = get_cart();
+        $product_id = $p->product_id;
+
+        // FETCH THE FIRST VARIANT FOR THIS PRODUCT
+        // Using 'variant_id' as the primary key from your structure
+        $stm2 = $_db->prepare("SELECT variant_id, price FROM product_variants WHERE product_id = ? LIMIT 1");
+        $stm2->execute([$product_id]);
+        $v = $stm2->fetch();
+        
+        // Use variant_id if it exists, otherwise fallback to product_id
+        $variant_id = $v->variant_id ?? $product_id; 
+        $unit = $cart[$variant_id] ?? 0;
+        $display_price = $v->price ?? 0.00;
+
+        // Check favorites
+        $is_fav = false;
+        if ($_user) {
+            $stm_f = $_db->prepare("SELECT 1 FROM favorites WHERE user_id = ? AND product_id = ?");
+            $stm_f->execute([$_user->user_id, $product_id]);
+            $is_fav = (bool)$stm_f->fetch();
+        }
+    ?>
+
+    <div class="product">
+        <a href="add_favorite.php?id=<?= $product_id ?>" class="favorite-btn">
+            <?= $is_fav ? '❤️' : '♡' ?>
+        </a>
+
+        <form method="post">
+            <?= html_hidden('id', $variant_id) ?>
+            <?= html_select('quantity', $_units, $unit, '', 'class="cart-select"') ?>
+        </form>
+
+        <img src="../images/<?= $p->photo ?>" 
+             onclick="location='detail.php?id=<?= $product_id ?>'">
+
+        <div class="product-info">
+            <strong><?= encode($p->product_name) ?></strong><br>
+            <span style="color: #e67e22; font-weight: bold;">RM <?= number_format($display_price, 2) ?></span>
         </div>
-    <?php else: ?>
-        <?php foreach ($arr as $p): 
-            $cart = get_cart();
-            $product_id = $p->product_id;
-            $stm2 = $_db->prepare("SELECT variant_id FROM product_variants WHERE product_id = ? ORDER BY size LIMIT 1");
-            $stm2->execute([$product_id]);
-            $default_variant = $stm2->fetch();
-            $variant_id = $default_variant->variant_id ?? $product_id;
-            $unit = $cart[$variant_id] ?? 0;
-            
-            // Get average rating for this product
-            $stm = $_db->prepare("SELECT AVG(rating) as avg_rating, COUNT(*) as total FROM product_reviews WHERE product_id = ?");
-            $stm->execute([$p->product_id]);
-            $rating_data = $stm->fetch();
-            $avg_rating = round($rating_data->avg_rating ?? 0, 1);
-            $total_reviews = $rating_data->total ?? 0;
-            
-            // Check if product is in user's favorites
-            $is_favorite = false;
-            if ($_user) {
-                $stm = $_db->prepare("SELECT * FROM favorites WHERE user_id = ? AND product_id = ?");
-                $stm->execute([$_user->user_id, $product_id]);
-                $is_favorite = $stm->fetch() ? true : false;
-            }
-        ?>
-    
-        <div class="product">
-            <!-- FAVORITE BUTTON -->
-            <?php if ($_user): ?>
-                <a href="add_favorite.php?id=<?= $product_id ?>" class="favorite-btn">
-                    <?= $is_favorite ? '❤️' : '♡' ?>
-                </a>
-            <?php else: ?>
-                <a href="../login.php" class="favorite-btn">♡</a>
-            <?php endif; ?>
-            
-            <!-- CART FORM -->
-            <form method="post">
-                <?= $unit ? '✅' : '' ?>
-                <?= html_hidden('id', $variant_id) ?>
-                <?= html_select('quantity', $_units, $unit) ?>
-            </form>
-            
-            <!-- PRODUCT IMAGE -->
-            <img src="/images/<?= $p->photo ?>" 
-                data-get="/product/detail.php?id=<?= $p->product_id ?>" 
-                alt="Product Image">
-            
-            <!-- PRODUCT INFO -->
-            <div class="product-info">
-                <strong><?= encode($p->product_name) ?></strong><br>
-                <?= nl2br(encode($p->description)) ?>
-                <!-- RATING STARS -->
-                <div class="rating-stars">
-                    <?php if ($total_reviews > 0): ?>
-                        <?php for($i = 1; $i <= 5; $i++): ?>
-                            <?= $i <= $avg_rating ? '⭐' : '☆' ?>
-                        <?php endfor; ?>
-                        <span style="font-size: 10px; display: block;">(<?= $total_reviews ?> reviews)</span>
-                    <?php else: ?>
-                        <span style="font-size: 10px; display: block;">No reviews</span>
-                    <?php endif; ?>
-                </div>
-            </div>
-            
-            <!-- CART INFO -->
-                <div class="cart-info">
-                    In cart: <?= $unit ?>
-                </div>
-            </div>
-        <?php endforeach ?>
-    <?php endif; ?>
+
+        <div class="cart-info">
+            <?= $unit > 0 ? "In Cart: $unit" : "Select Quantity" ?>
+        </div>
+    </div>
+    <?php endforeach ?>
 </div>
 
 <script>
-    $('select').on('change', e => e.target.form.submit());
-    
-    // Image click to view detail
-    $('img').on('click', function() {
-        window.location = $(this).data('get');
-    });
+    $('.cart-select').on('change', e => e.target.form.submit());
 </script>
+
+<?php include '../_foot.php'; ?>
