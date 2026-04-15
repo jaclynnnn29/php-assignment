@@ -177,6 +177,3 @@ include '../_head.php';
     // Automatically submit the form when a dropdown (size or quantity) changes
     $('select').on('change', e => e.target.form.submit());
 </script>
-
-
-<?php include '../_foot.php'; ?>
