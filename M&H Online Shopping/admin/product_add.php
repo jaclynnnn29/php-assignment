@@ -1,134 +1,116 @@
 <?php
 require '../_base.php';
-auth('Admin');
+auth('Admin'); // Restrict access to Admins only
 
-// Fetch categories for the select dropdown
-$categories = $_db->query("SELECT cat_id, cat_name FROM categories")->fetchAll(PDO::FETCH_KEY_PAIR);
-
+// 1. Handle Form Submission (Add/Update Product with Photo)
 if (is_post()) {
-    $product_id   = post('product_id');
-    $product_name = post('product_name');
-    $description  = post('description');
-    $cat_id       = post('cat_id');
-    $price        = post('price');
-    $f            = get_file('photo');
+    $id   = post('product_id');
+    $name = post('product_name');
+    $file = $_FILES['photo']; // File data from the upload input
 
-    // Validation
-    if (!$product_id)   $_err['product_id']   = 'Required';
-    else if (!preg_match('/^P\d{5}$/', $product_id)) $_err['product_id'] = 'Format must be P + 5 digits (e.g., P20015)';
-    
-    if (!$product_name) $_err['product_name'] = 'Required';
-    if (!$cat_id)       $_err['cat_id']       = 'Required';
-    if (!$price)        $_err['price']        = 'Required';
-    if (!$f)            $_err['photo']        = 'Photo is required';
+    // Basic Validation
+    if (!$id || !$name) {
+        temp('info', 'Error: Product ID and Name are required.');
+    } else {
+        $filename = null;
 
-    if (!$_err) {
-        $photo = save_photo($f, '../images');
+        // Check if a file was actually uploaded
+        if ($file['error'] === 0) {
+            $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
+            $filename = $id . '.' . $ext; // Name the file after the ID
+            $dest = "../images/$filename";
 
+            // Move the file to your images folder
+            if (!move_uploaded_file($file['tmp_name'], $dest)) {
+                temp('info', 'Error: Failed to save uploaded photo.');
+                $filename = null; // Reset if upload failed
+            }
+        }
+
+        // Database logic: Insert or Update (UPSERT style)
         $stm = $_db->prepare("
-            INSERT INTO product (product_id, product_name, description, photo, cat_id, price)
-            VALUES (?, ?, ?, ?, ?, ?)
+            INSERT INTO product (product_id, product_name, photo) 
+            VALUES (?, ?, ?)
+            ON DUPLICATE KEY UPDATE product_name = VALUES(product_name), photo = IFNULL(VALUES(photo), photo)
         ");
-        $stm->execute([$product_id, $product_name, $description, $photo, $cat_id, $price]);
+        $stm->execute([$id, $name, $filename]);
 
-        temp('info', 'Product added successfully');
-        redirect('product_list.php');
+        temp('info', "Product $id updated successfully.");
+        redirect(); 
     }
 }
 
-$_title = 'Add New Product';
+// 2. Fetch all products to display in the table
+$products = $_db->query("SELECT * FROM product ORDER BY product_id DESC")->fetchAll();
+
+$_title = 'Manage Products';
 include '../_head.php';
 ?>
 
-<style>
-    .add-table { width: 100%; border-collapse: collapse; border: 1px solid #ccc; margin-top: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .add-table th { 
-        background-color: #2b91af; color: white; text-align: left; 
-        padding: 15px; width: 220px; vertical-align: top; border-bottom: 1px solid #fff; 
-    }
-    .add-table td { padding: 15px; border-bottom: 1px solid #eee; background: #fff; }
-    
-    .input-field { width: 400px; padding: 8px; border: 1px solid #ddd; border-radius: 3px; }
-    .input-field:focus { border-color: #2b91af; outline: none; box-shadow: 0 0 5px rgba(43,145,175,0.3); }
-    
-    .hint { display: block; color: #888; font-size: 0.85em; margin-top: 5px; }
-    .error-msg { color: #ca5959; font-size: 0.85em; margin-top: 5px; font-weight: bold; }
-    
-    .btn-submit { background: #2b91af; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 3px; font-weight: bold; }
-    .btn-submit:hover { background: #237a94; }
-    .btn-cancel { background: #666; color: white; border: none; padding: 10px 20px; text-decoration: none; border-radius: 3px; font-size: 14px; margin-left: 10px; display: inline-block; }
-</style>
-
 <main>
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h1>Add New Product to Shopping Cart</h1>
-        <a href="product_list.php" class="btn-cancel" style="background: #999;">Back to List</a>
-    </div>
+    <div class="solid-container">
+        <h1>Product Maintenance</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        <table class="add-table">
-            <tr>
-                <th>Product ID</th>
-                <td>
-                    <?php html_text('product_id', 'class="input-field" maxlength="6" placeholder="P20015"'); ?>
-                    <span class="hint">Format: P followed by 5 digits</span>
-                    <?php err('product_id') ?>
-                </td>
-            </tr>
+        <?php if ($msg = temp('info')): ?>
+            <p style="color: <?= strpos($msg, 'Error') !== false ? 'red' : 'green' ?>; font-weight: bold;"><?= $msg ?></p>
+        <?php endif; ?>
 
-            <tr>
-                <th>Product Name</th>
-                <td>
-                    <?php html_text('product_name', 'class="input-field" placeholder="e.g., Black T-Shirt"'); ?>
-                    <?php err('product_name') ?>
-                </td>
-            </tr>
+        <section style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
+            <h3>Add / Update Product</h3>
+            <form method="post" enctype="multipart/form-data" style="display: flex; gap: 15px; align-items: flex-end;">
+                <div>
+                    <label>Product ID:</label><br>
+                    <input type="text" name="product_id" required placeholder="e.g., P001">
+                </div>
+                <div>
+                    <label>Name:</label><br>
+                    <input type="text" name="product_name" required>
+                </div>
+                <div>
+                    <label>Photo:</label><br>
+                    <input type="file" name="photo" accept="image/png, image/jpeg">
+                </div>
+                <button type="submit" class="btn-update">Save Product</button>
+            </form>
+        </section>
 
-            <tr>
-                <th>Category</th>
-                <td>
-                    <?php html_select('cat_id', $categories, 'class="input-field" style="width: 418px;"'); ?>
-                    <span class="hint">Select the clothing category</span>
-                    <?php err('cat_id') ?>
-                </td>
-            </tr>
+        <table class="table solid-table">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Product ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($products as $p): ?>
+                <tr>
+                    <td>
+                        <?php if ($p->photo): ?>
+                            <img src="../images/<?= $p->photo ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                        <?php else: ?>
+                            <div style="width: 60px; height: 60px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px;">No Image</div>
+                        <?php endif; ?>
+                    </td>
+                    <td><strong><?= $p->product_id ?></strong></td>
+                    <td><?= htmlspecialchars($p->product_name) ?></td>
+                    <td>
+                        <button type="button" class="btn-clear" onclick="document.getElementsByName('product_id')[0].value='<?= $p->product_id ?>'; document.getElementsByName('product_name')[0].value='<?= htmlspecialchars($p->product_name) ?>';">Edit</button>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
 
-            <tr>
-                <th>Selling Price (RM)</th>
-                <td>
-                    <input type="number" name="price" step="0.01" class="input-field" value="<?= post('price') ?>" placeholder="0.00">
-                    <?php err('price') ?>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Product Description</th>
-                <td>
-                    <textarea name="description" class="input-field" style="height: 100px;"><?= post('description') ?></textarea>
-                    <span class="hint">Brief details about material, fit, or care instructions.</span>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Product Photo</th>
-                <td>
-                    <div style="border: 1px dashed #ccc; padding: 15px; width: 400px; background: #fafafa;">
-                        <?php html_file('photo', 'accept="image/*"'); ?>
-                        <p class="hint" style="color: #ca5959;">* Image file is required for catalog display</p>
-                    </div>
-                    <?php err('photo') ?>
-                </td>
-            </tr>
-
-            <tr>
-                <th>Actions</th>
-                <td>
-                    <button type="submit" class="btn-submit">Confirm & Add Product</button>
-                    <button type="reset" class="btn-cancel" style="background: #eee; color: #333; border: 1px solid #ccc;">Clear Form</button>
-                </td>
-            </tr>
+                <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="4" style="text-align: center; padding: 20px;">No products found in inventory.</td>
+                </tr>
+                <?php endif; ?>
+            </tbody>
         </table>
-    </form>
+        
+        <p style="margin-top: 15px; color: #666;"><?= count($products) ?> product(s) in database.</p>
+    </div>
 </main>
 
 <?php include '../_foot.php'; ?>

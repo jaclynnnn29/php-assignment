@@ -41,7 +41,6 @@
     </header>
 
     <nav class="sub_nav">
-    <a href="../index.php">Index</a>
     <a href="../product/list.php">Products</a>
 
     <?php if (($_user->role ?? '') != 'Admin'): ?>
@@ -60,6 +59,7 @@
     <?php endif ?>
 
     <?php if (($_user->role ?? '') == 'Admin'): ?>
+        <a href="../index.php">Index</a>
         <a href="../admin/product_list.php">Admin Product Management</a>
         <a href="../admin/product_manage.php">Admin Order Management</a>
     <?php endif ?>

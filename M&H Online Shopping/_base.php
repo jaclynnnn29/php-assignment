@@ -230,7 +230,7 @@ function update_cart($id, $unit) {
 // ============================================================================
 
 // Corrected connection string (No spaces, includes host)
-$_db = new PDO('mysql:host=localhost;dbname=shopping_cart', 'root', '', [
+$_db = new PDO('mysql:host=127.0.0.1;port=3307;dbname=shopping_cart', 'root', '', [
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_OBJ,
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 ]);
