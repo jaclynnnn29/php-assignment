@@ -43,7 +43,7 @@ include '../_head.php';
                     <?= $o->status ?>
                 </span>
             </td>
-            <td><?= $orders->payment_method ?? 'Pending' ?></td>
+            <td><?= $o->shipment_status ?? 'Pending' ?></td>
             <td>
             <button onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
             </td> 
