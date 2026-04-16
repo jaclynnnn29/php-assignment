@@ -74,8 +74,9 @@ include '../_head.php';
                 <label>Profile Photo</label>
                 <label class="upload">
                     <?php html_file('photo', 'accept="image/*"'); ?>
-                    <img src="/images/photo.jpg" alt="Preview">
+                    <img id="preview" src="/images/blank_profile.png" alt="Preview">
                 </label>
+                <div class="err"><?php err('photo'); ?></div>
             </div>
 
             <button type="submit" class="btn-login">Register Account</button>
@@ -87,5 +88,20 @@ include '../_head.php';
         </form>
     </div>
 </main>
+
+<script>
+    // 1. Select the file input and the preview image
+    const photoInput = document.querySelector('input[name="photo"]');
+    const previewImg = document.getElementById('preview');
+
+    // 2. Listen for when a file is selected
+    photoInput.onchange = e => {
+        const [file] = photoInput.files;
+        if (file) {
+            // 3. Replace the preview src with the selected file
+            previewImg.src = URL.createObjectURL(file);
+        }
+    };
+</script>
 
 <?php include '../_foot.php'; ?>
