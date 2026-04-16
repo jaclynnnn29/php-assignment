@@ -75,19 +75,19 @@ include '../_head.php'; // Use your standard header
             </div>
 
             <div class="input-group">
-                <label><i class="bx bx-user"></i> Username</label>
+                <label><i class="bx bx-user"></i> New Username</label>
                 <?php html_text('user_name', 'placeholder="Enter username"'); ?>
                 <?php err('user_name'); ?>
             </div>
 
             <div class="input-group">
-                <label><i class="bx bx-envelope"></i> Email Address</label>
+                <label><i class="bx bx-envelope"></i> New Email Address</label>
                 <?php html_text('email', 'placeholder="Enter email"'); ?>
                 <?php err('email'); ?>
             </div>
 
             <div class="form-actions">
-                <button type="submit" class="btn-primary">Update Profile</button>
+                <button type="submit" class="btn-primary">Update New Profile</button>
                 <a href="../home.php" class="btn-secondary">Cancel</a>
             </div>
         </form>

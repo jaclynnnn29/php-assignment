@@ -346,6 +346,85 @@ label > * {
     color: red;
 }
 
+/* Password Page Styling */
+.pass-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f4f7f6; /* Light grey background */
+    min-height: 80vh;
+}
+
+.pass-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.pass-card h1 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.pass-card p {
+    color: #666;
+    font-size: 0.9em;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #444;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box; /* Ensures padding doesn't break width */
+}
+
+.btn-update {
+    width: 100%;
+    padding: 12px;
+    background: #1a6d87;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.btn-update:hover {
+    background: #155a6f;
+}
+
+.cancel-link {
+    display: inline-block;
+    margin-top: 15px;
+    color: #888;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.cancel-link:hover {
+    text-decoration: underline;
+}
+
+
 /* Photo Upload ------------------------------------------------------------ */
 
 /* Login Container Styling */
