@@ -42,9 +42,9 @@
     </header>
 
     <nav class="sub_nav">
-    <a href="../product/list.php">Products</a>
 
     <?php if (($_user->role ?? '') == 'Member'): ?>
+        <a href="../product/list.php">Products</a>
         <a href="../order/cart.php">
             Shopping Cart
             <?php 
@@ -55,7 +55,8 @@
         <a href="../order/history.php">Order History</a>
     <?php endif ?>
 
-    <?php if (($_user->role ?? '') == 'Admin'): ?>
+    <?php if (($_user->role ?? '') == 'Admin'): ?> 
+        <a href="../product/list.php">Products</a>
         <a href="../index.php">Index</a>
         <a href="../admin/product_list.php">Product Management</a>
         <a href="../admin/order_list.php">Order List</a>
