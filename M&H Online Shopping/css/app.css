@@ -926,4 +926,62 @@ header .profile-pic {
 
 /* About Page Specific Styles ---------------------------------------------- */
 
+/* Forgot Password & Auth Pages -------------------------------------------- */
+
+/* Centered container for forgot password / reset pages */
+.auth-page {
+    max-width: 500px;
+    margin: 50px auto; 
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Ensure inputs in auth forms are consistent */
+.auth-form input[type="text"], 
+.auth-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Generic primary button style for these actions */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #248faf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #1a6d87;
+}
+
+.auth-footer {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.auth-footer a {
+    color: #248faf;
+    text-decoration: none;
+    font-weight: bold;
+}
+/* Forgot Password & Auth Pages -------------------------------------------- */ 
+
 
