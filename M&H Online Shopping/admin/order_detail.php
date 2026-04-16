@@ -24,10 +24,13 @@ $order = $stm->fetch();
 if (!$order) redirect('order_list.php');
 
 // 5. Fetch order items - FIXED: Changed product_id to variant_id
+// Fetch order items joined with product names
+// 5. Fetch order items joined with product names through variants
 $stm = $_db->prepare("
-    SELECT oi.*, p.product_name 
+    SELECT oi.*, p.product_name, pv.size, pv.colour
     FROM order_items oi
-    JOIN product p ON oi.variant_id = p.product_id
+    JOIN product_variants pv ON oi.variant_id = pv.variant_id
+    JOIN product p ON pv.product_id = p.product_id
     WHERE oi.order_id = ?
 ");
 $stm->execute([$order_id]);
@@ -74,8 +77,12 @@ include '../_head.php';
         <tbody>
             <?php foreach ($items as $i): ?>
 <tr>
-    <td><?= encode($i->product_name) ?></td>
-    <td><?= $i->unit ?></td> <td>RM <?= number_format($i->unit_price, 2) ?></td>
+    <td>
+        <?= encode($i->product_name) ?> 
+        <small>(<?= encode($i->size) ?>, <?= encode($i->colour) ?>)</small>
+    </td>
+    <td><?= $i->unit ?></td> 
+    <td>RM <?= number_format($i->unit_price, 2) ?></td>
     <td>RM <?= number_format($i->unit * $i->unit_price, 2) ?></td>
 </tr>
 <?php endforeach; ?>
