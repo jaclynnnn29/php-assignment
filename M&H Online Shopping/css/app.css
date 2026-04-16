@@ -1212,4 +1212,44 @@ header .profile-pic {
 }
 /* Member List Specific Styles --------------------------------------------- */
 
+/* Register Page Specific Styles ------------------------------------------- */
+
+.upload-container {
+    display: block;
+    cursor: pointer;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.upload-container:hover {
+    border-color: #248faf;
+}
+
+.photo-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 4px;
+}
+
+/* Error message styling */
+.err {
+    color: #d9534f;
+    font-size: 0.85em;
+    margin-top: 5px;
+    text-align: left;
+}
+
+/* Ensuring form groups align well in the centered auth-page */
+.auth-form .form-group {
+    width: 100%;
+    margin-bottom: 20px;
+}
+/* Register Page Specific Styles ------------------------------------------- */
+
 

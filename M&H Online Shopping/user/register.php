@@ -48,27 +48,27 @@ $_title = 'JOIN OUR MEMBERSHIP';
 include '../_head.php';
 ?>
 
-<main>
-    <div class="login-container" style="max-width: 500px;"> <h1>Member Registration</h1>
+<main class="auth-page">
+    <h1>Member Registration</h1>
 
-        <form method="post" enctype="multipart/form-data">
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <?php html_text('email', 'placeholder="e.g. jaclyn@gmail.com"'); ?>
-                <div class="err"><?php err('email'); ?></div>
-            </div>
+    <form method="post" enctype="multipart/form-data" class="auth-form">
+        <div class="form-group">
+            <label for="email">Email Address</label>
+            <?php html_text('email', 'placeholder="e.g. jaclyn@gmail.com"'); ?>
+            <div class="err"><?php err('email'); ?></div>
+        </div>
 
-            <div class="form-group">
-                <label for="password">Create a Password</label>
-                <?php html_password('password', 'placeholder="Min. 8 characters"'); ?>
-                <div class="err"><?php err('password'); ?></div>
-            </div>
+        <div class="form-group">
+            <label for="password">Create a Password</label>
+            <?php html_password('password', 'placeholder="Min. 8 characters"'); ?>
+            <div class="err"><?php err('password'); ?></div>
+        </div>
 
-            <div class="form-group">
-                <label for="confirm">Confirm Password</label>
-                <?php html_password('confirm', 'placeholder="Repeat password"'); ?>
-                <div class="err"><?php err('confirm'); ?></div>
-            </div>
+        <div class="form-group">
+            <label for="confirm">Confirm Password</label>
+            <?php html_password('confirm', 'placeholder="Repeat password"'); ?>
+            <div class="err"><?php err('confirm'); ?></div>
+        </div>
 
             <div class="form-group">
                 <label>Profile Photo</label>
@@ -81,14 +81,13 @@ include '../_head.php';
                 </label>
             </div>
 
-            <button type="submit" class="btn-login">Register Account</button>
-            <button type="reset" class="btn-reset">Clear Fields</button>
+        <button type="submit" class="btn-primary">Register Account</button>
+        <button type="reset" class="btn-reset">Clear Fields</button>
 
-            <p style="margin-top: 20px;">
-                Already a member? <a href="../login.php" style="color: #318cdb; font-weight: bold;">Login here</a>
-            </p>
-        </form>
-    </div>
+        <p class="auth-footer">
+            Already a member? <a href="../login.php">Login here</a>
+        </p>
+    </form>
 </main>
 
 <script>
