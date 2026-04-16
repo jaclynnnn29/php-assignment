@@ -64,8 +64,8 @@
         <?php endif ?>
 
         <?php if (($_user->role ?? '') == 'Admin'): ?> 
-            <a href="../product/list.php">Products</a>
             <a href="../index.php">Index</a>
+            <a href="../product/list.php">Products</a>            
             <a href="../admin/product_list.php">Product Management</a>
             <a href="../admin/order_list.php">Order List</a>
             
