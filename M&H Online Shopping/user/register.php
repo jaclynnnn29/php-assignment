@@ -70,14 +70,14 @@ include '../_head.php';
             <div class="err"><?php err('confirm'); ?></div>
         </div>
 
-        <div class="form-group">
-            <label>Profile Photo</label>
-            <label class="upload-container">
-                <?php html_file('photo', 'accept="image/*"'); ?>
-                <img src="/images/photo.jpg" alt="Preview" class="photo-preview">
-            </label>
-            <div class="err"><?php err('photo'); ?></div>
-        </div>
+            <div class="form-group">
+                <label>Profile Photo</label>
+                <label class="upload">
+                    <?php html_file('photo', 'accept="image/*"'); ?>
+                    <img id="preview" src="/images/blank_profile.png" alt="Preview">
+                </label>
+                <div class="err"><?php err('photo'); ?></div>
+            </div>
 
         <button type="submit" class="btn-primary">Register Account</button>
         <button type="reset" class="btn-reset">Clear Fields</button>
@@ -87,5 +87,20 @@ include '../_head.php';
         </p>
     </form>
 </main>
+
+<script>
+    // 1. Select the file input and the preview image
+    const photoInput = document.querySelector('input[name="photo"]');
+    const previewImg = document.getElementById('preview');
+
+    // 2. Listen for when a file is selected
+    photoInput.onchange = e => {
+        const [file] = photoInput.files;
+        if (file) {
+            // 3. Replace the preview src with the selected file
+            previewImg.src = URL.createObjectURL(file);
+        }
+    };
+</script>
 
 <?php include '../_foot.php'; ?>

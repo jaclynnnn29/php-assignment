@@ -49,7 +49,7 @@ if (is_post()) {
         $_SESSION['user'] = $_user;
 
         temp('info', 'Profile updated successfully!');
-        redirect('profile.php');
+        redirect('../home.php');
     }
 }
 
