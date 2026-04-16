@@ -31,21 +31,22 @@
             
             <?php if ($_user): ?>
                 <a href="../logout.php"><i class="bx bx-door-open-alt"></i> Logout</a>
-                
-                <a href="../user/profile.php" style="text-decoration: none; margin-left: 10px;">
-                    <span class="user-info" style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                        <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" 
-                             style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
-                        <b style="color: white; font-size: 0.75em;"><?= encode($_user->user_name) ?></b>
-                    </span>
-                </a>
-
             <?php else: ?>
                 <a href="../login.php"><i class="bx bx-key"></i> Login</a>
                 <a href="../user/register.php"><i class="bx bx-user-plus"></i> Register</a>
             <?php endif ?>  
 
             <a href="../about.php"><i class="bx bx-info-circle"></i> About</a>
+
+            <?php if ($_user): ?>
+                <a href="../user/profile.php" style="text-decoration: none; margin-left: 10px;">
+                    <span class="user-info" style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
+                        <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" 
+                            style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
+                        <b style="color: white; font-size: 0.75em;"><?= encode($_user->user_name) ?></b>
+                    </span>
+                </a>
+            <?php endif ?>
         </div>
     </header>
 
