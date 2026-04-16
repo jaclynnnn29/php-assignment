@@ -98,4 +98,22 @@ include '../_head.php'; // Use your standard header
     </div>
 </main>
 
+<script>
+    // 1. Select the hidden file input and the profile image element
+    const fileInput = document.querySelector('input[type="file"]');
+    const profileImg = document.querySelector('.image-wrapper img');
+
+    // 2. Listen for when a user selects a file
+    if (fileInput) {
+        fileInput.addEventListener('change', e => {
+            const file = e.target.files[0];
+            
+            if (file) {
+                // 3. Create a temporary URL for the selected file and update the <img> src
+                profileImg.src = URL.createObjectURL(file);
+            }
+        });
+    }
+</script>
+
 <?php include '../_foot.php'; ?>
