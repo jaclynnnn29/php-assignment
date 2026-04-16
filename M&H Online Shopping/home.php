@@ -8,7 +8,7 @@ $stm = $_db->query("
     JOIN product_variants v ON p.product_id = v.product_id
     GROUP BY p.product_id 
     ORDER BY RAND() 
-    LIMIT 10
+    LIMIT 8
 ");
 $featured = $stm->fetchAll();
 
