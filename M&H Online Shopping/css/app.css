@@ -349,6 +349,106 @@ label > * {
 /* Photo Upload ------------------------------------------------------------ */
 
 /* Login Container Styling */
+
+/* Profile Page Modern UI */
+.profile-container {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+    background-color: #f4f7f6;
+    min-height: 80vh;
+}
+
+.profile-card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+.photo-section {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.image-wrapper img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #6c5ce7;
+}
+
+.upload-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    background: #6c5ce7;
+    color: white;
+    padding: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border 0.3s;
+}
+
+.input-group input:focus {
+    border-color: #6c5ce7;
+    outline: none;
+}
+
+.btn-primary {
+    background: #6c5ce7;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.btn-secondary {
+    display: block;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
+.profile-footer {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
 .login-container {
     max-width: 400px;
     margin: 80px auto; /* Centers the box vertically and horizontally */

@@ -57,41 +57,45 @@ $_title = 'Edit Profile';
 include '../_head.php'; // Use your standard header
 ?>
 
-<main>
-    <h1>Edit Profile</h1>
+<main class="profile-container">
+    <div class="profile-card">
+        <h1>Edit Profile</h1>
 
-    <form method="post" enctype="multipart/form-data">
-        <div>
-            <label>Current Photo:</label><br>
-            <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" 
-                 style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;"><br><br>
-            
-            <label>Upload New Photo:</label><br>
-            <?php html_file('photo', 'image/*'); ?>
-            <?php err('photo'); ?>
+        <form method="post" enctype="multipart/form-data" class="profile-form">
+            <div class="photo-section">
+                <div class="image-wrapper">
+                    <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" alt="Profile Photo">
+                    <label class="upload-btn">
+                        <i class="bx bx-camera"></i>
+                        <?php html_file('photo', 'image/*', 'hidden'); ?>
+                    </label>
+                </div>
+                <p class="photo-hint">Click the camera to change photo</p>
+                <?php err('photo'); ?>
+            </div>
+
+            <div class="input-group">
+                <label><i class="bx bx-user"></i> Username</label>
+                <?php html_text('user_name', 'placeholder="Enter username"'); ?>
+                <?php err('user_name'); ?>
+            </div>
+
+            <div class="input-group">
+                <label><i class="bx bx-envelope"></i> Email Address</label>
+                <?php html_text('email', 'placeholder="Enter email"'); ?>
+                <?php err('email'); ?>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary">Update Profile</button>
+                <a href="../home.php" class="btn-secondary">Cancel</a>
+            </div>
+        </form>
+
+        <div class="profile-footer">
+            <a href="password.php"><i class="bx bx-lock-alt"></i> Change Password</a>
         </div>
-        <br>
-
-        <div>
-            <label>Username:</label><br>
-            <?php html_text('user_name'); ?>
-            <?php err('user_name'); ?>
-        </div>
-        <br>
-
-        <div>
-            <label>Email Address:</label><br>
-            <?php html_text('email'); ?>
-            <?php err('email'); ?>
-        </div>
-        <br>
-
-        <button type="submit">Update Profile</button>
-        <a href="../home.php">Back to Home</a>
-    </form>
-
-    <hr>
-    <p>Security Settings: <a href="password.php">Change Password</a></p>
+    </div>
 </main>
 
 <?php include '../_foot.php'; ?>
