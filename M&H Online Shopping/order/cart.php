@@ -50,151 +50,166 @@ $_title = 'Shopping Cart';
 include '../_head.php';
 ?>
 
-<main>
-    <div class="solid-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-            <h2>Your Shopping Cart</h2>
-            <form method="get" style="display: flex; gap: 5px;">
-                <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search items..." style="padding: 5px; width: 200px;">
-                <button type="submit">Search</button>
-                <?php if ($search): ?>
-                    <a href="?" style="font-size: 0.8rem; align-self: center; margin-left: 5px;">Clear Search</a>
-                <?php endif; ?>
-            </form>
-        </div>
+    <main>
+        <div class="solid-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2>Your Shopping Cart</h2>
+                <form method="get" style="display: flex; gap: 5px;">
+                    <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search items..." style="padding: 5px; width: 200px;">
+                    <button type="submit">Search</button>
+                    <?php if ($search): ?>
+                        <a href="?" style="font-size: 0.8rem; align-self: center; margin-left: 5px;">Clear Search</a>
+                    <?php endif; ?>
+                </form>
+            </div>
 
-        <table class="table solid-table">
-            <thead>
-                <tr>
-                    <th>Photo</th>
-                    <th>Type of Product</th>
-                    <th>Size</th>
-                    <th class="right">Price per Unit (RM)</th>
-                    <th>Unit</th>
-                    <th class="right">SubTotal (RM)</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $displayed_count = 0;
-                $displayed_total = 0;
-                
-                // Query to get product details via variant
-                $stm = $_db->prepare('
-                    SELECT pv.*, p.product_name, p.photo 
-                    FROM product_variants pv 
-                    JOIN product p ON pv.product_id = p.product_id 
-                    WHERE pv.variant_id = ?
-                ');
-                
-                // Query to get all available sizes for the size-dropdown
-                $stm_variants = $_db->prepare('SELECT variant_id, size FROM product_variants WHERE product_id = ? ORDER BY size');
-                
-                $cart = get_cart();
-
-                foreach ($cart as $id => $unit):
-                    $stm->execute([$id]);
-                    $p = $stm->fetch();
+            <table class="table solid-table">
+                <thead>
+                    <tr>
+                        <th>Photo</th>
+                        <th>Type of Product</th>
+                        <th>Size</th>
+                        <th class="right">Price per Unit (RM)</th>
+                        <th>Unit</th>
+                        <th class="right">SubTotal (RM)</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php
+                    $displayed_count = 0;
+                    $displayed_total = 0;
                     
-                    if (!$p) continue;
+                    // Query to get product details via variant
+                    $stm = $_db->prepare('
+                        SELECT pv.*, p.product_name, p.photo 
+                        FROM product_variants pv 
+                        JOIN product p ON pv.product_id = p.product_id 
+                        WHERE pv.variant_id = ?
+                    ');
+                    
+                    // Query to get all available sizes for the size-dropdown
+                    $stm_variants = $_db->prepare('SELECT variant_id, size FROM product_variants WHERE product_id = ? ORDER BY size');
+                    
+                    $cart = get_cart();
 
-                    // Filter display if searching
-                    if ($search && stripos($p->product_name, $search) === false) continue;
+                    foreach ($cart as $id => $unit):
+                        $stm->execute([$id]);
+                        $p = $stm->fetch();
+                        
+                        if (!$p) continue;
 
-                    $stm_variants->execute([$p->product_id]);
-                    $variant_options = $stm_variants->fetchAll();
+                        // Filter display if searching
+                        if ($search && stripos($p->product_name, $search) === false) continue;
 
-                    $subtotal = $p->price * $unit;
-                    $displayed_count += $unit;
-                    $displayed_total += $subtotal;
-                ?>
-                    <tr>
-                        <td><img src="/images/<?= $p->photo ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
-                        <td><?= htmlspecialchars($p->product_name) ?></td>
-                        <td>
-                            <form method="post">
-                                <?= html_hidden('id', $id) ?>
-                                <?= html_hidden('unit', $unit) ?>
-                                <?= html_select('variant_id', array_column($variant_options, 'size', 'variant_id'), $id) ?>
-                            </form>
-                        </td>
-                        <td class="right"><?= number_format($p->price, 2) ?></td>
-                        <td>
-                            <form method="post">
-                                <?= html_hidden('id', $id) ?>
-                                <?= html_hidden('variant_id', $id) ?>
-                                <?= html_select('unit', $_units, $unit) ?>
-                            </form>
-                        </td>
-                        <td class="right"><?= number_format($subtotal, 2) ?></td>
-                        <td>
-                            <button data-post="?id=<?= $id ?>&unit=0&btn=delete" 
-                                data-confirm="Remove this item?" 
-                                class="link-delete" 
-                                style="background:none; border:none; cursor:pointer; color: #d9534f;">
-                                🗑️ Remove
-                            </button>
-                        </td>
+                        $stm_variants->execute([$p->product_id]);
+                        $variant_options = $stm_variants->fetchAll();
+
+                        $subtotal = $p->price * $unit;
+                        $displayed_count += $unit;
+                        $displayed_total += $subtotal;
+                    ?>
+                        <tr>
+                            <td><img src="/images/<?= $p->photo ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                            <td><?= htmlspecialchars($p->product_name) ?></td>
+                            <td>
+                                <form method="post">
+                                    <?= html_hidden('id', $id) ?>
+                                    <?= html_hidden('unit', $unit) ?>
+                                    <?= html_select('variant_id', array_column($variant_options, 'size', 'variant_id'), $id) ?>
+                                </form>
+                            </td>
+                            <td class="right"><?= number_format($p->price, 2) ?></td>
+                            <td>
+                                <form method="post">
+                                    <?= html_hidden('id', $id) ?>
+                                    <?= html_hidden('variant_id', $id) ?>
+                                    <?= html_select('unit', $_units, $unit) ?>
+                                </form>
+                            </td>
+                            <td class="right"><?= number_format($subtotal, 2) ?></td>
+                            <td>
+                                <button data-post="?id=<?= $id ?>&unit=0&btn=delete" 
+                                    data-confirm="Remove this item?" 
+                                    class="link-delete" 
+                                    style="background:none; border:none; cursor:pointer; color: #d9534f;">
+                                    🗑️ Remove
+                                </button>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
+
+                    <?php if (empty($cart)): ?>
+                        <tr>
+                            <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
+                                Your cart is currently empty. <a href="../product/list.php">Go shopping!</a>
+                            </td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+                <tfoot>
+                    <tr style="background: #f9f9f9; font-weight: bold;">
+                        <td colspan="4" style="text-align: right;">Total Units:</td>
+                        <td><?= $displayed_count ?></td>
+                        <td class="right">Total Amount: RM <?= number_format($displayed_total, 2) ?></td>
+                        <td></td>
                     </tr>
-                <?php endforeach ?>
+                </tfoot>
+            </table>
 
-                <?php if (empty($cart)): ?>
-                    <tr>
-                        <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
-                            Your cart is currently empty. <a href="../product/list.php">Go shopping!</a>
-                        </td>
-                    </tr>
+            <div style="margin-top: 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
+        <?php if ($cart): ?>
+            <button class="btn-clear" 
+                    data-post="?btn=clear" 
+                    data-confirm="Clear all items in your cart?"
+                    style="
+                        background-color: #e74c3c; 
+                        color: white; 
+                        border: none; 
+                        padding: 8px 16px; 
+                        border-radius: 4px; 
+                        cursor: pointer;
+                        font-weight: bold;
+                        font-family: inherit;
+                    ">
+                Clear all items
+            </button>
+            
+                    <a href="checkout.php" style="
+                        text-decoration: none; 
+                        background-color: #2b91af; 
+                        color: white; 
+                        padding: 8px 16px; 
+                        border-radius: 4px; 
+                        display: inline-block;
+                        font-weight: bold;
+                        font-family: inherit;
+                        font-size: 13.33px;
+                        transition: opacity 0.2s;
+                    " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                        Check Out
+                    </a>
                 <?php endif; ?>
-            </tbody>
-            <tfoot>
-                <tr style="background: #f9f9f9; font-weight: bold;">
-                    <td colspan="4" style="text-align: right;">Total Units:</td>
-                    <td><?= $displayed_count ?></td>
-                    <td class="right">Total Amount: RM <?= number_format($displayed_total, 2) ?></td>
-                    <td></td>
-                </tr>
-            </tfoot>
-        </table>
+            </div>
+        </div>
+    </main>
 
-        <div style="margin-top: 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
-    <?php if ($cart): ?>
-        <button class="btn-clear" 
-                data-post="?btn=clear" 
-                data-confirm="Clear all items in your cart?"
-                style="
-                    background-color: #e74c3c; 
-                    color: white; 
-                    border: none; 
-                    padding: 8px 16px; 
-                    border-radius: 4px; 
-                    cursor: pointer;
-                    font-weight: bold;
-                    font-family: inherit;
-                ">
-            Clear all items
-        </button>
-        
-        <a href="checkout.php" style="
-            text-decoration: none; 
-            background-color: #2b91af; 
-            color: white; 
-            padding: 8px 16px; 
-            border-radius: 4px; 
-            display: inline-block;
-            font-weight: bold;
-            font-family: inherit;
-            font-size: 13.33px;
-            transition: opacity 0.2s;
-        " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-            Check Out
-        </a>
-    <?php endif; ?>
-</div>
-    </div>
-</main>
+    <script>
+        // 1. Existing logic: Submit form when dropdowns (size/unit) change
+        $('select').on('change', e => e.target.form.submit());
 
-<script>
-    // Automatically submit the form when a dropdown (size or quantity) changes
-    $('select').on('change', e => e.target.form.submit());
-</script>
+        // 2. THE FIX: Handle the "Remove" and "Clear All" buttons
+        $('[data-post]').click(function (e) {
+            e.preventDefault(); // Stop the page from refreshing immediately
+            
+            const url = $(this).data('post');
+            const msg = $(this).data('confirm') || 'Are you sure?';
+
+            if (confirm(msg)) {
+                // Create a temporary hidden form and submit it
+                const f = $('<form method="post">').attr('action', url).appendTo('body');
+                f.submit();
+            }
+        });
+    </script>
+
