@@ -197,13 +197,12 @@ function logout($url = '/') {
 function auth(...$roles) {
     global $_user;
     if ($_user) {
-        if ($roles) {
-            if (in_array($_user->role, $roles)) {
-                return; 
-            }
+        if (!$roles || in_array($_user->role, $roles)) {
+            return; // Allow access if logged in and role matches (or no roles required)
         }
     }
     redirect('/login.php'); 
+    exit; // Always exit after redirect to stop the script
 }
 
 // ============================================================================
