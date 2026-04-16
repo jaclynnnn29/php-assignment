@@ -17,7 +17,7 @@ if (is_post()) {
     }
 
     // 2. Handle Remove Single Item
-    if ($btn == 'delete' || $unit === '0') {
+    if ($btn == 'delete' || $unit == '0') {
         update_cart($id, 0); // Set quantity to 0 to remove it
         temp('info', 'Item removed.');
         redirect('cart.php');
