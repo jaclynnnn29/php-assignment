@@ -2,75 +2,80 @@
 require '../_base.php';
 auth(); // Only logged-in users can access
 
-// Initialize local variables with current session data
+// Initialize local variables for the form helpers
 $email = $_user->email;
+$user_name = $_user->user_name;
 
 if (is_post()) {
     $email = post('email');
-    $f = get_file('photo'); // Using your helper function
+    $user_name = post('user_name');
+    $f = get_file('photo'); 
 
     // 1. Validation
     if (!$email) {
         $_err['email'] = 'Required';
     } else if (!is_email($email)) {
         $_err['email'] = 'Invalid email format';
-    } else if ($email != $_user->email && !is_unique($email, 'User', 'email')) {
-        $_err['email'] = 'Email is already taken by another user';
+    } else if ($email != $_user->email && !is_unique($email, 'user', 'email')) {
+        $_err['email'] = 'Email is already taken';
+    }
+
+    if (!$user_name) {
+        $_err['user_name'] = 'Required';
     }
 
     // 2. Process Update
     if (!$_err) {
-        $photo = $_user->profile_photo; // Default to existing photo
+        // Use 'photo' to match your database column
+        $photo = $_user->photo; 
 
-        // If a new photo is uploaded
         if ($f) {
-            // Delete the old photo if it exists and isn't the default
-            if ($_user->profile_photo != 'default.jpg' && file_exists("photos/{$_user->profile_photo}")) {
-                unlink("photos/{$_user->profile_photo}");
+            // Delete old photo if it exists and isn't the default
+            if ($_user->photo != 'default_user.jpg' && file_exists("../photos/{$_user->photo}")) {
+                unlink("../photos/{$_user->photo}");
             }
-            // Save new photo using your _base.php function
+            // Save to the correct relative path
             $photo = save_photo($f, '../photos');
         }
 
-        // Update Database
-        $stm = $_db->prepare("UPDATE user SET email = ?, photo = ? WHERE user_id = ?");
-        $stm->execute([$email, $photo, $_user->user_id]);
+        // Update Database using correct column names
+        $stm = $_db->prepare("UPDATE user SET email = ?, user_name = ?, photo = ? WHERE user_id = ?");
+        $stm->execute([$email, $user_name, $photo, $_user->user_id]);
 
-        // 3. Update Session Object so changes show immediately
+        // 3. Update Session Object
         $_user->email = $email;
-        $_user->profile_photo = $photo;
+        $_user->user_name = $user_name;
+        $_user->photo = $photo;
         $_SESSION['user'] = $_user;
 
         temp('info', 'Profile updated successfully!');
         redirect('profile.php');
     }
 }
+
+$_title = 'Edit Profile';
+include '../_head.php'; // Use your standard header
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>My Profile</title>
-    <style>
-        .profile-img { width: 150px; height: 150px; border-radius: 50%; object-fit: cover; }
-    </style>
-</head>
-<body>
+<main>
     <h1>Edit Profile</h1>
-
-    <?php if ($msg = temp('info')): ?>
-        <p style="color: green;"><?= $msg ?></p>
-    <?php endif; ?>
 
     <form method="post" enctype="multipart/form-data">
         <div>
             <label>Current Photo:</label><br>
-            <img src="photos/<?= $_user->photo ?>" class="profile-img"><br><br>
+            <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" 
+                 style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover;"><br><br>
             
             <label>Upload New Photo:</label><br>
             <?php html_file('photo', 'image/*'); ?>
             <?php err('photo'); ?>
+        </div>
+        <br>
+
+        <div>
+            <label>Username:</label><br>
+            <?php html_text('user_name'); ?>
+            <?php err('user_name'); ?>
         </div>
         <br>
 
@@ -82,10 +87,11 @@ if (is_post()) {
         <br>
 
         <button type="submit">Update Profile</button>
-        <a href="index.php">Back to Home</a>
+        <a href="../home.php">Back to Home</a>
     </form>
 
     <hr>
     <p>Security Settings: <a href="password.php">Change Password</a></p>
-</body>
-</html>
+</main>
+
+<?php include '../_foot.php'; ?>
