@@ -109,20 +109,20 @@ include '_head.php';
                 <?php html_password('password', 'placeholder="••••••••"'); ?>
             </div>
             
-            <p style="margin-top: 10px;">
-                <a href="user/forgot_password.php" style="color: #248faf;">Forgot Password?</a>
+            <p class="forgot-link">
+                <a href="user/forgot_password.php">Forgot Password?</a>
             </p>
 
-            <div class="form-group" style="flex-direction: row; justify-content: left; gap: 10px;margin-left: 50px;margin-bottom: 20px;">
-                <input type="checkbox" name="remember" id="remember" <?= post('remember') ? 'checked' : '' ?> style="width: 18px; height: 18px; cursor: pointer;">
-                <label for="remember" style="margin-bottom: 0; cursor: pointer; font-weight: normal; color: #555;">Remember Me</label>
+            <div class="form-group-row">
+                <input type="checkbox" name="remember" id="remember" <?= post('remember') ? 'checked' : '' ?> class="remember-check">
+                <label for="remember" class="remember-label">Remember Me</label>
             </div>
 
             <button type="submit" class="btn-login">Login to Account</button>
             <button type="reset" class="btn-reset">Clear Fields</button>
 
-            <p style="margin-top: 20px;">
-                New here? <a href="user/register.php" style="color: #248faf; font-weight: bold;">Join Our Membership</a>
+            <p class="register-link">
+                New here? <a href="user/register.php">Join Our Membership</a>
             </p>
         </form>
     </div>

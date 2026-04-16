@@ -751,7 +751,51 @@ header .profile-pic {
 
 /* Home Page Styles -------------------------------------------------------- */
 
+/* Login Page Specific Styles ---------------------------------------------- */
 
+.forgot-link {
+    margin-top: 10px;
+}
+
+.forgot-link a {
+    color: #248faf;
+    text-decoration: none;
+}
+
+.form-group-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 10px;
+    margin-left: 50px;
+    margin-bottom: 20px;
+}
+
+.remember-check {
+    width: 18px !important; 
+    height: 18px !important; 
+    cursor: pointer;
+}
+
+.remember-label {
+    margin-bottom: 0 !important; 
+    cursor: pointer; 
+    font-weight: normal !important; 
+    color: #555;
+}
+
+.register-link {
+    margin-top: 20px;
+}
+
+.register-link a {
+    color: #248faf;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Register Page Specific Styles ------------------------------------------- */
 
 
 
