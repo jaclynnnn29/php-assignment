@@ -984,4 +984,53 @@ header .profile-pic {
 }
 /* Forgot Password & Auth Pages -------------------------------------------- */ 
 
+/* Member List Specific Styles --------------------------------------------- */
+
+.member-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.no-photo {
+    color: #999;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+/* Reusing search styles for consistency with index.php */
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Styling the Action button in the table */
+.table .btn-view {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #6e8efb;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.table .btn-view:hover {
+    background-color: #5a7be0;
+}
+/* Member List Specific Styles --------------------------------------------- */
+
 
