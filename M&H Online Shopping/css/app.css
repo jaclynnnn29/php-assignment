@@ -797,6 +797,240 @@ header .profile-pic {
 
 /* Register Page Specific Styles ------------------------------------------- */
 
+/* User List (Index) Page Styles ------------------------------------------- */
 
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.btn-search {
+    width: auto;
+    padding: 0 20px;
+    background-color: #248faf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-clear {
+    text-decoration: none;
+    background: #666;
+    color: white;
+    width: auto;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.no-data {
+    text-align: center;
+    padding: 20px !important;
+    color: #999;
+}
+
+.table-actions {
+    margin-top: 15px;
+}
+
+.btn-add {
+    text-decoration: none;
+    background-color: #248faf;
+    color: white;
+    display: inline-block;
+    width: auto;
+    padding: 8px 15px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.btn-add:hover {
+    background-color: #1a6b83;
+}
+/* User List (Index) Page Styles ------------------------------------------- */
+
+/* About Page Specific Styles ---------------------------------------------- */
+
+.about-container {
+    padding: 40px 50px;
+    line-height: 1.6;
+    color: #f7f4f4;
+}
+
+.about-hero {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.about-hero h2 {
+    font-size: 2.5em;
+    color: #6e8efb;
+}
+
+.about-hero p {
+    font-size: 1.2em;
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.about-content {
+    display: flex;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.about-image {
+    flex: 1;
+}
+
+.about-image img {
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.about-text {
+    flex: 1;
+}
+
+.about-list {
+    list-style: none;
+    padding: 0;
+}
+
+.about-list li {
+    margin-bottom: 10px;
+}
+
+.about-list i {
+    color: #6e8efb;
+    margin-right: 10px;
+}
+
+/* About Page Specific Styles ---------------------------------------------- */
+
+/* Forgot Password & Auth Pages -------------------------------------------- */
+
+/* Centered container for forgot password / reset pages */
+.auth-page {
+    max-width: 500px;
+    margin: 50px auto; 
+    padding: 30px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+/* Ensure inputs in auth forms are consistent */
+.auth-form input[type="text"], 
+.auth-form input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Generic primary button style for these actions */
+.btn-primary {
+    width: 100%;
+    padding: 10px;
+    background-color: #248faf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #1a6d87;
+}
+
+.auth-footer {
+    margin-top: 20px;
+    font-size: 0.9em;
+}
+
+.auth-footer a {
+    color: #248faf;
+    text-decoration: none;
+    font-weight: bold;
+}
+/* Forgot Password & Auth Pages -------------------------------------------- */ 
+
+/* Member List Specific Styles --------------------------------------------- */
+
+.member-photo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}
+
+.no-photo {
+    color: #999;
+    font-size: 0.85em;
+    font-style: italic;
+}
+
+/* Reusing search styles for consistency with index.php */
+.search-container {
+    margin-bottom: 20px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Styling the Action button in the table */
+.table .btn-view {
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #6e8efb;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.table .btn-view:hover {
+    background-color: #5a7be0;
+}
+/* Member List Specific Styles --------------------------------------------- */
 
 
