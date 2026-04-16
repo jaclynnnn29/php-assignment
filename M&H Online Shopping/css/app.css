@@ -636,6 +636,16 @@ label > * {
     border-style: solid !important;
 }
 
+/* Add to your CSS file */
+header .profile-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%; /* Makes the image a circle */
+    object-fit: cover;
+    margin-right: -10px; /* Adjust to align with the name */
+    vertical-align: middle;
+}
+
 
 
 

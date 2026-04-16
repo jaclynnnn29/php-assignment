@@ -71,6 +71,9 @@ function get_file($key) {
 
 // Crop, resize and save photo
 function save_photo($f, $folder) {
+    if (!file_exists($folder)) {
+        mkdir($folder, 0777, true); // Create folder if it doesn't exist
+    }
     $photo = uniqid() . '.jpg';
     move_uploaded_file($f->tmp_name, "$folder/$photo");
     return $photo;

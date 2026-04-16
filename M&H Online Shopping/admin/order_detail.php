@@ -2,30 +2,35 @@
 require '../_base.php';
 auth('Admin');
 
-$stm->execute([$order_id]); 
-$items = $stm->fetchAll();
+// 1. Fetch the order_id from the URL first
+$order_id = req('id'); 
 
-// Update order status logic
+// 2. Handle status updates
 if (is_post()) {
-    $new_status = post('status');
-    $stm = $_db->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
+    $new_status = post('shipment_status'); 
+    // Fix: Updating the correct column 'shipment_status' in 'orders' table
+    $stm = $_db->prepare("UPDATE orders SET shipment_status = ? WHERE order_id = ?");
     $stm->execute([$new_status, $order_id]);
     temp('info', 'Order status updated successfully');
+    redirect(); 
 }
 
-// Fetch order header
+// 3. Fetch order header
 $stm = $_db->prepare("SELECT o.*, u.user_name FROM orders o JOIN user u ON o.user_id = u.user_id WHERE o.order_id = ?");
 $stm->execute([$order_id]);
 $order = $stm->fetch();
 
-// Fetch order items joined with product names
+// 4. If order doesn't exist, redirect
+if (!$order) redirect('order_list.php');
+
+// 5. Fetch order items - FIXED: Changed product_id to variant_id
 $stm = $_db->prepare("
     SELECT oi.*, p.product_name 
     FROM order_items oi
     JOIN product p ON oi.variant_id = p.product_id
     WHERE oi.order_id = ?
 ");
-$stm->execute([$id]); // Use the $id from your URL req('id')
+$stm->execute([$order_id]);
 $items = $stm->fetchAll();
 
 $_title = "Order #$order_id";

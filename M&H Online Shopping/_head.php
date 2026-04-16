@@ -22,24 +22,28 @@
         </h1>
 
         <div>
-            <a href="../home.php" class="<?= ($_title ?? '') == 'Home' ? 'active' : '' ?>">
-                <i class="bx bx-home-alt"></i> Home
-            </a>
-            <a href="../product/list.php">
-                <i class="bx bx-package"></i> Products
-            </a>
-            
-            <?php if ($_user): ?>
-                <a href="../logout.php"><i class="bx bx-door-open-alt"></i> Logout</a>
-            <?php else: ?>
-                <a href="../login.php"><i class="bx bx-key"></i> Login</a>
-                <a href="../user/register.php"><i class="bx bx-user-plus"></i> Register</a>
-            <?php endif ?>  
+    <a href="../home.php" class="<?= ($_title ?? '') == 'Home' ? 'active' : '' ?>">
+        <i class="bx bx-home-alt"></i> Home
+    </a>
+    <a href="../product/list.php">
+        <i class="bx bx-package"></i> Products
+    </a>
+    
+    <?php if ($_user): ?>
+        <a href="../logout.php"><i class="bx bx-door-open-alt"></i> Logout</a>
+    <?php else: ?>
+        <a href="../login.php"><i class="bx bx-key"></i> Login</a>
+        <a href="../user/register.php"><i class="bx bx-user-plus"></i> Register</a>
+    <?php endif ?>  
 
-            
-            <a href="../about.php"><i class="bx bx-info-circle"></i> About</a>
-        </div>
-    </header>
+    <a href="../about.php"><i class="bx bx-info-circle"></i> About</a>
+        <span class="user-info" style="display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0 15px;">
+            <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" 
+                style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+            <b style="color: white; font-size: 0.8em;"><?= encode($_user->user_name) ?></b>
+        </span>
+</div>
+</header>
 
     <nav class="sub_nav">
 
