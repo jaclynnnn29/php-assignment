@@ -1913,3 +1913,105 @@ nav.sub_nav a.active {
     background-color: #e0e0e0;
 }
 /* --- Order History Styles (history.php) --- */ 
+
+/* Payment Page Styles ---------------------------------------------------- */
+
+.payment-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.payment-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    border-left: 5px solid #2b91af;
+}
+
+.order-summary h3 {
+    margin-top: 0;
+}
+
+.payment-option {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.payment-option:hover {
+    background: #f0f7f9;
+    border-color: #2b91af;
+}
+
+.payment-option input {
+    margin-right: 15px;
+}
+
+.btn-pay {
+    background-color: #2b91af;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-pay:hover {
+    background-color: #237a94;
+}
+
+.paypal-divider {
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+}
+
+#paypal-button-container {
+    margin-top: 20px;
+}
+
+/* Ensure error text is visible */
+.error { 
+    color: #ca5959; 
+    font-weight: bold; 
+    margin-bottom: 15px; 
+}
+
+.total-amount-display {
+    font-size: 1.2em;
+    color: #2b91af;
+}
+
+.payment-return-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.payment-return-link a {
+    color: #666;
+    text-decoration: none;
+}
+.payment-return-link a:hover {
+    text-decoration: underline;
+}
+/* Payment Page Styles ---------------------------------------------------- */
