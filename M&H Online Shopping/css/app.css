@@ -409,13 +409,15 @@ label > * {
 }
 
 .btn-update1 {
-
     display: flex;
     justify-content: flex-end;
     margin-top: 15px;
     margin-bottom: 20px;
-
-    
+}
+/* Create a variant for the order details page */
+.btn-update.btn-small {
+    padding: 5px 10px;
+    width: auto; /* Overrides the 100% width if necessary */
 }
 
 .btn-update:hover {
@@ -1915,3 +1917,254 @@ nav.sub_nav a.active {
     background-color: #e0e0e0;
 }
 /* --- Order History Styles (history.php) --- */ 
+
+/* Payment Page Styles ---------------------------------------------------- */
+
+.payment-container {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.payment-container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.order-summary {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+    border-left: 5px solid #2b91af;
+}
+
+.order-summary h3 {
+    margin-top: 0;
+}
+
+.payment-option {
+    margin: 10px 0;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    display: block;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.payment-option:hover {
+    background: #f0f7f9;
+    border-color: #2b91af;
+}
+
+.payment-option input {
+    margin-right: 15px;
+}
+
+.btn-pay {
+    background-color: #2b91af;
+    color: white;
+    padding: 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    width: 100%;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background 0.3s;
+}
+
+.btn-pay:hover {
+    background-color: #237a94;
+}
+
+.paypal-divider {
+    margin: 20px 0;
+    border-top: 1px solid #eee;
+}
+
+#paypal-button-container {
+    margin-top: 20px;
+}
+
+/* Ensure error text is visible */
+.error { 
+    color: #ca5959; 
+    font-weight: bold; 
+    margin-bottom: 15px; 
+}
+
+.total-amount-display {
+    font-size: 1.2em;
+    color: #2b91af;
+}
+
+.payment-return-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.payment-return-link a {
+    color: #666;
+    text-decoration: none;
+}
+.payment-return-link a:hover {
+    text-decoration: underline;
+}
+/* Payment Page Styles ---------------------------------------------------- */
+
+/* Reset Password Page Styles ---------------------------------------------- */
+
+.reset-container {
+    max-width: 500px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.reset-container h1 {
+    white-space: pre-line; /* Allows the \n in PHP to create line breaks */
+    margin-bottom: 20px;
+}
+
+.reset-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.reset-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.reset-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-reset-submit {
+    width: 100%;
+    padding: 10px;
+    background-color: #248faf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-reset-submit:hover {
+    background-color: #1a6d87;
+}
+/* Reset Password Page Styles ---------------------------------------------- */
+
+/* --- Admin Order Details (order_details.php) --- */
+
+.order-details-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.order-details-header h2 {
+    margin: 0;
+}
+
+.status-label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.status-paid-text {
+    color: green;
+    font-weight: bold;
+}
+
+.status-unpaid-text {
+    color: red;
+    font-weight: bold;
+}
+
+.status-form {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.status-form select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+.table-summary-row {
+    font-weight: bold;
+    background: #f9f9f9;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.variant-info {
+    font-size: 0.85em;
+    color: #666;
+}
+/* --- Admin Order Details (order_details.php) --- */
+
+/* --- Admin Order List (order_list.php) --- */
+
+.solid-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 10px;
+}
+
+/* Status Pill logic for Paid/Unpaid */
+.status-pill {
+    font-weight: bold;
+}
+
+.status-pill.paid {
+    color: green;
+}
+
+.status-pill.unpaid {
+    color: red;
+}
+
+.shipment-status-text {
+    color: #0000ff;
+    font-weight: bold;
+}
+
+/* View Details link styling */
+.link-details {
+    color: #1a6d87;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-details:hover {
+    text-decoration: underline;
+}
+/* --- Admin Order List (order_list.php) --- */

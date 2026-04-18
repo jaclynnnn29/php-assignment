@@ -52,59 +52,6 @@ include '../_head.php';
 
 <script src="https://www.paypal.com/sdk/js?client-id=AUYbQd7KxkcMO_EDQcDGliBr0R9fMHn9TqIjDLxMWp2DyLvZYn8gT3kbg0MDdVTJQO0JGgLh5eOTGnh0&currency=MYR"></script>
 
-<style>
-    .payment-container {
-        max-width: 600px;
-        margin: 30px auto;
-        padding: 30px;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        background-color: #fff;
-        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    
-    .order-summary {
-        background: #f8f9fa;
-        padding: 20px;
-        border-radius: 5px;
-        margin-bottom: 25px;
-        border-left: 5px solid #2b91af;
-    }
-    
-    .payment-option {
-        margin: 10px 0;
-        padding: 15px;
-        border: 1px solid #eee;
-        border-radius: 5px;
-        display: block;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-    
-    .payment-option:hover {
-        background: #f0f7f9;
-        border-color: #2b91af;
-    }
-
-    .payment-option input { margin-right: 15px; }
-    
-    .btn-pay {
-        background-color: #2b91af;
-        color: white;
-        padding: 15px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 18px;
-        width: 100%;
-        font-weight: bold;
-        margin-top: 20px;
-    }
-    
-    .btn-pay:hover { background-color: #237a94; }
-    .error { color: #ca5959; font-weight: bold; margin-bottom: 15px; }
-</style>
-
 <main>
     <div class="payment-container">
         <h1>Complete Your Payment</h1>
@@ -112,7 +59,7 @@ include '../_head.php';
         <div class="order-summary">
             <h3>Order #<?= str_pad($o->order_id, 5, '0', STR_PAD_LEFT) ?></h3>
             <p><strong>Date:</strong> <?= date('d-M-Y H:i', strtotime($o->order_date)) ?></p>
-            <p style="font-size: 1.2em; color: #2b91af;">
+            <p class="total-amount-display">
                 <strong>Total Amount: RM <?= number_format($o->total_price, 2) ?></strong>
             </p>
         </div>
@@ -132,8 +79,8 @@ include '../_head.php';
             <button type="submit" class="btn-pay">Confirm Manual Payment</button>
         </form>
         
-        <p style="text-align: center; margin-top: 20px;">
-            <a href="cart.php" style="color: #666; text-decoration: none;">← Return to Cart</a>
+        <p class="payment-return-link">
+            <a href="cart.php">← Return to Cart</a>
         </p>
     </div>
 </main>
