@@ -41,7 +41,7 @@ include '../_head.php';
 ?>
 
 <main>
-    <div style="display:flex; justify-content: space-between;">
+    <div class="order-details-header">
         <h2>Order Details: #<?= $order->order_id ?></h2>
         <a href="order_list.php" class="btn-clear1">Back to List</a>
     </div>
@@ -51,21 +51,21 @@ include '../_head.php';
         <p><strong>Date:</strong> <?= $order->order_date ?></p>
         
         <p><strong>Payment Status:</strong> 
-            <span style="color: <?= $order->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+            <span class="<?= $order->status == 'Paid' ? 'status-paid-text' : 'status-unpaid-text' ?>">
                 <?= $order->status ?>
             </span>
         </p>
         
-        <form method="post" style="margin-top: 10px;">
+        <form method="post" class="status-form">
             <label><strong>Current Status:</strong></label>
             <select name="shipment_status">
                 <?php html_options(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], $order->status); ?>
             </select>
-            <button type="submit" class="btn-update1" style="padding: 5px 10px;">Update Status</button>
+            <button type="submit" class="btn-update1 btn-update btn-small">Update Status</button>
         </form>
     </section>
 
-    <table class="table" style="margin-top: 20px;">
+    <table class="table" class="table mt-20">
         <thead>
             <tr> 
                 <th>Product</th>
@@ -86,8 +86,8 @@ include '../_head.php';
     <td>RM <?= number_format($i->unit * $i->unit_price, 2) ?></td>
 </tr>
 <?php endforeach; ?>
-            <tr style="font-weight: bold; background: #f9f9f9;">
-                <td colspan="3" style="text-align: right;">Total Amount:</td>
+            <tr class="table-summary-row">
+                <td colspan="3" class="text-right">Total Amount:</td>
                 <td>RM <?= number_format($order->total_price, 2) ?></td>
             </tr>
         </tbody>
