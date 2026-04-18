@@ -474,6 +474,7 @@ label > * {
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #6c5ce7;
+    display: block;
 }
 
 .upload-btn {
@@ -484,8 +485,15 @@ label > * {
     color: white;
     padding: 8px;
     border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    font-size: 1.2rem;
+    z-index: 2;
 }
 
 .input-group {

@@ -67,8 +67,11 @@ include '../_head.php'; // Use your standard header
                     <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" alt="Profile Photo">
                     <label class="upload-btn">
                         <i class="bx bx-camera"></i>
-                        <?php html_file('photo', 'image/*', 'hidden'); ?>
-                    </label>
+                        
+                    </label>             
+                </div>
+                <div style="display: none;">
+                    <?php html_file('photo', 'image/*', 'hidden'); ?> //This will be triggered by the camera button (hide)
                 </div>
                 <p class="photo-hint">Click the camera to change photo</p>
                 <?php err('photo'); ?>
