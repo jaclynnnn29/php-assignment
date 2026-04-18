@@ -2217,3 +2217,42 @@ nav.sub_nav a.active {
     padding: 20px;
 }
 /* --- Admin Order Management (order_list.php) --- */
+
+/* --- Admin Product List (product_list.php) --- */
+
+.management-header {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 20px;
+}
+
+.product-list-img {
+    width: 50px; 
+    height: 50px; 
+    object-fit: cover; 
+    border-radius: 4px;
+}
+
+.link-edit {
+    color: #248faf;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-delete {
+    color: #d9534f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.link-edit:hover, .link-delete:hover {
+    text-decoration: underline;
+}
+
+.product-count-footer {
+    margin-top: 15px;
+    color: #666;
+    text-align: left;
+}
+/* --- Admin Product List (product_list.php) --- */

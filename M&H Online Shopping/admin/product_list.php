@@ -27,7 +27,7 @@ include '../_head.php';
 
 <main>
     <div class="solid-container">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <div class="management-header">
             <h1>Product Management</h1>
             <a href="product_add.php" class="btn-add">+ Add New Product</a>
         </div>
@@ -50,7 +50,7 @@ include '../_head.php';
                 ?>
                     <tr>
                         <td>
-                            <img src="/images/<?= $p->photo ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                            <img src="/images/<?= $p->photo ?>" class="product-list-img">
                         </td>
                         <td><?= $p->product_id ?></td>
                         <td><?= $p->product_name ?></td>
