@@ -62,46 +62,18 @@ $_title = 'Edit Product';
 include '../_head.php';
 ?>
 
-<style>
-    .edit-table { width: 100%; border-collapse: collapse; border: 1px solid #ccc; }
-    .edit-table th { 
-        background-color: #2b91af; color: white; text-align: left; 
-        padding: 15px; width: 200px; vertical-align: top; border-bottom: 1px solid #fff; 
-    }
-    .edit-table td { padding: 15px; border-bottom: 1px solid #eee; background: #fff; }
-    .current-val { display: block; color: #888; font-size: 0.85em; margin-top: 5px; }
-    
-    /* Drag & Drop Styles */
-    #drop-zone {
-        border: 2px dashed #ccc;
-        padding: 30px;
-        text-align: center;
-        border-radius: 8px;
-        cursor: pointer;
-        background: #fafafa;
-        transition: all 0.3s ease;
-    }
-    #drop-zone.hover {
-        background-color: #f0f9ff;
-        border-color: #1a8a83 !important;
-        border-style: solid !important;
-    }
-    #drop-zone i { font-size: 40px; color: #aaa; }
-    #browse-click { color: #1a8a83; cursor: pointer; font-weight: bold; text-decoration: underline; }
-</style>
-
 <main>
     <form method="post" enctype="multipart/form-data">
         <table class="edit-table">
             <tr>
                 <th>Product ID</th>
-                <td><input type="text" value="<?= $p->product_id ?>" disabled style="width:300px; background:#f5f5f5; border:1px solid #ddd;"></td>
+                <td><input type="text" value="<?= $p->product_id ?>" disabled class="input-readonly"></td>
             </tr>
 
             <tr>
                 <th>Product Name</th>
                 <td>
-                    <?php html_text('product_name', 'style="width:300px;"'); ?>
+                    <?php html_text('product_name', 'class="w-300"'); ?>
                     <span class="current-val">Current: <?= $p->product_name ?></span>
                     <?php err('product_name') ?>
                 </td>
@@ -110,7 +82,7 @@ include '../_head.php';
             <tr>
                 <th>Description</th>
                 <td>
-                    <?php html_text('description', 'style="width:300px;"'); ?>
+                    <?php html_text('description', 'class="w-300"'); ?>
                     <div class="current-val">Current: <?= $p->description ?></div>
                 </td>
             </tr>
@@ -118,7 +90,7 @@ include '../_head.php';
             <tr>
                 <th>Current Photo</th>
                 <td>
-                    <img src="../images/<?= $p->photo ?>" width="100" style="border: 1px solid #ccc; border-radius: 4px;">
+                    <img src="../images/<?= $p->photo ?>" width="100" class="rounded-border">
                 </td>
             </tr>
 
@@ -129,9 +101,9 @@ include '../_head.php';
                         <i class='bx bx-cloud-upload'></i>
                         <p>Drag & Drop photo here or <span id="browse-click">Browse</span></p>
                         <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
-                        <img id="img-preview" src="" style="display:none; max-width: 150px; margin: 10px auto; border-radius: 4px;">
+                        <img id="img-preview" src="" class="img-preview">
                     </div>
-                    <p style="margin: 5px 0 0 0; font-size: 0.85em; color: #ca5959;">*Leave blank to keep current photo</p>
+                    <p class="photo-note">*Leave blank to keep current photo</p>
                 </td>
             </tr>
 
@@ -139,7 +111,7 @@ include '../_head.php';
                 <th></th>
                 <td>
                     <button type="submit" class="btn-update">Update Product</button>
-                    <a href="product_list.php" style="background-color: #666; color: white; padding: 8px 15px; text-decoration: none; margin-left: 10px; border-radius: 3px;">Cancel</a>
+                    <a href="product_list.php" class="btn-cancel-link">Cancel</a>
                 </td>
             </tr>
         </table>

@@ -2256,3 +2256,205 @@ nav.sub_nav a.active {
     text-align: left;
 }
 /* --- Admin Product List (product_list.php) --- */
+
+/* --- Admin Edit Product Page (product_edit.php) --- */
+
+/* Table layout for editing */
+.edit-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    border: 1px solid #ccc; 
+}
+
+.edit-table th { 
+    background-color: #2b91af; 
+    color: white; 
+    text-align: left; 
+    padding: 15px; 
+    width: 200px; 
+    vertical-align: top; 
+    border-bottom: 1px solid #fff; 
+}
+
+.edit-table td { 
+    padding: 15px; 
+    border-bottom: 1px solid #eee; 
+    background: #fff; 
+}
+
+/* Form inputs inside the edit table */
+.edit-table input[type="text"],
+.edit-table textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Disabled/Read-only ID field */
+.edit-table input:disabled {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    cursor: not-allowed;
+}
+
+/* Helper text for current values */
+.current-val { 
+    display: block; 
+    color: #888; 
+    font-size: 0.85em; 
+    margin-top: 5px; 
+}
+
+/* Photo Previews */
+.current-photo-img {
+    width: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#img-preview {
+    display: none; 
+    max-width: 150px; 
+    margin: 10px auto; 
+    border-radius: 4px;
+}
+
+/* Drop Zone specific refinements */
+#drop-zone i { 
+    font-size: 40px; 
+    color: #aaa; 
+}
+
+#browse-click { 
+    color: #1a8a83; 
+    cursor: pointer; 
+    font-weight: bold; 
+    text-decoration: underline; 
+}
+
+.photo-note {
+    margin: 5px 0 0 0; 
+    font-size: 0.85em; 
+    color: #ca5959;
+}
+
+/* Form Action Buttons */
+.btn-cancel-link {
+    background-color: #666; 
+    color: white; 
+    padding: 8px 15px; 
+    text-decoration: none; 
+    margin-left: 10px; 
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.btn-cancel-link:hover {
+    background-color: #444;
+}
+
+/* --- Admin Edit Product Page (product_edit.php) --- */
+/* --- Admin Edit Product Page (product_edit.php) --- */
+
+/* Table layout for editing */
+.edit-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    /*border: 1px solid #ccc; */
+}
+
+.edit-table th { 
+    background-color: rgba(43, 145, 175, 0.8);
+    /*background-color: #2b91af; */
+    color: white; 
+    text-align: left; 
+    padding: 15px; 
+    width: 200px; 
+    vertical-align: top; 
+    /*border-bottom: 1px solid #fff; */
+}
+
+.edit-table td { 
+    padding: 15px; 
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    /*border-bottom: 1px solid #eee; */
+    background: none !important;
+    color: #fff;
+}
+
+/* Form inputs inside the edit table */
+.edit-table input[type="text"],
+.edit-table textarea {
+    width: 100%;
+    max-width: 400px; /* Standardized width from your inline 300px */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Disabled/Read-only ID field */
+.edit-table input:disabled {
+    background: #f5f5f5 !important;
+    border: 1px solid #ddd !important;
+    cursor: not-allowed;
+    width: 300px;
+}
+
+/* Photo Previews */
+.current-photo-img {
+    width: 100px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: block;
+}
+
+#img-preview {
+    display: none; 
+    max-width: 150px; 
+    margin: 10px auto; 
+    border-radius: 4px;
+}
+
+/* Button & Link Refinements */
+.btn-cancel-link {
+    background-color: #666; 
+    color: white; 
+    padding: 8px 15px; 
+    text-decoration: none; 
+    margin-left: 10px; 
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 14px;
+}
+
+.btn-cancel-link:hover {
+    background-color: #444;
+}
+
+.photo-note {
+    margin: 5px 0 0 0; 
+    font-size: 0.85em; 
+    color: #ca5959;
+}
+/* Style for inputs that the user cannot edit */
+.input-readonly {
+    width: 300px;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    cursor: not-allowed; /* Adds a "block" icon to the mouse cursor */
+}
+/* Class for fixed-width form elements */
+.w-300 {
+    width: 300px;
+}
+/* Class for rounded, bordered images or boxes */
+.rounded-border {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* --- Admin Edit Product Page (product_edit.php) --- */
