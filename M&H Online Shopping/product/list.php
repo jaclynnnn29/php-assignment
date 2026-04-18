@@ -50,97 +50,20 @@ $_title = 'Product | List';
 include '../_head.php';
 ?>
 
-<style>
-    /* Search Bar Styling */
-    .search-container {
-        margin: 20px auto;
-        text-align: center;
-        background: #f4f4f4;
-        padding: 20px;
-        border-radius: 5px;
-    }
-
-    #product {
-        display: flex;
-        gap: 20px;
-        flex-wrap: wrap;
-        justify-content: center;
-        padding: 20px;
-    }
-
-    .product {
-        border: 1px solid #ddd;
-        width: 280px;
-        position: relative;
-        padding-bottom: 60px;
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .product img {
-        display: block;
-        width: 100%;
-        height: 250px;
-        object-fit: cover;
-        cursor: pointer;
-    }
-
-    .product form {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        background: rgba(0,0,0,0.7);
-        color: #fff;
-        padding: 5px;
-        border-radius: 4px;
-    }
-
-    .product .cart-info {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #2b91af;
-        color: #fff;
-        padding: 8px;
-        text-align: center;
-        font-size: 14px;
-    }
-    
-    .product-info {
-        padding: 10px;
-    }
-    
-    .favorite-btn {
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: #fff;
-        width: 30px;
-        height: 30px;
-        line-height: 30px;
-        text-align: center;
-        border-radius: 50%;
-        text-decoration: none;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    }
-</style>
-
 <div class="search-container">
     <form method="get">
-        <input type="text" name="search" value="<?= encode($search) ?>" placeholder="Search products..." style="padding: 8px; width: 250px;">
+        <input type="text" name="search" value="<?= encode($search) ?>" placeholder="Search products...">
         
-        <?= html_select('category', $cat_list, $category, '- All Categories -', 'style="padding: 8px;"') ?>
+        <?= html_select('category', $cat_list, $category, '- All Categories -') ?>
         
-        <button type="submit" style="padding: 8px 15px;">Search</button>
+        <button type="submit">Search</button>
         
         <?php if ($search || $category): ?>
-            <a href="?" style="margin-left: 10px;">Clear</a>
+            <a href="?" class="search-clear-link">Clear</a>
         <?php endif; ?>
         
-        <a href="favourite.php" style="margin-left: 20px; text-decoration: none;">
-            <span style="color: red;">❤️</span> View Wishlist
+        <a href="favourite.php" class="wishlist-link">
+            <span class="heart-icon">❤️</span> View Wishlist
         </a>
     </form>
 </div>
@@ -183,7 +106,7 @@ include '../_head.php';
 
         <div class="product-info">
             <strong><?= encode($p->product_name) ?></strong><br>
-            <span style="color: #e67e22; font-weight: bold;">RM <?= number_format($display_price, 2) ?></span>
+            <span class="product-price">RM <?= number_format($display_price, 2) ?></span>
         </div>
 
         <div class="cart-info">
