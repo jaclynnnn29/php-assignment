@@ -2015,3 +2015,54 @@ nav.sub_nav a.active {
     text-decoration: underline;
 }
 /* Payment Page Styles ---------------------------------------------------- */
+
+/* Reset Password Page Styles ---------------------------------------------- */
+
+.reset-container {
+    max-width: 500px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.reset-container h1 {
+    white-space: pre-line; /* Allows the \n in PHP to create line breaks */
+    margin-bottom: 20px;
+}
+
+.reset-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.reset-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.reset-form input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.btn-reset-submit {
+    width: 100%;
+    padding: 10px;
+    background-color: #248faf;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.btn-reset-submit:hover {
+    background-color: #1a6d87;
+}
+/* Reset Password Page Styles ---------------------------------------------- */
