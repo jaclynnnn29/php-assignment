@@ -101,7 +101,7 @@ include '../_head.php';
     <label for="photo">Product Image</label>
     <label class="upload" tabindex="0">
         <?php html_file('photo', 'image/*', 'hidden'); ?>
-        <img src="/images/photo.jpg" style="width:150px; height:150px; object-fit: cover; cursor: pointer;">
+        <img src="/images/photo.jpg" class="product-preview-img">
     </label>
     <?= err('photo') ?>
 

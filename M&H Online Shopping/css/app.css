@@ -1332,4 +1332,29 @@ nav.sub_nav a.active {
 }
 /* --- Header & Navigation Refinements --- */
 
+/* --- Product Management Styles (Add/Edit Product) --- */
+/* The clickable container for the product photo */
+.upload {
+    display: inline-block;
+    border: 2px dashed #ccc;
+    padding: 5px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.3s ease;
+}
 
+.upload:hover, .upload:focus {
+    border-color: #248faf;
+    outline: none;
+}
+
+/* The actual preview image inside the upload label */
+.product-preview-img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    cursor: pointer;
+    display: block;
+    border-radius: 4px;
+}
+/* Error message styling for product form */ 
