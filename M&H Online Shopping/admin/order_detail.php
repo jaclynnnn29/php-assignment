@@ -43,7 +43,7 @@ include '../_head.php';
 <main>
     <div style="display:flex; justify-content: space-between;">
         <h2>Order Details: #<?= $order->order_id ?></h2>
-        <a href="order_list.php" class="btn-clear">Back to List</a>
+        <a href="order_list.php" class="btn-clear1">Back to List</a>
     </div>
 
     <section class="order-summary">
@@ -61,13 +61,13 @@ include '../_head.php';
             <select name="shipment_status">
                 <?php html_options(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], $order->status); ?>
             </select>
-            <button type="submit" class="btn-update" style="padding: 5px 10px;">Update Status</button>
+            <button type="submit" class="btn-update1" style="padding: 5px 10px;">Update Status</button>
         </form>
     </section>
 
     <table class="table" style="margin-top: 20px;">
         <thead>
-            <tr>
+            <tr> 
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Unit Price</th>

@@ -54,7 +54,7 @@ include '../_head.php';
 
                 <td>
                     
-                    <a style="color: #ffffff; font-weight: bold;" href="order_detail.php?id=<?= $o->order_id ?>" class="btn-update">View Details</a>
+                    <a style="color: #1a6d87; font-weight: bold;" href="order_detail.php?id=<?= $o->order_id ?>" class="btn-update1">View Details</a>
                 </td>
             </tr>
             <?php endforeach; ?>

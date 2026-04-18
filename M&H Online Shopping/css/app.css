@@ -408,6 +408,16 @@ label > * {
     transition: background 0.3s;
 }
 
+.btn-update1 {
+
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 15px;
+    margin-bottom: 20px;
+
+    
+}
+
 .btn-update:hover {
     background: #155a6f;
 }
@@ -1015,6 +1025,13 @@ header .profile-pic {
     font-size: 14px;
     display: flex;
     align-items: center;
+}
+
+.btn-clear1 {
+    display: flex;             /* Enables flexbox layout */
+    justify-content: flex-end; /* Pushes content to the right */
+    margin-top: 20px;          /* Adds space below the table */
+    gap: 10px;                 /* Adds space between buttons if you have more than one */
 }
 
 .no-data {

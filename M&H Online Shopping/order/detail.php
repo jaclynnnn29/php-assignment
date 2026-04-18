@@ -88,7 +88,7 @@ include '../_head.php';
         </table>
 
         <div style="margin-top: 30px;">
-            <a href="history.php" class="btn-clear" style="text-decoration: none;">← Back to Order History</a>
+            <a href="history.php" class="btn-clear1" style="text-decoration: none;">← Back to Order History</a>
             <button onclick="window.print()" class="btn-clear" style="margin-left: 10px; background-color: #eee; color: #333;">
                 🖨️ Print Receipt
             </button>
