@@ -36,17 +36,17 @@ include '../_head.php';
             <td><?= $o->order_date ?></td>
             <td class="right">RM <?= number_format($o->total_price, 2) ?></td>
             <td>
-                <span style="color: <?= $o->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+                <span class="<?= $o->status == 'Paid' ? 'status-paid' : 'status-unpaid' ?>">
                     <?= $o->status ?>
                 </span>
             </td>
-            <td><span style="color: #0800ff; font-weight: bold;"><?= $o->shipment_status ?? 'Pending' ?></span></td>
+            <td><span class="status-pending"><?= $o->shipment_status ?? 'Pending' ?></span></td>
             <td>
-            <button onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
+            <button class="btn-detail" onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
             </td> 
         </tr>
         <?php endforeach ?>
     </table>
 </main>
 
-<?php include '../_foot.php'; ?>
+

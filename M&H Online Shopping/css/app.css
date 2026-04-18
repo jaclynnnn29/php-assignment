@@ -1882,3 +1882,34 @@ nav.sub_nav a.active {
     background-color: #ddd;
 }
 /* Order Detail Page Styles ----------------------------------------------- */ 
+
+/* --- Order History Styles (history.php) --- */
+
+.status-paid {
+    color: green;
+    font-weight: bold;
+}
+
+.status-unpaid {
+    color: red;
+    font-weight: bold;
+}
+
+.status-pending {
+    color: #0800ff;
+    font-weight: bold;
+}
+
+.btn-detail {
+    padding: 5px 15px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    transition: background 0.2s;
+}
+
+.btn-detail:hover {
+    background-color: #e0e0e0;
+}
+/* --- Order History Styles (history.php) --- */ 
