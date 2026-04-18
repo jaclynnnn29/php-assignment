@@ -14,8 +14,7 @@ if (is_post()) {
     temp('info', "Order ORD" . str_pad($order_id, 5, '0', STR_PAD_LEFT) . " updated to $status"); 
     redirect(); 
 }
-
-// Order Listing 
+ 
 // Select from the correct table and use correct date column
 $orders = $_db->query("SELECT * FROM `orders` ORDER BY order_date DESC")->fetchAll();
 
@@ -25,10 +24,10 @@ include '../_head.php';
 
 <main>
     <div class="solid-container">
-        <h1 style="margin-bottom: 20px;">Order List</h1>
+        <h1 class="mb-20">Order List</h1>
 
         <?php if ($msg = temp('info')): ?>
-            <p style="color: green; font-weight: bold;"><?= $msg ?></p>
+            <p class="status-info-msg"><?= $msg ?></p>
         <?php endif; ?>
 
         <table class="table solid-table">
@@ -69,13 +68,13 @@ include '../_head.php';
 
                 <?php if (empty($orders)): ?>
                 <tr>
-                    <td colspan="5" style="text-align: center; padding: 20px;">No orders found.</td>
+                    <td colspan="5" class="no-data-cell">No orders found.</td>
                 </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         
-        <p style="margin-top: 15px; color: #666;"><?= count($orders) ?> order(s) found.</p>
+        <p class="order-table-footer"><?= count($orders) ?> order(s) found.</p>
     </div>
 </main>
 
