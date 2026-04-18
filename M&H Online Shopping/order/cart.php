@@ -52,13 +52,13 @@ include '../_head.php';
 
     <main>
         <div class="solid-container">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <div class="cart-header-actions">
                 <h2>Your Shopping Cart</h2>
-                <form method="get" style="display: flex; gap: 5px;">
-                    <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search items..." style="padding: 5px; width: 200px;">
+                <form method="get" class="cart-search-form">
+                    <input type="text" name="search" value="<?= htmlspecialchars($search) ?>" placeholder="Search items..." class="cart-search-input">
                     <button type="submit">Search</button>
                     <?php if ($search): ?>
-                        <a href="?" style="font-size: 0.8rem; align-self: center; margin-left: 5px;">Clear Search</a>
+                        <a href="?" class="cart-clear-search">Clear Search</a>
                     <?php endif; ?>
                 </form>
             </div>
@@ -110,7 +110,7 @@ include '../_head.php';
                         $displayed_total += $subtotal;
                     ?>
                         <tr>
-                            <td><img src="/images/<?= $p->photo ?>" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;"></td>
+                            <td><img src="/images/<?= $p->photo ?>" class="cart-item-img"></td>
                             <td><?= htmlspecialchars($p->product_name) ?></td>
                             <td>
                                 <form method="post">
@@ -131,8 +131,7 @@ include '../_head.php';
                             <td>
                                 <button data-post="?id=<?= $id ?>&unit=0&btn=delete" 
                                     data-confirm="Remove this item?" 
-                                    class="link-delete" 
-                                    style="background:none; border:none; cursor:pointer; color: #d9534f;">
+                                    class="link-delete" >
                                     🗑️ Remove
                                 </button>
                             </td>
@@ -141,15 +140,15 @@ include '../_head.php';
 
                     <?php if (empty($cart)): ?>
                         <tr>
-                            <td colspan="7" style="text-align: center; padding: 40px; color: #666;">
+                            <td colspan="7" class="cart-empty-row">
                                 Your cart is currently empty. <a href="../product/list.php">Go shopping!</a>
                             </td>
                         </tr>
                     <?php endif; ?>
                 </tbody>
                 <tfoot>
-                    <tr style="background: #f9f9f9; font-weight: bold;">
-                        <td colspan="4" style="text-align: right;">Total Units:</td>
+                    <tr class="cart-summary-row">
+                        <td colspan="4" class="right">Total Units:</td>
                         <td><?= $displayed_count ?></td>
                         <td class="right">Total Amount: RM <?= number_format($displayed_total, 2) ?></td>
                         <td></td>
@@ -157,36 +156,15 @@ include '../_head.php';
                 </tfoot>
             </table>
 
-            <div style="margin-top: 20px; text-align: right; display: flex; justify-content: flex-end; gap: 10px;">
+            <div class="cart-footer-actions">
         <?php if ($cart): ?>
             <button class="btn-clear" 
                     data-post="?btn=clear" 
-                    data-confirm="Clear all items in your cart?"
-                    style="
-                        background-color: #e74c3c; 
-                        color: white; 
-                        border: none; 
-                        padding: 8px 16px; 
-                        border-radius: 4px; 
-                        cursor: pointer;
-                        font-weight: bold;
-                        font-family: inherit;
-                    ">
+                    data-confirm="Clear all items in your cart?" >
                 Clear all items
             </button>
             
-                    <a href="checkout.php" style="
-                        text-decoration: none; 
-                        background-color: #2b91af; 
-                        color: white; 
-                        padding: 8px 16px; 
-                        border-radius: 4px; 
-                        display: inline-block;
-                        font-weight: bold;
-                        font-family: inherit;
-                        font-size: 13.33px;
-                        transition: opacity 0.2s;
-                    " onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                    <a href="checkout.php" class="btn-checkout-link">
                         Check Out
                     </a>
                 <?php endif; ?>
