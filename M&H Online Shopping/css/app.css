@@ -2127,3 +2127,42 @@ nav.sub_nav a.active {
     color: #666;
 }
 /* --- Admin Order Details (order_details.php) --- */
+
+/* --- Admin Order List (order_list.php) --- */
+
+.solid-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    margin-top: 10px;
+}
+
+/* Status Pill logic for Paid/Unpaid */
+.status-pill {
+    font-weight: bold;
+}
+
+.status-pill.paid {
+    color: green;
+}
+
+.status-pill.unpaid {
+    color: red;
+}
+
+.shipment-status-text {
+    color: #0000ff;
+    font-weight: bold;
+}
+
+/* View Details link styling */
+.link-details {
+    color: #1a6d87;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-details:hover {
+    text-decoration: underline;
+}
+/* --- Admin Order List (order_list.php) --- */

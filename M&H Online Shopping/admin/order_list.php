@@ -41,20 +41,20 @@ include '../_head.php';
 
                 <td>
                     <span class="status-pill <?= strtolower($o->status) ?>" 
-                            style="color: <?= $o->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+                            class="<?= $o->status == 'Paid' ? 'paid' : 'unpaid' ?>">
                         <?= $o->status ?>
                     </span>
                 </td>
 
                 <td>
-                    <span style="color: #0000ff; font-weight: bold;">
+                    <span class="shipment-status-text">
                         <?= $o->shipment_status ?? 'Processing' ?>
                     </span>
                 </td>
 
                 <td>
                     
-                    <a style="color: #1a6d87; font-weight: bold;" href="order_detail.php?id=<?= $o->order_id ?>" class="btn-update1">View Details</a>
+                    <a class="link-details" href="order_detail.php?id=<?= $o->order_id ?>">View Details</a>
                 </td>
             </tr>
             <?php endforeach; ?>
