@@ -1333,7 +1333,7 @@ nav.sub_nav a.active {
 /* --- Header & Navigation Refinements --- */
 
 /* --- Product Management Styles (Add/Edit Product) --- */
-/* The clickable container for the product photo */
+/* The clickable container for the product photo (add)*/
 .upload {
     display: inline-block;
     border: 2px dashed #ccc;
@@ -1358,3 +1358,100 @@ nav.sub_nav a.active {
     border-radius: 4px;
 }
 /* Error message styling for product form */ 
+
+/* --- Product Details & Reviews --- */
+/* Product Photo in Details (detail) */
+#photo {
+    display: block;
+    border: 1px solid #333;
+    width: 200px;
+    height: 200px;
+}
+
+/* Rating Stars display */
+.rating-stars {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+/* Individual Review Box */
+.review-box {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.review-rating {
+    color: gold;
+    margin-bottom: 10px;
+}
+
+.review-text {
+    margin-top: 10px;
+    line-height: 1.5;
+}
+
+/* Review Submission Form */
+.review-form {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.review-form select, 
+.review-form textarea {
+    padding: 8px;
+    margin: 10px 0;
+    width: 100%;
+    max-width: 400px;
+}
+
+.review-form button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.review-form button:hover {
+    background-color: #45a049;
+}
+
+/* Average Rating Highlight Box */
+.avg-rating {
+    font-size: 24px;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+/* Utility classes for text/spacing */
+.text-white {
+    color: white;
+}
+
+.text-green {
+    color: green;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.user-review-note {
+    color: gray;
+}
+/* --- Product Details & Reviews --- */

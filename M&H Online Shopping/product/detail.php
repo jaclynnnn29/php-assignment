@@ -99,84 +99,6 @@ $_title = 'Product | Detail';
 include '../_head.php';
 ?>
 
-<style>
-    #photo {
-        display: block;
-        border: 1px solid #333;
-        width: 200px;
-        height: 200px;
-    }
-    
-    .rating-stars {
-        font-size: 20px;
-        margin: 10px 0;
-    }
-    
-    .review-box {
-        border: 1px solid #ddd;
-        padding: 15px;
-        margin: 15px 0;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-    
-    .review-header {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-        font-weight: bold;
-    }
-    
-    .review-rating {
-        color: gold;
-        margin-bottom: 10px;
-    }
-    
-    .review-text {
-        margin-top: 10px;
-        line-height: 1.5;
-    }
-    
-    .review-form {
-        background-color: #f0f0f0;
-        padding: 20px;
-        border-radius: 5px;
-        margin: 20px 0;
-    }
-    
-    .review-form select, 
-    .review-form textarea {
-        padding: 8px;
-        margin: 10px 0;
-        width: 100%;
-        max-width: 400px;
-    }
-    
-    .review-form button {
-        background-color: #4CAF50;
-        color: white;
-        padding: 10px 20px;
-        border: none;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    
-    .review-form button:hover {
-        background-color: #45a049;
-    }
-    
-    .avg-rating {
-        font-size: 24px;
-        margin: 20px 0;
-        padding: 10px;
-        background-color: #f5f5f5;
-        border-radius: 5px;
-    }
-
-    h1,h2 {
-    color: white;
-}
-</style>
 
 <h1>Product Details</h1>
 
@@ -217,11 +139,11 @@ include '../_head.php';
                 
                 <?php 
                     $unit_in_cart = get_cart()[$selected_variant_id] ?? 0;
-                    if ($unit_in_cart) echo " <span style='color: green;'>✅ ($unit_in_cart in cart)</span>";
+                    if ($unit_in_cart) echo " <span class='text-green'>✅ ($unit_in_cart in cart)</span>";
                 ?>
             </form>
         <?php else: ?>
-            <span style="color: red;">Out of stock</span>
+            <span class="text-red">Out of stock</span>
         <?php endif; ?>
     </td>
         </tr>
@@ -241,7 +163,7 @@ include '../_head.php';
         <?php for($i = 1; $i <= 5; $i++): ?>
             <?= $i <= $avg_rating ? '⭐' : '☆' ?>
         <?php endfor; ?>
-        <span style="font-size: 16px;">(<?= $avg_rating ?> / 5 from <?= $total_reviews ?> reviews)</span>
+        <span class="font-small">(<?= $avg_rating ?> / 5 from <?= $total_reviews ?> reviews)</span>
     <?php else: ?>
         <span>No reviews yet. Be the first to review!</span>
     <?php endif; ?>
@@ -273,7 +195,7 @@ include '../_head.php';
         </form>
     </div>
 <?php else: ?>
-    <p style="margin: 20px 0;">
+    <p class="mb-20">
         <a href="../login.php">Login</a> to write a review.
     </p>
 <?php endif; ?>
@@ -297,15 +219,16 @@ include '../_head.php';
                 <?= nl2br(htmlspecialchars($review->review)) ?>
             </div>
             <?php if ($_user && $_user->user_id == $review->user_id): ?>
-                <small style="color: gray;">(Your review)</small>
+                <small class="text-gray">(Your review)</small>
             <?php endif; ?>
         </div>
     <?php endforeach; ?>
+
 <?php else: ?>
     <p>No reviews yet. Be the first to share your experience!</p>
 <?php endif; ?>
 
-<p style="margin-top: 20px;">
+<p class="mt-20">
     <button data-get="list.php">Back to List</button>
 </p>
 
