@@ -64,15 +64,16 @@ include '../_head.php'; // Use your standard header
         <form method="post" enctype="multipart/form-data" class="profile-form">
             <div class="photo-section">
                 <div class="image-wrapper">
-                    <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" alt="Profile Photo">
-                    <label class="upload-btn">
-                        <i class="bx bx-camera"></i>
-                        
-                    </label>             
-                </div>
-                <div style="display: none;">
-                    <?php html_file('photo', 'image/*', 'hidden'); ?> //This will be triggered by the camera button (hide)
-                </div>
+                <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" alt="Profile Photo">
+    
+                <label class="upload-btn" for="photo">
+                <i class="bx bx-camera"></i>
+            </label>             
+            </div>
+
+            <div style="display: none;">
+            <input type="file" name="photo" id="photo" accept="image/*">
+            </div>
                 <p class="photo-hint">Click the camera to change photo</p>
                 <?php err('photo'); ?>
             </div>
