@@ -50,28 +50,29 @@ include '../_head.php';
         <h1>Product Maintenance</h1>
 
         <?php if ($msg = temp('info')): ?>
-            <p style="color: <?= strpos($msg, 'Error') !== false ? 'red' : 'green' ?>; font-weight: bold;"><?= $msg ?></p>
+            <p class="<?= strpos($msg, 'Error') !== false ? 'msg-error' : 'msg-success' ?>; font-weight: bold;"><?= $msg ?></p>
         <?php endif; ?>
 
-        <section style="background: #f4f4f4; padding: 20px; border-radius: 8px; margin-bottom: 30px;">
-    <h3>Add / Update Product</h3>
-    <form method="post" enctype="multipart/form-data">
-        <div style="margin-bottom: 15px;">
+        <section class="maintenance-form-section">
+            <h3>Add / Update Product</h3>
+            <form method="post" enctype="multipart/form-data">
+        <div class="form-field-group">
             <label>Product ID:</label><br>
             <input type="text" name="product_id" required placeholder="e.g., P001">
         </div>
-        <div style="margin-bottom: 15px;">
+        <div class="form-field-group">
             <label>Name:</label><br>
             <input type="text" name="product_name" required>
         </div>
 
-        <div id="drop-zone" style="border: 2px dashed #bbb; padding: 40px; text-align: center; border-radius: 8px; cursor: pointer; background: #fff; margin-bottom: 15px;">
-        <i class='bx bx-cloud-upload' style="font-size: 48px; color: #888;"></i>
-        <p style="margin: 10px 0;">Drag & Drop product photo here or <span style="color: #1a8a83; font-weight: bold;">Browse</span></p>
+        <div id="drop-zone" class="drop-zone">
+
+        <i class='bx bx-cloud-upload'></i>
+        <p >Drag & Drop product photo here or <span>Browse</span></p>
     
         <input type="file" name="photo" id="photo-input" accept="image/png, image/jpeg" hidden>
     
-        <img id="img-preview" src="" style="display:none; max-width: 200px; margin: 15px auto; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+        <img id="img-preview" src="">
         </div>
 
         <button type="submit" class="btn-update">Save Product</button>
@@ -92,9 +93,9 @@ include '../_head.php';
                 <tr>
                     <td>
                         <?php if ($p->photo): ?>
-                            <img src="../images/<?= $p->photo ?>" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
+                            <img src="../images/<?= $p->photo ?>" class="product-thumbnail">
                         <?php else: ?>
-                            <div style="width: 60px; height: 60px; background: #ddd; display: flex; align-items: center; justify-content: center; font-size: 10px;">No Image</div>
+                            <div class="no-photo-placeholder">No Image</div>
                         <?php endif; ?>
                     </td>
                     <td><strong><?= $p->product_id ?></strong></td>
@@ -123,13 +124,13 @@ include '../_head.php';
 
                 <?php if (empty($products)): ?>
                 <tr>
-                    <td colspan="4" style="text-align: center; padding: 20px;">No products found in inventory.</td>
+                    <td colspan="4" class="no-data">No products found in inventory.</td>
                 </tr>
                 <?php endif; ?>
             </tbody>
         </table>
         
-        <p style="margin-top: 15px; color: #666;"><?= count($products) ?> product(s) in database.</p>
+        <p class="inventory-footer"><?= count($products) ?> product(s) in database.</p>
     </div>
 </main>
 
