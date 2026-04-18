@@ -24,45 +24,10 @@ $_title = 'My Wishlist';
 include '../_head.php';
 ?>
 
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
-        background: white;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
-    }
-    th {
-        background-color: #2b91af;
-        color: white;
-    }
-    .wishlist-item img {
-        width: 80px;
-        height: 80px;
-        object-fit: cover;
-        border-radius: 4px;
-    }
-    .remove-btn {
-        color: #e74c3c;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    .view-btn {
-        color: #2b91af;
-        text-decoration: none;
-    }
-</style>
-
-<h1 style="color: white; padding: 10px; display: inline-block;">
-    My Wishlist ❤️
-</h1>
+<h1 class="wishlist-title">My Wishlist ❤️</h1>
 
 <?php if (count($favorites) > 0): ?>
-    <table>
+    <table class="wishlist-table">
         <thead>
             <tr>
                 <th>Image</th>
@@ -97,13 +62,12 @@ include '../_head.php';
         </tbody>
     </table>
 <?php else: ?>
-    <div style="padding: 90px; text-align: center; background: #f9f9f9; border: 1px dashed #ccc;">
+    <div class="empty-wishlist">
         <p>Your wishlist is empty 😢</p>
-        <a href="list.php" style="color: #2b91af; font-weight: bold;">Browse products and add some!</a>
+        <a href="list.php">Browse products and add some!</a>
     </div>
 <?php endif; ?>
 
-<div style="margin-top: 20px;">
-    <a href="list.php" style="text-decoration: none; color: #1208cb;">← Continue Shopping</a>
+<div class="mt-20">
+    <a href="list.php" class="back-link">← Continue Shopping</a>
 </div>
-
