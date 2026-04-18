@@ -99,22 +99,22 @@ include '../_head.php';
                 <?php endforeach; ?>
             </tbody>
             <tfoot>
-                <tr style="font-weight: bold; font-size: 1.2em; background: #eee;">
+                <tr class="total-row">
                     <td colspan="3" class="right">Total Payable:</td>
                     <td class="right">RM <?= number_format($total_payable, 2) ?></td>
                 </tr>
             </tfoot>
         </table>
 
-        <div style="margin-top: 30px; display: flex; justify-content: space-between;">
-            <a href="cart.php" class="btn-cancel" style="padding: 10px 20px; text-decoration: none; background: #999; color: #fff; border-radius: 4px;">
+        <div class="checkout-actions">
+            <a href="cart.php" class="btn-cancel">
                 ← Edit Cart
             </a>
             
             <form method="post">
                 <input type="hidden" name="total_amount" value="<?= $total_payable ?>">
                 
-                <button type="submit" style="padding: 12px 50px; background: #2b91af; color: white; border: none; cursor: pointer; border-radius: 4px; font-weight: bold;">
+                <button type="submit" class="btn-payment">
                      PROCEED TO PAYMENT →
                 </button>
             </form>

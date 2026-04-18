@@ -1751,3 +1751,68 @@ nav.sub_nav a.active {
     font-weight: bold;
 }
 /* --- Shopping Cart Page (cart.php) --- */ 
+
+/* --- Checkout Page (checkout.php) --- */
+
+.solid-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.solid-container h2 {
+    color: #333;
+    border-bottom: 2px solid #248faf;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+/* Checkout Table Footer */
+.table tfoot tr.total-row {
+    font-weight: bold; 
+    font-size: 1.2em; 
+    background: #f4f4f4; /*#eee*/ 
+}
+
+/* Layout for bottom buttons */
+.checkout-actions {
+    margin-top: 30px; 
+    display: flex; 
+    justify-content: space-between;
+    align-items: center; /*change*/
+}
+
+.btn-cancel {
+    padding: 10px 20px; 
+    text-decoration: none; 
+    background: #999; 
+    color: #fff; 
+    border-radius: 4px;
+    transition: background 0.3s; /*change*/ 
+}
+
+.btn-cancel:hover {
+    background: #777;
+}
+
+.btn-payment {
+    padding: 12px 50px; 
+    background: #2b91af; 
+    color: white; 
+    border: none; 
+    cursor: pointer; 
+    border-radius: 4px; 
+    font-weight: bold;
+    font-size: 1rem; /*change*/
+    transition: background 0.3s; /*change*/
+}
+
+.btn-payment:hover {
+    background: #1a6d87;
+}
+/* --- Checkout Page (checkout.php) --- */
+
