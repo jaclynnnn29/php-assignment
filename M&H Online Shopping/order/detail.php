@@ -42,17 +42,17 @@ include '../_head.php';
 
 <main>
     <div class="solid-container">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div class="order-header-flex">
             <div>
                 <h1>Order #<?= str_pad($order->order_id, 5, '0', STR_PAD_LEFT) ?></h1>
                 <p><strong>Payment Status:</strong> 
-                <span class="status-badge" style="color: <?= $order->status == 'Paid' ? 'green' : 'red' ?>; font-weight: bold;">
+                <span class="status-badge <?= $order->status == 'Paid' ? 'status-paid' : 'status-unpaid' ?>">
                     <?= $order->status ?>
                 </span></p>
             </div>
-            <div style="text-align: right;">
+            <div class="order-header-right">
                 <p><strong>Date:</strong> <?= date('d-M-Y H:i', strtotime($order->order_date)) ?></p>
-                <p ><strong>Shipment Status:</strong> <span style="color: #0800ff; font-weight: bold;"><?= $order->shipment_status ?? 'Pending' ?></span></p>
+                <p ><strong>Shipment Status:</strong> <span class="status-shipment"><?= $order->shipment_status ?? 'Pending' ?></span></p>
             </div>
         </div>
 
@@ -70,7 +70,7 @@ include '../_head.php';
             <tbody>
         <?php foreach ($items as $i): ?>
         <tr>
-            <td><img src="/images/<?= $i->photo ?>" style="width: 50px;"></td>
+            <td><img src="/images/<?= $i->photo ?>" class="order-item-img"></td>
             <td><?= htmlspecialchars($i->product_name) ?></td>
             <td><?= $i->size ?></td>
             <td class="right">RM <?= number_format($i->unit_price, 2) ?></td>
@@ -80,16 +80,16 @@ include '../_head.php';
         <?php endforeach ?>
             </tbody>
             <tfoot>
-                <tr style="font-size: 1.2rem; font-weight: bold; background: #f9f9f9;">
+                <tr class="total-row">
                     <td colspan="5" class="right">Grand Total:</td>
-                    <td class="right" style="color: #2b91af;">RM <?= number_format($order->total_price, 2) ?></td>
+                    <td class="right total-price-highlight">RM <?= number_format($order->total_price, 2) ?></td>
                 </tr>
             </tfoot>
         </table>
 
-        <div style="margin-top: 30px;">
+        <div class="order-footer-actions">
             <a href="history.php" class="btn-clear1" style="text-decoration: none;">← Back to Order History</a>
-            <button onclick="window.print()" class="btn-clear" style="margin-left: 10px; background-color: #eee; color: #333;">
+            <button onclick="window.print()" class="btn-clear" class="btn-clear btn-print">
                 🖨️ Print Receipt
             </button>
         </div>
