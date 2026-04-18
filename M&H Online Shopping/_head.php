@@ -21,11 +21,11 @@
             </a>
         </h1>
 
-        <div style="display: flex; align-items: center;">
+        <div class="nav-links">
             <a href="../home.php" class="<?= ($_title ?? '') == 'Home' ? 'active' : '' ?>">
                 <i class="bx bx-home-alt"></i> Home
             </a>
-            <a href="../product/list.php">
+            <a href="../product/list.php" class="<?= ($_title ?? '') == 'Products' ? 'active' : '' ?>">
                 <i class="bx bx-package"></i> Products
             </a>
             
@@ -39,11 +39,10 @@
             <a href="../about.php"><i class="bx bx-info-circle"></i> About</a>
 
             <?php if ($_user): ?>
-                <a href="../user/profile.php" style="text-decoration: none; margin-left: 10px;">
-                    <span class="user-info" style="display: flex; flex-direction: column; align-items: center; gap: 2px;">
-                        <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" 
-                            style="width: 35px; height: 35px; border-radius: 50%; object-fit: cover; border: 2px solid white;">
-                        <b style="color: white; font-size: 0.75em;"><?= encode($_user->user_name) ?></b>
+                <a href="../user/profile.php" class="user-profile-link">
+                    <span class="user-info">
+                        <img src="../photos/<?= $_user->photo ?? 'default_user.jpg' ?>" alt="Profile">
+                        <b><?= encode($_user->user_name) ?></b>
                     </span>
                 </a>
             <?php endif ?>

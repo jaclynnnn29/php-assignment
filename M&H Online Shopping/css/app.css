@@ -1269,4 +1269,67 @@ header .profile-pic {
 }
 /* Register Page Specific Styles ------------------------------------------- */
 
+/* --- Header & Navigation Refinements --- */
+
+header div.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+header .nav-links a.active {
+    border-bottom: 2px solid #fff;
+}
+
+/* User Profile Section in Header */
+header .user-profile-link {
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+header .user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+header .user-info img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
+header .user-info b {
+    color: white;
+    font-size: 0.75em;
+}
+
+/* Sub-nav logic */
+nav.sub_nav {
+    padding: 0 50px;
+    background: #cdcbcb;
+    display: flex;
+}
+
+nav.sub_nav a {
+    padding: 10px 15px;
+    color: #fff;
+    background: #666;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.3s;
+}
+
+nav.sub_nav a:hover {
+    background: #333;
+}
+
+nav.sub_nav a.active {
+    background: #248faf;
+}
+/* --- Header & Navigation Refinements --- */
+
 
