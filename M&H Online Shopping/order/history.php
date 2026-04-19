@@ -3,6 +3,28 @@ include '../_base.php';
 
 auth('Member', 'Admin');
 
+if (is_post()) {
+    $cancel_id = post('cancel_id');
+    if ($cancel_id) {
+        // Only allow cancellation if shipment_status is 'Pending' or 'Processing'
+        $stm = $_db->prepare('
+            UPDATE `orders` 
+            SET status = "Cancelled" 
+            WHERE order_id = ? 
+              AND user_id = ? 
+              AND (shipment_status = "Pending" OR shipment_status = "Processing")
+        ');
+        $stm->execute([$cancel_id, $_user->user_id]);
+        
+        if ($stm->rowCount() > 0) {
+            temp('info', 'Order has been successfully cancelled.');
+        } else {
+            temp('error', 'Order cannot be cancelled at this stage.');
+        }
+        redirect('history.php');
+    }
+}
+
 // (2) Fetch orders using the correct table and column names
 $stm = $_db->prepare('
     SELECT * FROM `orders` 
@@ -31,6 +53,7 @@ include '../_head.php';
         </tr>
 
         <?php foreach ($arr as $o): ?>
+
         <tr>
             <td>ORD<?= str_pad($o->order_id, 5, '0', STR_PAD_LEFT) ?></td>
             <td><?= $o->order_date ?></td>
@@ -42,8 +65,21 @@ include '../_head.php';
             </td>
             <td><span class="status-pending"><?= $o->shipment_status ?? 'Pending' ?></span></td>
             <td>
-            <button class="btn-detail" onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
-            </td> 
+                <button class="btn-detail" onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
+                
+                <?php 
+                // Define which shipment statuses allow cancellation
+                $allow_cancel = ['Pending', 'Processing']; 
+                
+                // Only show button if status is NOT already cancelled AND shipment is in early stages
+                if ($o->status != 'Cancelled' && in_array($o->shipment_status, $allow_cancel)): 
+                ?>
+                    <form method="post" style="display:inline;" onsubmit="return confirm('Cancel this order?')">
+                        <input type="hidden" name="cancel_id" value="<?= $o->order_id ?>">
+                        <button class="btn-cancel9">Cancel</button>
+                    </form>
+                <?php endif; ?>
+            </td>
         </tr>
         <?php endforeach ?>
     </table>
