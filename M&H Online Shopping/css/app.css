@@ -817,7 +817,6 @@ label > * {
     gap: 10px;  
 }
 
-
 #drop-zone.hover {
     background: #fdf2e9;
     border-color: #1a8a83; /* Changes to teal on hover */
