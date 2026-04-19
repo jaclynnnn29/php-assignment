@@ -10,8 +10,7 @@ if (is_post()) {
     $user = $stm->fetch();
 
     if ($user) {
-        // In a real website, you would send an email here.
-        // For localhost, we will just redirect them to the reset page.
+        
         redirect("reset_password.php?email=$email");
     } else {
         $_err['email'] = "Email address not found.";

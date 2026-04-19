@@ -25,7 +25,6 @@ if (is_post()) {
             $filename = null; // Reset if upload failed
         }
 
-        // Database logic: Insert or Update (UPSERT style)
         $stm = $_db->prepare("
             INSERT INTO product (product_id, product_name, photo) 
             VALUES (?, ?, ?)
