@@ -1998,6 +1998,16 @@ nav.sub_nav a.active {
 .btn-detail:hover {
     background-color: #e0e0e0;
 }
+.inline-form {
+    display: inline;
+}
+
+/* Or if it's a specific button/link container often found in tables */
+.action-form {
+    display: inline;
+    margin: 0;
+    padding: 0;
+}
 /* --- Order History Styles (history.php) --- */ 
 
 /* Payment Page Styles ---------------------------------------------------- */

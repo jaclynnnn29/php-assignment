@@ -74,7 +74,7 @@ include '../_head.php';
                 // Only show button if status is NOT already cancelled AND shipment is in early stages
                 if ($o->status != 'Cancelled' && in_array($o->shipment_status, $allow_cancel)): 
                 ?>
-                    <form method="post" style="display:inline;" onsubmit="return confirm('Cancel this order?')">
+                    <form method="post" class="inline-form" onsubmit="return confirm('Cancel this order?')">
                         <input type="hidden" name="cancel_id" value="<?= $o->order_id ?>">
                         <button class="btn-cancel9">Cancel</button>
                     </form>
