@@ -1004,7 +1004,58 @@ header .profile-pic {
 
 /* Register Page Specific Styles ------------------------------------------- */
 
-/* --- Search Bar Styling --- */
+/* --- Search Bar Styling --- */    
+
+/* Layout for the header area */
+.management-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+/* The Search Box and Button */
+
+.search-row {
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.search-form {
+    display: flex;
+    flex-grow: 1;      /* Allows search bar to take available space */
+    max-width: 500px;  /* Prevents it from being too wide */
+    gap: 5px;
+}
+
+.search-input {
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn-search {
+    background-color: #248faf; /* Matches your theme blue */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-search:hover {
+    background-color: #1a6d85;
+}
+
+.btn-clear {
+    align-self: center;
+    text-decoration: none;
+    color: #888;
+    font-size: 14px;
+    margin-left: 5px;
+}
 
 .search-container {
     margin-bottom: 20px;

@@ -8,7 +8,11 @@ auth('Admin');
 // We use a JOIN to show 'T-Shirt' instead of 'C001'
 
 // Update your SQL to include the price from your variants table
-$stm = $_db->query("
+// --- 1. Get search term from URL ---
+$search = req('search');
+
+// --- 2. Base SQL Query ---
+$sql = "
     SELECT p.*, c.cat_name, v.price 
     FROM product p
     LEFT JOIN categories c ON p.cat_id = c.cat_id
@@ -17,8 +21,19 @@ $stm = $_db->query("
         FROM product_variants 
         GROUP BY product_id
     ) v ON p.product_id = v.product_id
-    ORDER BY p.product_id ASC
-");
+";
+
+// --- 3. Apply Filter if searching ---
+if ($search) {
+    // Searches for the keyword in Name or Category Name
+    $sql .= " WHERE p.product_name LIKE ? OR c.cat_name LIKE ? OR p.product_id LIKE ?";
+    $stm = $_db->prepare($sql . " ORDER BY p.product_id ASC");
+    $stm->execute(["%$search%", "%$search%", "%$search%"]);
+} else {
+    // Default view
+    $stm = $_db->query($sql . " ORDER BY p.product_id ASC");
+}
+
 $products = $stm->fetchAll();
 
 $_title = 'Admin | Product List';
@@ -29,8 +44,20 @@ include '../_head.php';
     <div class="solid-container">
         <div class="management-header">
             <h1>Product Management</h1>
-            <a href="product_add.php" class="btn-add">+ Add New Product</a>
+            <a href="product_add.php" class="btn-add">+ Add New Product</a> 
         </div>
+
+        <div class="search-row">
+            <form action="" method="get" class="search-form">
+                <input type="text" name="search" placeholder="Search products..." 
+                    value="<?= htmlspecialchars($search) ?>" class="search-input">
+                <button type="submit" class="btn-search">Search</button>
+                <?php if ($search): ?>
+                    <a href="product_list.php" class="btn-clear">Clear</a>
+                <?php endif; ?>
+            </form>
+        </div>            
+            
 
         <table class="table solid-table">
             <thead>
