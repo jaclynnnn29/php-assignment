@@ -2018,6 +2018,29 @@ nav.sub_nav a.active {
 
 /* --- Order History Styles (history.php) --- */
 
+/* Styling for the Cancel Button */
+.btn-cancel9 {
+    background-color: #e74c3c; /* Red color for destructive actions */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    margin-left: 5px;
+    transition: background 0.3s;
+}
+
+.btn-cancel9:hover {
+    background-color: #c0392b;
+}
+
+/* Optional: Grey out cancelled orders in the list */
+.status-cancelled {
+    color: #999;
+    text-decoration: line-through;
+}
+
 .status-paid {
     color: green;
     font-weight: bold;
