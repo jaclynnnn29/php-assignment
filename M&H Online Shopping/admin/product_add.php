@@ -25,7 +25,6 @@ if (is_post()) {
             $filename = null; // Reset if upload failed
         }
 
-        // Database logic: Insert or Update (UPSERT style)
         $stm = $_db->prepare("
             INSERT INTO product (product_id, product_name, photo) 
             VALUES (?, ?, ?)
@@ -65,15 +64,14 @@ include '../_head.php';
             <input type="text" name="product_name" required>
         </div>
 
-        <div id="drop-zone" class="drop-zone">
-
-        <i class='bx bx-cloud-upload'></i>
-        <p >Drag & Drop product photo here or <span>Browse</span></p>
+        <div id="drop-zone" class="drop-zone" onclick="document.getElementById('photo-input').click()">
+    <i class='bx bx-cloud-upload upload-icon'></i>
+    <span class="browse-text">Click to Upload Photo</span>
     
-        <input type="file" name="photo" id="photo-input" accept="image/png, image/jpeg" hidden>
+    <img id="img-preview" src="">
     
-        <img id="img-preview" src="">
-        </div>
+    <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
+</div>
 
         <button type="submit" class="btn-update">Save Product</button>
     </form>
@@ -102,24 +100,10 @@ include '../_head.php';
                     <td><?= htmlspecialchars($p->product_name) ?></td>
                     <td>
             <button type="button" class="btn-clear" 
-             onclick="
-            document.getElementsByName('product_id')[0].value='<?= $p->product_id ?>'; 
-            document.getElementsByName('product_name')[0].value='<?= htmlspecialchars($p->product_name) ?>';
-            
-            // Trigger the image preview
-            const preview = document.getElementById('img-preview');
-            <?php if ($p->photo): ?>
-                preview.src = '../images/<?= $p->photo ?>';
-                preview.style.display = 'block';
-            <?php else: ?>
-                preview.src = '';
-                preview.style.display = 'none';
-            <?php endif; ?>
-        ">
-        Edit
-    </button>
-</td>
-                </tr>
+                    onclick="fillForm('<?= $p->product_id ?>', '<?= addslashes($p->product_name) ?>', '<?= $p->photo ?>')">
+                    Edit
+            </button>
+                    </td>
                 <?php endforeach; ?>
 
                 <?php if (empty($products)): ?>
@@ -133,5 +117,51 @@ include '../_head.php';
         <p class="inventory-footer"><?= count($products) ?> product(s) in database.</p>
     </div>
 </main>
+
+<script>
+const dropZone = document.getElementById('drop-zone');
+const photoInput = document.getElementById('photo-input');
+const previewImg = document.getElementById('img-preview');
+const browseText = document.querySelector('.browse-text');
+
+// A. Handle Drag & Drop
+// Prevents the browser from just opening the image file in a new tab
+['dragover', 'drop'].forEach(evt => {
+    dropZone.addEventListener(evt, e => e.preventDefault());
+});
+
+dropZone.ondrop = e => {
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+        photoInput.files = files; // Move the dropped file into the hidden input
+        handlePreview(files[0]);
+    }
+};
+
+// B. Handle Manual Browse
+photoInput.onchange = () => {
+    if (photoInput.files[0]) handlePreview(photoInput.files[0]);
+};
+
+// C. Show Preview Image
+function handlePreview(file) {
+    previewImg.src = URL.createObjectURL(file);
+    previewImg.style.display = 'block';
+}
+
+// D. Handle Edit Button (Fill Form)
+function fillForm(id, name, photo) {
+    document.getElementsByName('product_id')[0].value = id;
+    document.getElementsByName('product_name')[0].value = name;
+    
+    if (photo && photo !== "") {
+        previewImg.src = '../images/' + photo;
+        previewImg.style.display = 'block';
+    } else {
+        previewImg.src = '';
+        previewImg.style.display = 'none';
+    }
+}
+</script>
 
 <?php include '../_foot.php'; ?>
