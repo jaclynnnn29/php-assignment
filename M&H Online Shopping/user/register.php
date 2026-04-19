@@ -70,17 +70,14 @@ include '../_head.php';
             <div class="err"><?php err('confirm'); ?></div>
         </div>
 
-            <div class="form-group">
-                <label>Profile Photo</label>
-                <label class="upload">
-                    <?php html_file('photo', 'accept="image/*"'); ?>
-                    <img id="preview" 
-                        src="/images/photo.jpg" 
-                        alt="Picture is Required" 
-                        class="photo-preview"
-                        >
-                </label>
-            </div>
+        <div class="form-group">
+            <label>Profile Photo</label>
+            <label class="upload">
+            <?php html_file('photo', 'id="photo" accept="image/*" hidden'); ?>
+            <img id="preview" src="/images/default_user.jpg" class="photo-preview">
+        </label>
+        <div class="err"><?php err('photo'); ?></div>
+        </div>
 
         <button type="submit" class="btn-primary">Register Account</button>
         <button type="reset" class="btn-reset">Clear Fields</button>

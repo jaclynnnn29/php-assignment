@@ -9,7 +9,7 @@ $order_id = req('id');
 if (is_post()) {
     $new_status = post('shipment_status'); 
     // Fix: Updating the correct column 'shipment_status' in 'orders' table
-    $stm = $_db->prepare("UPDATE orders SET status = ? WHERE order_id = ?");
+    $stm = $_db->prepare("UPDATE orders SET shipment_status = ? WHERE order_id = ?");
     $stm->execute([$new_status, $order_id]);
     temp('info', 'Order status updated successfully');
     redirect(); 
@@ -59,7 +59,7 @@ include '../_head.php';
         <form method="post" class="status-form">
             <label><strong>Current Status:</strong></label>
             <select name="shipment_status">
-                <?php html_options(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], $order->status); ?>
+                <?php html_options(['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'], $order->shipment_status); ?>
             </select>
             <button type="submit" class="btn-update1 btn-update btn-small">Update Status</button>
         </form>

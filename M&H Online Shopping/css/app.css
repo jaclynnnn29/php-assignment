@@ -1004,111 +1004,6 @@ header .profile-pic {
 
 /* Register Page Specific Styles ------------------------------------------- */
 
-/* --- Search Bar Styling --- */    
-
-/* Layout for the header area */
-.management-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-/* The Search Box and Button */
-
-.search-row {
-    margin-bottom: 20px;
-    display: flex;
-}
-
-.search-form {
-    display: flex;
-    flex-grow: 1;      /* Allows search bar to take available space */
-    max-width: 500px;  /* Prevents it from being too wide */
-    gap: 5px;
-}
-
-.search-input {
-    flex: 1;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
-
-.btn-search {
-    background-color: #248faf; /* Matches your theme blue */
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.btn-search:hover {
-    background-color: #1a6d85;
-}
-
-.btn-clear {
-    align-self: center;
-    text-decoration: none;
-    color: #888;
-    font-size: 14px;
-    margin-left: 5px;
-}
-
-.search-container {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
-    border-radius: 8px;
-}
-
-.search-form {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-}
-
-.search-input {
-    flex: 1; /* This makes the input take up all available space */
-    padding: 10px 15px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    outline: none;
-}
-
-.search-input:focus {
-    border-color: #248faf; /* Highlights the border when clicking in */
-    box-shadow: 0 0 5px rgba(36, 143, 175, 0.3);
-}
-
-.btn-search {
-    padding: 10px 25px;
-    background-color: #248faf; /* Your theme blue */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background 0.3s;
-}
-
-.btn-search:hover {
-    background-color: #1a6d85;
-}
-
-.btn-clear {
-    padding: 10px 15px;
-    color: #666;
-    text-decoration: none;
-    font-size: 0.9em;
-}
-
-.btn-clear:hover {
-    text-decoration: underline;
-}
-
 /* User List (Index) Page Styles ------------------------------------------- */
 
 .search-container {
@@ -1182,7 +1077,6 @@ header .profile-pic {
 .btn-add:hover {
     background-color: #1a6b83;
 }
-
 /* User List (Index) Page Styles ------------------------------------------- */
 
 /* About Page Specific Styles ---------------------------------------------- */
@@ -1354,32 +1248,29 @@ header .profile-pic {
 /* Member List Specific Styles --------------------------------------------- */
 
 /* Register Page Specific Styles ------------------------------------------- */
-.photo-preview {
-    width: 200px;
-    height: 200px;
-    object-fit: cover;
-    border: 1px solid #ccc;
-    display: block;
-    margin-top: 10px;
-    border-radius: 4px; /* Optional: matches your other UI elements */
-}
 
-/* Ensure the upload container (the label) is centered */
 .upload-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
+    display: block;
     cursor: pointer;
+    border: 2px dashed #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+    transition: border-color 0.3s;
 }
-
-
 
 .upload-container:hover {
     border-color: #248faf;
 }
 
-
+.photo-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    display: block;
+    margin: 10px auto 0;
+    border-radius: 4px;
+}
 
 /* Error message styling */
 .err {
@@ -2687,4 +2578,3 @@ nav.sub_nav a.active {
     margin-top: 15px;
     color: #666;
 }
-/* --- Product Maintenance Styles (product_add.php) --- */
