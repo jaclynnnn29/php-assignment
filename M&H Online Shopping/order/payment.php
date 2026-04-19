@@ -78,7 +78,7 @@ include '../_head.php';
         </form>
         
         <p class="payment-return-link">
-            <a href="cart.php">← Return to Cart</a>
+            <a href="history.php">← Pay Afterward</a>
         </p>
     </div>
 </main>
