@@ -819,6 +819,12 @@ label > * {
     color: #1a8a83;
     text-decoration: underline;
     font-weight: bold;
+
+    display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    align-items: center;    /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically */
+    gap: 15px;
 }
 
 #drop-zone {
@@ -1418,6 +1424,20 @@ nav.sub_nav a.active {
     padding: 20px;
     border-radius: 5px;
     margin: 20px 0;
+}
+
+.review-title {
+    color: #FFFFFF;    
+    margin-top: 30px;    
+    margin-bottom: 15px; 
+    font-size: 1.5rem;   
+}
+
+.review-title1 {
+    color: #FFFFFF;    
+    margin-top: 30px;    
+    margin-bottom: 15px; 
+    font-size: 1.5rem;   
 }
 
 .review-form select, 

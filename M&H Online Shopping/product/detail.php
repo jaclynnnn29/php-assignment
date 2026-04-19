@@ -100,7 +100,7 @@ include '../_head.php';
 ?>
 
 
-<h1>Product Details</h1>
+<h1 class="review-title1">Product Details</h1>
 
 <p>
     <img src="/images/<?= $p->photo ?>" id="photo">
@@ -155,7 +155,7 @@ include '../_head.php';
 </table>
 
 <!-- RATINGS SECTION -->
-<h2>⭐ Ratings & Reviews</h2>
+<h2 class="review-title">⭐ Ratings & Reviews</h2>
 
 <div class="avg-rating">
     <strong>Average Rating:</strong>

@@ -97,7 +97,7 @@ include '../_head.php';
             <tr>
                 <th>Upload New Photo</th>
                 <td>
-                    <div id="drop-zone">
+                    <div id="drop-zone" class="drop-zone">
                         <i class='bx bx-cloud-upload'></i>
                         <p>Drag & Drop photo here or <span id="browse-click">Browse</span></p>
                         <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
