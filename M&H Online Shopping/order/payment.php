@@ -76,7 +76,7 @@ include '../_head.php';
                 <div class="error"><?= $_err['payment_method'] ?></div>
             <?php endif; ?>
 
-            <button type="submit" class="btn-pay">Confirm Manual Payment</button>
+            <button type="submit" class="btn-pay">Pay Later</button>
         </form>
         
         <p class="payment-return-link">
