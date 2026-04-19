@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2026 at 05:13 AM
+-- Generation Time: Apr 19, 2026 at 03:23 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -83,15 +83,11 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_m
 (87, 'U001', 28.50, 'Pending', NULL, '2026-04-16 00:54:35', 'Pending'),
 (88, 'U001', 149.50, 'Paid', 'PayPal', '2026-04-16 02:59:32', 'Pending'),
 (89, 'U001', 523.36, 'Paid', 'PayPal', '2026-04-16 03:18:41', 'Pending'),
-(90, 'U002', 57.00, 'Pending', NULL, '2026-04-16 15:15:37', 'Pending'),
+(90, 'U002', 57.00, 'Pending', NULL, '2026-04-16 15:15:37', 'Processing'),
 (91, 'U003', 265.30, 'Pending', NULL, '2026-04-16 23:07:37', 'Pending'),
-(92, 'U001', 32.00, 'Pending', NULL, '2026-04-16 23:10:58', 'Pending'),
-(93, 'U003', 28.50, 'Paid', 'PayPal', '2026-04-16 23:48:18', 'Delivered'),
-(94, 'U003', 85.50, 'Cancelled', 'PayPal', '2026-04-19 10:34:31', 'Cancelled'),
-(95, 'U003', 96.00, 'Paid', 'PayPal', '2026-04-19 10:51:24', 'Processing'),
-(96, 'U003', 128.00, 'Pending', NULL, '2026-04-19 10:52:16', 'Pending'),
-(97, 'U003', 57.00, 'Paid', 'PayPal', '2026-04-19 10:56:12', 'Shipped'),
-(98, 'U003', 85.50, 'Cancelled', NULL, '2026-04-19 10:56:36', 'Pending');
+(92, 'U001', 32.00, 'Pending', NULL, '2026-04-16 23:10:58', 'Shipped'),
+(93, 'U003', 28.50, 'Pending', 'PayPal', '2026-04-16 23:48:18', 'Shipped'),
+(94, 'U001', 135.80, 'Pending', NULL, '2026-04-19 21:16:34', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -129,11 +125,8 @@ INSERT INTO `order_items` (`order_id`, `variant_id`, `unit`, `unit_price`) VALUE
 (91, 'P10070', 2, 45.90),
 (92, 'P10004', 1, 32.00),
 (93, 'P10003', 1, 28.50),
-(94, 'P10001', 3, 28.50),
-(95, 'P10005', 3, 32.00),
-(96, 'P10006', 4, 32.00),
-(97, 'P10003', 2, 28.50),
-(98, 'P10001', 3, 28.50);
+(94, 'P10007', 1, 45.90),
+(94, 'P10028', 1, 89.90);
 
 -- --------------------------------------------------------
 
@@ -154,7 +147,7 @@ CREATE TABLE `product` (
 --
 
 INSERT INTO `product` (`product_id`, `product_name`, `description`, `photo`, `cat_id`) VALUES
-('P20001', 'Green T-shirt', 'A classic, breathable cotton t-shirt in Green.', '69dfc2f8ba679.jpg', 'C00001'),
+('P20001', 'Green T-shirt', 'A classic, breathable cotton t-shirt in Green.', '69e470719d2f3.jpg', 'C00001'),
 ('P20002', 'Black T-shirt', 'A classic, breathable cotton t-shirt in Black.', 'm_tshirt_blk.png', 'C00001'),
 ('P20003', 'Navy Blue T-shirt', 'A classic, breathable cotton t-shirt in Navy Blue.', 'm_tshirt_nvb.png', 'C00001'),
 ('P20004', 'Brown T-shirt', 'A classic, breathable cotton t-shirt in Brown.', 'm_tshirt_brown.png', 'C00001'),
@@ -278,9 +271,9 @@ CREATE TABLE `product_variants` (
 --
 
 INSERT INTO `product_variants` (`variant_id`, `product_id`, `size`, `colour`, `stock_quantity`, `price`, `photo`) VALUES
-('P10001', 'P20001', 'S', 'Green', 45, 28.50, '69dfc2f8ba679.jpg'),
-('P10002', 'P20001', 'M', 'Green', 32, 28.50, '69dfc2f8ba679.jpg'),
-('P10003', 'P20001', 'L', 'Green', 18, 28.50, '69dfc2f8ba679.jpg'),
+('P10001', 'P20001', 'S', 'Green', 45, 28.50, 'm_tshirt_green.png'),
+('P10002', 'P20001', 'M', 'Green', 32, 28.50, 'm_tshirt_green.png'),
+('P10003', 'P20001', 'L', 'Green', 18, 28.50, 'm_tshirt_green.png'),
 ('P10004', 'P20002', 'S', 'Black', 50, 32.00, 'm_tshirt_blk.png'),
 ('P10005', 'P20002', 'M', 'Black', 12, 32.00, 'm_tshirt_blk.png'),
 ('P10006', 'P20002', 'L', 'Black', 25, 32.00, 'm_tshirt_blk.png'),
@@ -506,10 +499,10 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('A001', 'Jaclyn', 'jaclyn@gmail.com', '$2y$10$HO9mAaL4sPBp7N0Ju98Gj.D/unX8vG.8SJuyxki.LmS/AV1xiFzFe', 0, NULL, 'default_user.jpg', 'Admin'),
+('A001', 'Jaclynnn', 'jaclyn@gmail.com', '$2y$10$HO9mAaL4sPBp7N0Ju98Gj.D/unX8vG.8SJuyxki.LmS/AV1xiFzFe', 0, NULL, '69e4bb5d0b03f.jpg', 'Admin'),
 ('A002', 'Xiang', 'xiang@gmail.com', '$2y$10$0SeP3CzwYQMPxZi35qQJwORBwyikU1U495F38N8m2ovW.zXMx0S4.', 0, NULL, 'default_user.jpg', 'Admin'),
 ('A003', 'Admin demo', '321@gmail.com', '$2y$10$gs/iXOiJRi6v0rGPV2GwSuG1xPcPeb/ql9j1DzxBdRKMc/lKgH4g.', 0, NULL, '69e1072e4a426.jpg', 'Admin'),
-('U001', 'Alfred Tan', 'alfredtan@gmail.com', '$2y$10$j2BnnJKTbLCSNbKhNLngJOOEgePLf4DC3J9ayqpp.aLXViyefAJR.', 0, NULL, 'default_user.jpg', 'Member'),
+('U001', 'Alfred', 'alfredtan@gmail.com', '$2y$10$j2BnnJKTbLCSNbKhNLngJOOEgePLf4DC3J9ayqpp.aLXViyefAJR.', 0, NULL, '69e44fb903313.jpg', 'Member'),
 ('U002', 'Ben Wong', 'benw@gmail.com', '$2y$10$GQ6T6Kk60oZvvLtu9E5JL.3RZm6jGzmwvBeW6jFx9iR/2VcxuQ8S6', 0, NULL, 'default_user.jpg', 'Member'),
 ('U003', 'User Demo', '123@gmail.com', '$2y$10$4iTzStKXWwYoEIjRVo.k5OUX7mC6P7jtCZEP3CE14zdEBNWBzz7YO', 0, NULL, '69dfe9b2196e0.jpg', 'Member');
 
@@ -584,7 +577,7 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
