@@ -6,16 +6,21 @@ auth('Member', 'Admin');
 if (is_post()) {
     $cancel_id = post('cancel_id');
     if ($cancel_id) {
-        // Update status to 'Cancelled' only if it's currently 'Paid' 
-        // and belongs to the logged-in user for security
+        // Only allow cancellation if shipment_status is 'Pending' or 'Processing'
         $stm = $_db->prepare('
             UPDATE `orders` 
             SET status = "Cancelled" 
-            WHERE order_id = ? AND user_id = ? AND status = ？
+            WHERE order_id = ? 
+              AND user_id = ? 
+              AND (shipment_status = "Pending" OR shipment_status = "Processing")
         ');
         $stm->execute([$cancel_id, $_user->user_id]);
         
-        temp('info', 'Order has been successfully cancelled.');
+        if ($stm->rowCount() > 0) {
+            temp('info', 'Order has been successfully cancelled.');
+        } else {
+            temp('error', 'Order cannot be cancelled at this stage.');
+        }
         redirect('history.php');
     }
 }
@@ -62,14 +67,19 @@ include '../_head.php';
             <td>
                 <button class="btn-detail" onclick="location.href='detail.php?id=<?= $o->order_id ?>'">Detail</button>
                 
-                <?php if ($o->status == 'Paid' || $o->status == 'Pending'): ?>
+                <?php 
+                // Define which shipment statuses allow cancellation
+                $allow_cancel = ['Pending', 'Processing']; 
+                
+                // Only show button if status is NOT already cancelled AND shipment is in early stages
+                if ($o->status != 'Cancelled' && in_array($o->shipment_status, $allow_cancel)): 
+                ?>
                     <form method="post" style="display:inline;" onsubmit="return confirm('Cancel this order?')">
                         <input type="hidden" name="cancel_id" value="<?= $o->order_id ?>">
                         <button class="btn-cancel9">Cancel</button>
                     </form>
                 <?php endif; ?>
-
-            </td> 
+            </td>
         </tr>
         <?php endforeach ?>
     </table>
