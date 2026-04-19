@@ -72,12 +72,13 @@ include '../_head.php';
 
             <div class="form-group">
                 <label>Profile Photo</label>
-                <label class="upload" style="display: flex; flex-direction: column; align-items: center; gap: 10px;">
+                <label class="upload">
                     <?php html_file('photo', 'accept="image/*"'); ?>
                     <img id="preview" 
                         src="/images/photo.jpg" 
                         alt="Picture is Required" 
-                        style="width: 200px; height: 200px; object-fit: cover; border: 1px solid #ccc; display: block; margin-top: 10px;">
+                        class="photo-preview"
+                        >
                 </label>
             </div>
 
