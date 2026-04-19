@@ -13,6 +13,4 @@ logout(); // This function is already defined in your _base.php
 
 
 
-// redirect('/');
-
 
