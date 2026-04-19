@@ -65,15 +65,12 @@ include '../_head.php';
             <input type="text" name="product_name" required>
         </div>
 
-        <div id="drop-zone" class="drop-zone">
-
-        <i class='bx bx-cloud-upload'></i>
-        <p >Drag & Drop product photo here or <span>Browse</span></p>
+        <div id="drop-zone" class="drop-zone" onclick="document.getElementById('photo-input').click()">
+        <i class='bx bx-cloud-upload upload-icon'></i>
+        <span class="browse-text">Click Me to Upload Photo</span>
     
-        <input type="file" name="photo" id="photo-input" accept="image/png, image/jpeg" hidden>
-    
-        <img id="img-preview" src="">
-        </div>
+    <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
+</div>
 
         <button type="submit" class="btn-update">Save Product</button>
     </form>
@@ -105,6 +102,13 @@ include '../_head.php';
              onclick="
             document.getElementsByName('product_id')[0].value='<?= $p->product_id ?>'; 
             document.getElementsByName('product_name')[0].value='<?= htmlspecialchars($p->product_name) ?>';
+            document.getElementById('photo-input').onchange = e => {
+            const file = e.target.files[0];
+            if (file) {
+        // Change the text inside the div to show the file name
+            document.querySelector('.browse-text').innerText = file.name;
+            }
+        };
             
             // Trigger the image preview
             const preview = document.getElementById('img-preview');
