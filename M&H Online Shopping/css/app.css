@@ -1182,6 +1182,7 @@ header .profile-pic {
 .btn-add:hover {
     background-color: #1a6b83;
 }
+
 /* User List (Index) Page Styles ------------------------------------------- */
 
 /* About Page Specific Styles ---------------------------------------------- */
@@ -1353,29 +1354,32 @@ header .profile-pic {
 /* Member List Specific Styles --------------------------------------------- */
 
 /* Register Page Specific Styles ------------------------------------------- */
-
-.upload-container {
+.photo-preview {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border: 1px solid #ccc;
     display: block;
-    cursor: pointer;
-    border: 2px dashed #ccc;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    transition: border-color 0.3s;
+    margin-top: 10px;
+    border-radius: 4px; /* Optional: matches your other UI elements */
 }
+
+/* Ensure the upload container (the label) is centered */
+.upload-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+}
+
+
 
 .upload-container:hover {
     border-color: #248faf;
 }
 
-.photo-preview {
-    width: 80px;
-    height: 80px;
-    object-fit: cover;
-    display: block;
-    margin: 10px auto 0;
-    border-radius: 4px;
-}
+
 
 /* Error message styling */
 .err {
