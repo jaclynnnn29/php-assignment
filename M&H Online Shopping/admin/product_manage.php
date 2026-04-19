@@ -3,21 +3,21 @@ require '../_base.php';
 auth('Admin'); // Restrict access to Admins only
 
 
-// --- SEARCH---
-$search = req('search'); // Get the 'search' parameter from the URL
+// --- START SEARCH LOGIC ---
+$search = req('search'); // This gets the 'search' value from the URL
 
-// Prepare the SQL based on whether a search term exists
 if ($search) {
-    // Searches for matches in Order ID or Shipment Status
+    // This searches for the term in both order_id and shipment_status
     $stm = $_db->prepare("SELECT * FROM `orders` 
                           WHERE order_id LIKE ? OR shipment_status LIKE ? 
                           ORDER BY order_date DESC");
     $stm->execute(["%$search%", "%$search%"]);
     $orders = $stm->fetchAll();
 } else {
-    // Default: Select all orders if no search is performed
+    // Default: show everything if no search is performed
     $orders = $_db->query("SELECT * FROM `orders` ORDER BY order_date DESC")->fetchAll();
 }
+// --- END SEARCH LOGIC ---
 
 // Order Status Update (Additional)
 if (is_post()) {
