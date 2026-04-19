@@ -27,7 +27,7 @@ include '../_head.php';
 ?>
 
 <main class="reset-container">
-    <h1>Resetting Password \n for \n <?= htmlspecialchars($email) ?></h1>
+    <h1>Resetting Password for <?= htmlspecialchars($email) ?></h1>
 
     <form method="post" class="reset-form">
         <div>
