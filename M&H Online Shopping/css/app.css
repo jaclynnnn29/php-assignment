@@ -1086,6 +1086,9 @@ header .profile-pic {
     margin-top: 20px;          /* Adds space below the table */
     gap: 10px;                 /* Adds space between buttons if you have more than one */
 }
+.no-underline {
+    text-decoration: none !important;
+}
 
 .no-data {
     text-align: center;
@@ -1940,6 +1943,7 @@ nav.sub_nav a.active {
 .btn-print:hover {
     background-color: #ddd;
 }
+
 /* Order Detail Page Styles ----------------------------------------------- */ 
 
 /* --- Order History Styles (history.php) --- */

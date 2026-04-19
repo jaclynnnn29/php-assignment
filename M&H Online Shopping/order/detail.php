@@ -88,7 +88,7 @@ include '../_head.php';
         </table>
 
         <div class="order-footer-actions">
-            <a href="history.php" class="btn-clear1" style="text-decoration: none;">← Back to Order History</a>
+            <a href="history.php" class="btn-clear1 no-underline">← Back to Order History</a>
             <button onclick="window.print()" class="btn-clear" class="btn-clear btn-print">
                 🖨️ Print Receipt
             </button>
