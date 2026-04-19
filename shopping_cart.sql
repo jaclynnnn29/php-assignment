@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 15, 2026 at 07:49 PM
+-- Generation Time: Apr 19, 2026 at 04:22 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -67,19 +67,26 @@ CREATE TABLE `orders` (
   `total_price` decimal(10,2) NOT NULL,
   `status` varchar(50) DEFAULT 'Pending',
   `payment_method` varchar(50) DEFAULT NULL,
-  `order_date` datetime DEFAULT current_timestamp()
+  `order_date` datetime DEFAULT current_timestamp(),
+  `shipment_status` varchar(50) DEFAULT 'Pending'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_method`, `order_date`) VALUES
-(83, 'U002', 114.00, 'Pending', NULL, '2026-04-16 00:09:41'),
-(84, 'U002', 57.00, 'Paid', 'PayPal', '2026-04-16 00:33:25'),
-(85, 'U002', 114.00, 'Pending', NULL, '2026-04-16 00:42:49'),
-(86, 'U001', 242.00, 'Paid', 'PayPal', '2026-04-16 00:52:04'),
-(87, 'U001', 28.50, 'Pending', NULL, '2026-04-16 00:54:35');
+INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_method`, `order_date`, `shipment_status`) VALUES
+(83, 'U002', 114.00, 'Pending', NULL, '2026-04-16 00:09:41', 'Pending'),
+(84, 'U002', 57.00, 'Paid', 'PayPal', '2026-04-16 00:33:25', 'Processing'),
+(85, 'U002', 114.00, 'Paid', 'PayPal', '2026-04-16 00:42:49', 'Shipped'),
+(86, 'U001', 242.00, 'Paid', 'PayPal', '2026-04-16 00:52:04', 'Delivered'),
+(87, 'U001', 28.50, 'Pending', NULL, '2026-04-16 00:54:35', 'Pending'),
+(88, 'U001', 149.50, 'Paid', 'PayPal', '2026-04-16 02:59:32', 'Pending'),
+(89, 'U001', 523.36, 'Paid', 'PayPal', '2026-04-16 03:18:41', 'Pending'),
+(90, 'U002', 57.00, 'Pending', NULL, '2026-04-16 15:15:37', 'Processing'),
+(91, 'U003', 265.30, 'Pending', NULL, '2026-04-16 23:07:37', 'Pending'),
+(92, 'U001', 32.00, 'Pending', NULL, '2026-04-16 23:10:58', 'Shipped'),
+(93, 'U003', 28.50, 'Paid', 'PayPal', '2026-04-16 23:48:18', 'Cancelled');
 
 -- --------------------------------------------------------
 
@@ -104,7 +111,19 @@ INSERT INTO `order_items` (`order_id`, `variant_id`, `unit`, `unit_price`) VALUE
 (85, 'P10003', 4, 28.50),
 (86, 'P10003', 4, 28.50),
 (86, 'P10006', 4, 32.00),
-(87, 'P10003', 1, 28.50);
+(87, 'P10003', 1, 28.50),
+(88, 'P10003', 3, 28.50),
+(88, 'P10004', 2, 32.00),
+(89, 'P10004', 4, 32.00),
+(89, 'P10007', 6, 45.90),
+(89, 'P10010', 4, 29.99),
+(90, 'P10001', 2, 28.50),
+(91, 'P10001', 1, 28.50),
+(91, 'P10064', 3, 25.00),
+(91, 'P10069', 2, 35.00),
+(91, 'P10070', 2, 45.90),
+(92, 'P10004', 1, 32.00),
+(93, 'P10003', 1, 28.50);
 
 -- --------------------------------------------------------
 
@@ -223,8 +242,10 @@ CREATE TABLE `product_reviews` (
 
 INSERT INTO `product_reviews` (`review_id`, `product_id`, `user_id`, `rating`, `review`, `created_at`) VALUES
 (1, 'P20067', 'U001', 5, '', '2026-04-14 16:13:41'),
-(2, 'P20001', 'U002', 5, 'asjdb', '2026-04-15 11:35:35'),
-(3, 'P20002', 'U001', 5, '123', '2026-04-15 15:14:09');
+(2, 'P20001', 'U002', 5, 'Very Nice Customer Service', '2026-04-15 11:35:35'),
+(3, 'P20002', 'U001', 5, 'Good Quality', '2026-04-15 15:14:09'),
+(4, 'P20023', 'U003', 5, 'Good Service', '2026-04-16 14:49:45'),
+(5, 'P20001', 'A003', 3, 'Fast Delivery', '2026-04-16 15:59:04');
 
 -- --------------------------------------------------------
 
@@ -475,10 +496,12 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_attempts`, `locked_until`, `photo`, `role`) VALUES
-('A001', 'Jaclyn', 'jaclyn@gmail.com', '$2y$10$HO9mAaL4sPBp7N0Ju98Gj.D/unX8vG.8SJuyxki.LmS/AV1xiFzFe', 0, NULL, NULL, 'Admin'),
-('A002', 'Xiang', 'xiang@gmail.com', '$2y$10$0SeP3CzwYQMPxZi35qQJwORBwyikU1U495F38N8m2ovW.zXMx0S4.', 0, NULL, NULL, 'Admin'),
-('U001', 'asd', 'asd@gmail.com', '$2y$10$j2BnnJKTbLCSNbKhNLngJOOEgePLf4DC3J9ayqpp.aLXViyefAJR.', 0, NULL, NULL, 'Member'),
-('U002', 'dsa', 'dsa@gmail.com', '$2y$10$GQ6T6Kk60oZvvLtu9E5JL.3RZm6jGzmwvBeW6jFx9iR/2VcxuQ8S6', 0, NULL, NULL, 'Member');
+('A001', 'Jaclyn', 'jaclyn@gmail.com', '$2y$10$HO9mAaL4sPBp7N0Ju98Gj.D/unX8vG.8SJuyxki.LmS/AV1xiFzFe', 0, NULL, 'default_user.jpg', 'Admin'),
+('A002', 'Xiang', 'xiang@gmail.com', '$2y$10$0SeP3CzwYQMPxZi35qQJwORBwyikU1U495F38N8m2ovW.zXMx0S4.', 0, NULL, 'default_user.jpg', 'Admin'),
+('A003', 'Admin demo', '321@gmail.com', '$2y$10$gs/iXOiJRi6v0rGPV2GwSuG1xPcPeb/ql9j1DzxBdRKMc/lKgH4g.', 0, NULL, '69e1072e4a426.jpg', 'Admin'),
+('U001', 'Alfred Tan', 'alfredtan@gmail.com', '$2y$10$j2BnnJKTbLCSNbKhNLngJOOEgePLf4DC3J9ayqpp.aLXViyefAJR.', 0, NULL, 'default_user.jpg', 'Member'),
+('U002', 'Ben Wong', 'benw@gmail.com', '$2y$10$GQ6T6Kk60oZvvLtu9E5JL.3RZm6jGzmwvBeW6jFx9iR/2VcxuQ8S6', 0, NULL, 'default_user.jpg', 'Member'),
+('U003', 'User Demo', '123@gmail.com', '$2y$10$4iTzStKXWwYoEIjRVo.k5OUX7mC6P7jtCZEP3CE14zdEBNWBzz7YO', 0, NULL, '69dfe9b2196e0.jpg', 'Member');
 
 --
 -- Indexes for dumped tables
@@ -545,19 +568,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=88;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
 --
 ALTER TABLE `product_reviews`
-  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `review_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Constraints for dumped tables
