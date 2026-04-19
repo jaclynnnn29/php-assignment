@@ -71,7 +71,7 @@ include '../_head.php'; // Use your standard header
             </label>             
             </div>
 
-            <div style="display: none;">
+            <div class="hidden">
             <input type="file" name="photo" id="photo" accept="image/*">
             </div>
                 <p class="photo-hint">Click the camera to change photo</p>

@@ -443,6 +443,10 @@ label > * {
 /* Login Container Styling */
 
 /* Profile Page Modern UI */
+/* Utility class to hide elements */
+.hidden {
+    display: none !important;
+}
 .profile-container {
     display: flex;
     justify-content: center;
