@@ -71,16 +71,17 @@ include '../_head.php';
         </div>
 
         <div class="form-group">
-            <label>Profile Photo</label>
-            <label class="upload">
-            <?php html_file('photo', 'id="photo" accept="image/*" hidden'); ?>
-            <img id="preview" src="/images/default_user.jpg" class="photo-preview">
-        </label>
-        <div class="err"><?php err('photo'); ?></div>
-        </div>
+    <label>Profile Photo</label>
+    <label class="upload">
+        <?php html_file('photo', 'id="photo" accept="image/*" hidden'); ?>
+
+        <img id="preview" src="">
+    </label>
+    <div class="err"><?php err('photo'); ?></div>
+</div>
 
         <button type="submit" class="btn-primary">Register Account</button>
-        <button type="reset" class="btn-reset">Clear Fields</button>
+        <button type="reset" id="reset-btn" class="btn-reset">Clear Fields</button>
 
         <p class="auth-footer">
             Already a member? <a href="../login.php">Login here</a>
@@ -89,6 +90,20 @@ include '../_head.php';
 </main>
 
 <script>
+
+    const resetBtn = document.getElementById('reset-btn');
+
+    resetBtn.onclick = e => {
+    const preview = document.getElementById('preview');
+    const placeholder = document.getElementById('placeholder');
+    
+    // 1. Clear the image source
+    preview.src = "";
+    
+    // 2. Hide the image and show the "Click to Upload" text again
+    preview.style.display = 'none';
+    placeholder.style.display = 'block';
+    };
     // 1. Select the file input and the preview image
     const photoInput = document.querySelector('input[name="photo"]');
     const previewImg = document.getElementById('preview');
