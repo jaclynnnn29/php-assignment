@@ -809,7 +809,14 @@ label > * {
     background: #fffaf5;
     cursor: pointer;
     transition: all 0.3s ease;
+
+    display: flex;          
+    flex-direction: column; /* stacks the icon and text vertically */
+    align-items: center;    /* center the horizontally */
+    justify-content: center;/* centers them vertically inside the box */
+    gap: 10px;  
 }
+
 
 #drop-zone.hover {
     background: #fdf2e9;
