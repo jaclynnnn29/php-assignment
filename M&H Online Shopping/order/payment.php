@@ -75,8 +75,6 @@ include '../_head.php';
             <?php if (isset($_err['payment_method'])): ?>
                 <div class="error"><?= $_err['payment_method'] ?></div>
             <?php endif; ?>
-
-            <button type="submit" class="btn-pay">Pay Later</button>
         </form>
         
         <p class="payment-return-link">
