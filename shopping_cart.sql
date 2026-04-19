@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2026 at 04:22 AM
+-- Generation Time: Apr 19, 2026 at 05:13 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -83,10 +83,15 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_m
 (87, 'U001', 28.50, 'Pending', NULL, '2026-04-16 00:54:35', 'Pending'),
 (88, 'U001', 149.50, 'Paid', 'PayPal', '2026-04-16 02:59:32', 'Pending'),
 (89, 'U001', 523.36, 'Paid', 'PayPal', '2026-04-16 03:18:41', 'Pending'),
-(90, 'U002', 57.00, 'Pending', NULL, '2026-04-16 15:15:37', 'Processing'),
+(90, 'U002', 57.00, 'Pending', NULL, '2026-04-16 15:15:37', 'Pending'),
 (91, 'U003', 265.30, 'Pending', NULL, '2026-04-16 23:07:37', 'Pending'),
-(92, 'U001', 32.00, 'Pending', NULL, '2026-04-16 23:10:58', 'Shipped'),
-(93, 'U003', 28.50, 'Paid', 'PayPal', '2026-04-16 23:48:18', 'Cancelled');
+(92, 'U001', 32.00, 'Pending', NULL, '2026-04-16 23:10:58', 'Pending'),
+(93, 'U003', 28.50, 'Paid', 'PayPal', '2026-04-16 23:48:18', 'Delivered'),
+(94, 'U003', 85.50, 'Cancelled', 'PayPal', '2026-04-19 10:34:31', 'Cancelled'),
+(95, 'U003', 96.00, 'Paid', 'PayPal', '2026-04-19 10:51:24', 'Processing'),
+(96, 'U003', 128.00, 'Pending', NULL, '2026-04-19 10:52:16', 'Pending'),
+(97, 'U003', 57.00, 'Paid', 'PayPal', '2026-04-19 10:56:12', 'Shipped'),
+(98, 'U003', 85.50, 'Cancelled', NULL, '2026-04-19 10:56:36', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -123,7 +128,12 @@ INSERT INTO `order_items` (`order_id`, `variant_id`, `unit`, `unit_price`) VALUE
 (91, 'P10069', 2, 35.00),
 (91, 'P10070', 2, 45.90),
 (92, 'P10004', 1, 32.00),
-(93, 'P10003', 1, 28.50);
+(93, 'P10003', 1, 28.50),
+(94, 'P10001', 3, 28.50),
+(95, 'P10005', 3, 32.00),
+(96, 'P10006', 4, 32.00),
+(97, 'P10003', 2, 28.50),
+(98, 'P10001', 3, 28.50);
 
 -- --------------------------------------------------------
 
@@ -574,7 +584,7 @@ ALTER TABLE `favorites`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=94;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=99;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
