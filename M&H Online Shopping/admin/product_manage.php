@@ -2,6 +2,23 @@
 require '../_base.php';
 auth('Admin'); // Restrict access to Admins only
 
+
+// --- START SEARCH LOGIC ---
+$search = req('search'); // This gets the 'search' value from the URL
+
+if ($search) {
+    // This searches for the term in both order_id and shipment_status
+    $stm = $_db->prepare("SELECT * FROM `orders` 
+                          WHERE order_id LIKE ? OR shipment_status LIKE ? 
+                          ORDER BY order_date DESC");
+    $stm->execute(["%$search%", "%$search%"]);
+    $orders = $stm->fetchAll();
+} else {
+    // Default: show everything if no search is performed
+    $orders = $_db->query("SELECT * FROM `orders` ORDER BY order_date DESC")->fetchAll();
+}
+// --- END SEARCH LOGIC ---
+
 // Order Status Update (Additional)
 if (is_post()) {
     $order_id = post('order_id');
@@ -14,7 +31,8 @@ if (is_post()) {
     temp('info', "Order ORD" . str_pad($order_id, 5, '0', STR_PAD_LEFT) . " updated to $status"); 
     redirect(); 
 }
- 
+
+
 // Select from the correct table and use correct date column
 $orders = $_db->query("SELECT * FROM `orders` ORDER BY order_date DESC")->fetchAll();
 
@@ -25,6 +43,18 @@ include '../_head.php';
 <main>
     <div class="solid-container">
         <h1 class="mb-20">Order List</h1>
+
+        <div class="search-container">
+            <form action="" method="get" class="search-form">
+                <input type="text" name="search" class="search-input" 
+                    placeholder="Search Order ID or Status..." 
+                    value="<?= htmlspecialchars($search) ?>">
+                <button type="submit" class="btn-search">Search</button>
+                <?php if ($search): ?>
+                    <a href="product_manage.php" class="btn-clear">Clear</a>
+                <?php endif; ?>
+            </form>
+        </div>
 
         <?php if ($msg = temp('info')): ?>
             <p class="status-info-msg"><?= $msg ?></p>
