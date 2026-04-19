@@ -1002,7 +1002,35 @@ header .profile-pic {
     font-weight: bold;
     text-decoration: none;
 }
+/* Register Page Photo Preview Logic */
+.photo-preview-hidden {
+    display: none;
+    max-width: 200px;
+    margin: 15px auto;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
 
+.placeholder-visible {
+    display: block;
+    margin: 10px 0;
+    color: #888;
+}
+
+/* Add this to your existing .upload class if not present */
+.upload {
+    display: block;
+    cursor: pointer;
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    transition: border-color 0.3s;
+}
+
+.upload:hover {
+    border-color: #248faf;
+}
 /* Register Page Specific Styles ------------------------------------------- */
 
 /* User List (Index) Page Styles ------------------------------------------- */

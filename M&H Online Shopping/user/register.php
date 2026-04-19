@@ -75,7 +75,12 @@ include '../_head.php';
     <label class="upload">
         <?php html_file('photo', 'id="photo" accept="image/*" hidden'); ?>
 
-        <img id="preview" src="">
+        <div id="placeholder" class="placeholder-visible">
+            <i class="fa fa-cloud-upload"></i>
+            <p>Click to Upload Photo</p>
+        </div>
+
+        <img id="preview" src="" class="photo-preview-hidden">
     </label>
     <div class="err"><?php err('photo'); ?></div>
 </div>
@@ -101,8 +106,8 @@ include '../_head.php';
     preview.src = "";
     
     // 2. Hide the image and show the "Click to Upload" text again
-    preview.style.display = 'none';
-    placeholder.style.display = 'block';
+    preview.classList.add('photo-preview-hidden'); // Hide via class
+    placeholder.classList.remove('photo-preview-hidden'); // Show via class
     };
     // 1. Select the file input and the preview image
     const photoInput = document.querySelector('input[name="photo"]');
