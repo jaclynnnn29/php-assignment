@@ -18,7 +18,7 @@ if (is_post()) {
         $now = time();
         $lock_time = $user->locked_until ? strtotime($user->locked_until) : 0;
 
-        //
+        // Temporary Login Blocking (Main)
         if ($lock_time > $now) {
             $wait = ceil(($lock_time - $now) / 60);
             $_err['login'] = "Account locked. Try again in $wait mins.";
