@@ -6,7 +6,8 @@ auth('Admin'); // Restrict access to Admins only
 if (is_post()) {
     $id   = post('product_id');
     $name = post('product_name');
-    $file = $_FILES['photo']; // File data from the upload input
+    $cat  = post('cat_id');
+    $file = $_FILES['photo']; // Standard PHP file array
 
     // Basic Validation
     if (!$id || !$name) {
@@ -14,30 +15,39 @@ if (is_post()) {
     } else {
         $filename = null;
 
-        if($file) {
-            $ext = pathinfo($file->name, PATHINFO_EXTENSION);
-            $filename = $id . '.' . $ext; // Name the file after the ID
+        // Check if a file was actually uploaded without errors
+        if ($file && $file['error'] === UPLOAD_ERR_OK) {
+            // Option A: Use the original filename (e.g., w_tops_pink1.png)
+            $filename = $file['name']; 
             $dest = "../images/$filename";
+
+            if (!move_uploaded_file($file['tmp_name'], $dest)) {
+                temp('info', 'Error: Failed to save uploaded photo to folder.');
+                $filename = null; 
+            }
         }
 
-        if(!move_uploaded_file($file->tmp_name, $dest)) {
-            temp('info', 'Error: Failed to save uploaded photo.');
-            $filename = null; // Reset if upload failed
-        }
-
+        // 1. Update/Insert main Product Table
+        // We use IFNULL so that if no new photo is uploaded, it keeps the existing one
         $stm = $_db->prepare("
-            INSERT INTO product (product_id, product_name, photo) 
-            VALUES (?, ?, ?)
-            ON DUPLICATE KEY UPDATE product_name = VALUES(product_name), photo = IFNULL(VALUES(photo), photo)
+            INSERT INTO product (product_id, product_name, photo, cat_id) 
+            VALUES (?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE 
+                product_name = VALUES(product_name), 
+                photo = IFNULL(VALUES(photo), photo),
+                cat_id = VALUES(cat_id)
         ");
-        $stm->execute([$id, $name, $filename]);
+        $stm->execute([$id, $name, $filename, $cat]);
 
         temp('info', "Product $id updated successfully.");
-        redirect(); 
+        redirect('product_list.php'); 
     }
 }
 
-// 2. Fetch all products to display in the table
+// Fetch categories for the dropdown
+$categories = $_db->query("SELECT * FROM categories")->fetchAll();
+
+// Fetch all products to display in the table below the form
 $products = $_db->query("SELECT * FROM product ORDER BY product_id DESC")->fetchAll();
 
 $_title = 'Manage Products';
@@ -49,33 +59,40 @@ include '../_head.php';
         <h1>Product Maintenance</h1>
 
         <?php if ($msg = temp('info')): ?>
-            <p class="<?= strpos($msg, 'Error') !== false ? 'msg-error' : 'msg-success' ?>; font-weight: bold;"><?= $msg ?></p>
+            <p class="<?= strpos($msg, 'Error') !== false ? 'msg-error' : 'msg-success' ?>" style="font-weight: bold;"><?= $msg ?></p>
         <?php endif; ?>
 
         <section class="maintenance-form-section">
             <h3>Add / Update Product</h3>
             <form method="post" enctype="multipart/form-data">
-        <div class="form-field-group">
-            <label>Product ID:</label><br>
-            <input type="text" name="product_id" required placeholder="e.g., P001">
-        </div>
-        <div class="form-field-group">
-            <label>Name:</label><br>
-            <input type="text" name="product_name" required>
-        </div>
+                <div class="form-field-group">
+                    <label>Product ID:</label><br>
+                    <input type="text" name="product_id" id="product_id" required placeholder="e.g., P20078">
+                </div>
+                <div class="form-field-group">
+                    <label>Name:</label><br>
+                    <input type="text" name="product_name" id="product_name" required>
+                </div>
+                <div class="form-field-group">
+                    <label>Category:</label><br>
+                    <select name="cat_id" id="cat_id">
+                        <option value="">-- Select Category --</option>
+                        <?php foreach($categories as $c): ?>
+                            <option value="<?= $c->cat_id ?>"><?= $c->cat_name ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
 
-        <div id="drop-zone" class="drop-zone" onclick="document.getElementById('photo-input').click()">
-    <i class='bx bx-cloud-upload upload-icon'></i>
-    <span class="browse-text">Click to Upload Photo</span>
-    
-    <img id="img-preview" src="">
-    
-    <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
-</div>
+                <div id="drop-zone" class="drop-zone" onclick="document.getElementById('photo-input').click()">
+                    <i class='bx bx-cloud-upload upload-icon'></i>
+                    <span class="browse-text">Click or Drag Photo Here</span>
+                    <img id="img-preview" src="" style="display:none; max-width:100%; margin-top:10px;">
+                    <input type="file" name="photo" id="photo-input" accept="image/*" hidden>
+                </div>
 
-        <button type="submit" class="btn-update">Save Product</button>
-    </form>
-</section>
+                <button type="submit" class="btn-update">Save Product</button>
+            </form>
+        </section>
 
         <table class="table solid-table">
             <thead>
@@ -91,7 +108,7 @@ include '../_head.php';
                 <tr>
                     <td>
                         <?php if ($p->photo): ?>
-                            <img src="../images/<?= $p->photo ?>" class="product-thumbnail">
+                            <img src="../images/<?= $p->photo ?>" class="product-thumbnail" width="50">
                         <?php else: ?>
                             <div class="no-photo-placeholder">No Image</div>
                         <?php endif; ?>
@@ -99,68 +116,45 @@ include '../_head.php';
                     <td><strong><?= $p->product_id ?></strong></td>
                     <td><?= htmlspecialchars($p->product_name) ?></td>
                     <td>
-            <button type="button" class="btn-clear" 
-                    onclick="fillForm('<?= $p->product_id ?>', '<?= addslashes($p->product_name) ?>', '<?= $p->photo ?>')">
-                    Edit
-            </button>
+                        <button type="button" class="btn-clear" 
+                                onclick="fillForm('<?= $p->product_id ?>', '<?= addslashes($p->product_name) ?>', '<?= $p->photo ?>', '<?= $p->cat_id ?>')">
+                                Edit
+                        </button>
                     </td>
-                <?php endforeach; ?>
-
-                <?php if (empty($products)): ?>
-                <tr>
-                    <td colspan="4" class="no-data">No products found in inventory.</td>
                 </tr>
-                <?php endif; ?>
+                <?php endforeach; ?>
             </tbody>
         </table>
-        
-        <p class="inventory-footer"><?= count($products) ?> product(s) in database.</p>
     </div>
 </main>
 
 <script>
-const dropZone = document.getElementById('drop-zone');
 const photoInput = document.getElementById('photo-input');
 const previewImg = document.getElementById('img-preview');
-const browseText = document.querySelector('.browse-text');
 
-// A. Handle Drag & Drop
-// Prevents the browser from just opening the image file in a new tab
-['dragover', 'drop'].forEach(evt => {
-    dropZone.addEventListener(evt, e => e.preventDefault());
-});
-
-dropZone.ondrop = e => {
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-        photoInput.files = files; // Move the dropped file into the hidden input
-        handlePreview(files[0]);
+// Handle Preview
+photoInput.onchange = () => {
+    const file = photoInput.files[0];
+    if (file) {
+        previewImg.src = URL.createObjectURL(file);
+        previewImg.style.display = 'block';
     }
 };
 
-// B. Handle Manual Browse
-photoInput.onchange = () => {
-    if (photoInput.files[0]) handlePreview(photoInput.files[0]);
-};
-
-// C. Show Preview Image
-function handlePreview(file) {
-    previewImg.src = URL.createObjectURL(file);
-    previewImg.style.display = 'block';
-}
-
-// D. Handle Edit Button (Fill Form)
-function fillForm(id, name, photo) {
-    document.getElementsByName('product_id')[0].value = id;
-    document.getElementsByName('product_name')[0].value = name;
+// Fill form for editing
+function fillForm(id, name, photo, catId) {
+    document.getElementById('product_id').value = id;
+    document.getElementById('product_name').value = name;
+    document.getElementById('cat_id').value = catId;
     
-    if (photo && photo !== "") {
+    if (photo) {
         previewImg.src = '../images/' + photo;
         previewImg.style.display = 'block';
     } else {
         previewImg.src = '';
         previewImg.style.display = 'none';
     }
+    window.scrollTo(0, 0);
 }
 </script>
 
