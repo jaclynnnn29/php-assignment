@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2026 at 03:23 PM
+-- Generation Time: Apr 23, 2026 at 06:52 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -55,6 +55,13 @@ CREATE TABLE `favorites` (
   `added_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `favorites`
+--
+
+INSERT INTO `favorites` (`favorite_id`, `user_id`, `product_id`, `added_at`) VALUES
+(4, 'U005', 'P20001', '2026-04-23 07:03:23');
+
 -- --------------------------------------------------------
 
 --
@@ -87,7 +94,9 @@ INSERT INTO `orders` (`order_id`, `user_id`, `total_price`, `status`, `payment_m
 (91, 'U003', 265.30, 'Pending', NULL, '2026-04-16 23:07:37', 'Pending'),
 (92, 'U001', 32.00, 'Pending', NULL, '2026-04-16 23:10:58', 'Shipped'),
 (93, 'U003', 28.50, 'Pending', 'PayPal', '2026-04-16 23:48:18', 'Shipped'),
-(94, 'U001', 135.80, 'Pending', NULL, '2026-04-19 21:16:34', 'Pending');
+(94, 'U001', 135.80, 'Pending', NULL, '2026-04-19 21:16:34', 'Pending'),
+(95, 'U005', 475.60, 'Paid', 'PayPal', '2026-04-23 14:48:25', 'Processing'),
+(96, 'U005', 185.97, 'Pending', NULL, '2026-04-23 14:57:57', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -126,7 +135,14 @@ INSERT INTO `order_items` (`order_id`, `variant_id`, `unit`, `unit_price`) VALUE
 (92, 'P10004', 1, 32.00),
 (93, 'P10003', 1, 28.50),
 (94, 'P10007', 1, 45.90),
-(94, 'P10028', 1, 89.90);
+(94, 'P10028', 1, 89.90),
+(95, 'P10005', 1, 32.00),
+(95, 'P10009', 4, 45.90),
+(95, 'P10166', 1, 20.00),
+(95, 'P10191', 2, 35.00),
+(95, 'P10192', 2, 85.00),
+(96, 'P10004', 3, 32.00),
+(96, 'P10010', 3, 29.99);
 
 -- --------------------------------------------------------
 
@@ -222,7 +238,9 @@ INSERT INTO `product` (`product_id`, `product_name`, `description`, `photo`, `ca
 ('P20073', 'Brown Shoes', 'Comfortable footwear in Brown.', 'a_shoes_brown.png', 'C00004'),
 ('P20074', 'Pink Ribbon Sleepwear', 'Ultra-soft pajamas with Pink Ribbon.', 'w_sleepware_prb.png', 'C00002'),
 ('P20075', 'Coffee Time Sleepwear', 'Ultra-soft pajamas with Coffee Time design.', 'w_sleepware_ct.png', 'C00002'),
-('P20076', 'Egg Plant Sleepwear', 'Ultra-soft pajamas in Egg Plant color.', 'w_sleepware_ep.png', 'C00002');
+('P20076', 'Egg Plant Sleepwear', 'Ultra-soft pajamas in Egg Plant color.', 'w_sleepware_ep.png', 'C00002'),
+('P20077', 'Red T-Shirt', 'A classic, breathable cotton t-shirt in Red.', 'm_tshirt_red.png', NULL),
+('P20078', 'Yellow Dress', 'Tailored dress with Yellow Floral patterns.', 'w_dresses_yellow.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -475,7 +493,10 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `size`, `colour`, `s
 ('P10202', 'P20072', 'L', 'Black', 12, 95.00, 'a_shoes_black.png'),
 ('P10203', 'P20073', 'S', 'Brown', 15, 88.00, 'a_shoes_brown.png'),
 ('P10204', 'P20073', 'M', 'Brown', 12, 88.00, 'a_shoes_brown.png'),
-('P10205', 'P20073', 'L', 'Brown', 10, 88.00, 'a_shoes_brown.png');
+('P10205', 'P20073', 'L', 'Brown', 10, 88.00, 'a_shoes_brown.png'),
+('P20078-L', 'P20078', 'L', 'Yellow', 10, 49.90, 'w_dresses_yellow.png'),
+('P20078-M', 'P20078', 'M', 'Yellow', 10, 49.90, 'w_dresses_yellow.png'),
+('P20078-S', 'P20078', 'S', 'Yellow', 10, 49.90, 'w_dresses_yellow.png');
 
 -- --------------------------------------------------------
 
@@ -504,7 +525,10 @@ INSERT INTO `user` (`user_id`, `user_name`, `email`, `password_hash`, `failed_at
 ('A003', 'Admin demo', '321@gmail.com', '$2y$10$gs/iXOiJRi6v0rGPV2GwSuG1xPcPeb/ql9j1DzxBdRKMc/lKgH4g.', 0, NULL, '69e1072e4a426.jpg', 'Admin'),
 ('U001', 'Alfred', 'alfredtan@gmail.com', '$2y$10$j2BnnJKTbLCSNbKhNLngJOOEgePLf4DC3J9ayqpp.aLXViyefAJR.', 0, NULL, '69e44fb903313.jpg', 'Member'),
 ('U002', 'Ben Wong', 'benw@gmail.com', '$2y$10$GQ6T6Kk60oZvvLtu9E5JL.3RZm6jGzmwvBeW6jFx9iR/2VcxuQ8S6', 0, NULL, 'default_user.jpg', 'Member'),
-('U003', 'User Demo', '123@gmail.com', '$2y$10$4iTzStKXWwYoEIjRVo.k5OUX7mC6P7jtCZEP3CE14zdEBNWBzz7YO', 0, NULL, '69dfe9b2196e0.jpg', 'Member');
+('U003', 'User Demo', '123@gmail.com', '$2y$10$4iTzStKXWwYoEIjRVo.k5OUX7mC6P7jtCZEP3CE14zdEBNWBzz7YO', 0, NULL, '69dfe9b2196e0.jpg', 'Member'),
+('U004', 'lim kah lok', 'liam.koh@gmail.com', '$2y$10$EB.ZhPfJmBV7/ucPykeHVeMwiDohCYIE5EKT9baaggHRTaF0Zi9pS', 0, NULL, '69e9b95789fc3.jpg', 'Member'),
+('U005', 'marcus', 'marcus@gmail.com', '$2y$10$0MRzgqiswcbd3fgeHJsym.mGxAgesivJH8NhenzGd7m1ay4pyLD4m', 0, NULL, '69e9c00883497.jpg', 'Member'),
+('U006', 'eexiang', 'eexiang@gmail.com', '$2y$10$odAQMMnfHKSUmh8Hpc5pTe8FC/KIf0zpJd7cLBEzfyXUgsmPTagsa', 0, NULL, '69ea4c1b95956.jpg', 'Member');
 
 --
 -- Indexes for dumped tables
@@ -571,13 +595,13 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `favorites`
 --
 ALTER TABLE `favorites`
-  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `favorite_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=95;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `product_reviews`
