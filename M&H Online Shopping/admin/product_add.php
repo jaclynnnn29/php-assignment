@@ -3,12 +3,13 @@ require '../_base.php';
 auth('Admin');
 
 if (is_post()) {
-    $id    = post('product_id');
-    $name  = post('product_name');
-    $cat   = post('cat_id');
-    $sizes = $_POST['sizes'] ?? [];
-    $prices = $_POST['prices'] ?? []; // Matches the HTML now
-    $file  = $_FILES['photo'];
+    $id          = post('product_id');
+    $name        = post('product_name');
+    $cat         = post('cat_id');
+    $description = post('description'); // Capture the description
+    $sizes       = $_POST['sizes'] ?? [];
+    $prices      = $_POST['prices'] ?? [];
+    $file        = $_FILES['photo'];
 
     if ($id && $name) {
         $filename = null;
@@ -17,27 +18,30 @@ if (is_post()) {
             move_uploaded_file($file['tmp_name'], "../images/$filename");
         }
 
+        // A. Single Update for Product (Includes Description)
         $stm1 = $_db->prepare("
-            INSERT INTO product (product_id, product_name, photo, cat_id) 
-            VALUES (?, ?, ?, ?)
+            INSERT INTO product (product_id, product_name, description, photo, cat_id) 
+            VALUES (?, ?, ?, ?, ?)
             ON DUPLICATE KEY UPDATE 
                 product_name = VALUES(product_name), 
-                photo = IFNULL(VALUES(photo), photo),
-                cat_id = VALUES(cat_id)
+                description  = VALUES(description),
+                photo        = IFNULL(VALUES(photo), photo),
+                cat_id       = VALUES(cat_id)
         ");
-        $stm1->execute([$id, $name, $filename, $cat]);
+        $stm1->execute([$id, $name, $description, $filename, $cat]);
+
 
         $stm2 = $_db->prepare("
-            INSERT INTO product_variants (variant_id, product_id, size, colour, stock_quantity, price)
-            VALUES (?, ?, ?, 'Default', 10, ?)
+            INSERT INTO product_variants (product_id, size, colour, stock_quantity, price)
+            VALUES (?, ?, 'Default', 10, ?)
             ON DUPLICATE KEY UPDATE price = VALUES(price)
         ");
 
         foreach ($sizes as $index => $s) {
             $p = $prices[$index] ?? 0;
             if ($p > 0) {
-                $variant_id = $id . '-' . $s; 
-                $stm2->execute([$variant_id, $id, $s, $p]);
+                // Pass only 3 values: product_id, size, and price
+                $stm2->execute([$id, $s, $p]);
             }
         }
 
@@ -45,7 +49,6 @@ if (is_post()) {
         redirect();
     }
 }
-
 // Fetch categories for dropdown
 $categories = $_db->query("SELECT * FROM categories")->fetchAll();
 // Fetch products for list
@@ -69,6 +72,21 @@ include '../_head.php';
                     <label>Product Name:</label>
                     <input type="text" name="product_name" id="product_name" required>
                 </div>
+
+                <div class="form-field-group">
+                    <label for="cat_id">Category:</label>
+                    <select name="cat_id" id="cat_id" required>
+                <option value="">- Select Category -</option>
+                <?php foreach ($categories as $c): ?>
+                 <option value="<?= $c->cat_id ?>"><?= htmlspecialchars($c->cat_name) ?></option>
+                <?php endforeach; ?>
+        </select>
+    </div>
+
+<div class="form-field-group">
+    <label for="description">Description:</label>
+    <textarea name="description" id="description" rows="4"></textarea>
+</div>
 
                 <table class="variant-input-table">
                     <thead>
@@ -99,6 +117,42 @@ include '../_head.php';
                 <button type="submit" class="btn-update">Save Product</button>
             </form>
         </section>
+        <table class="table solid-table">
+            <thead>
+                <tr>
+                    <th>Photo</th>
+                    <th>Product ID</th>
+                    <th>Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($products as $p): ?>
+                <tr>
+                    <td>
+                        <?php if ($p->photo): ?>
+                            <img src="../images/<?= $p->photo ?>" class="product-thumbnail">
+                        <?php else: ?>
+                            <div class="no-photo-placeholder">No Image</div>
+                        <?php endif; ?>
+                    </td>
+                    <td><strong><?= $p->product_id ?></strong></td>
+                    <td><?= htmlspecialchars($p->product_name) ?></td>
+                    <td>
+            <button type="button" class="btn-clear" 
+                    onclick="fillForm('<?= $p->product_id ?>', '<?= addslashes($p->product_name) ?>', '<?= $p->photo ?>')">
+                    Edit
+            </button>
+                    </td>
+                <?php endforeach; ?>
+
+                <?php if (empty($products)): ?>
+                <tr>
+                    <td colspan="4" class="no-data">No products found in inventory.</td>
+                </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
         
         </div>
 </main>
