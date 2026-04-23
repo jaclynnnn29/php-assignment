@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 23, 2026 at 08:07 PM
+-- Generation Time: Apr 23, 2026 at 08:14 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -239,9 +239,10 @@ INSERT INTO `product` (`product_id`, `product_name`, `description`, `photo`, `ca
 ('P20074', 'Pink Ribbon Sleepwear', 'Ultra-soft pajamas with Pink Ribbon.', 'w_sleepware_prb.png', 'C00002'),
 ('P20075', 'Coffee Time Sleepwear', 'Ultra-soft pajamas with Coffee Time design.', 'w_sleepware_ct.png', 'C00002'),
 ('P20076', 'Egg Plant Sleepwear', 'Ultra-soft pajamas in Egg Plant color.', 'w_sleepware_ep.png', 'C00002'),
-('P20077', 'Red T-Shirt', 'A classic, breathable cotton t-shirt in Red.', 'm_tshirt_red.png', NULL),
-('P20078', 'Yellow Dress', 'Tailored dress with Yellow Floral patterns.', 'w_dresses_yellow.jpg', NULL),
-('P20079', 'Red Tops', 'Lace red crop tops', 'w_tops_red.png', 'C00002');
+('P20077', 'Red T-Shirt', 'A classic, breathable cotton t-shirt in Red.', 'm_tshirt_red.png', 'C00002'),
+('P20078', 'Yellow Dress', 'Tailored dress with Yellow Floral patterns.', 'w_dresses_yellow.jpg', 'C00002'),
+('P20079', 'Red Tops', 'Lace red crop tops', 'w_tops_red.png', 'C00002'),
+('P20080', 'Pink Baby Shirt', 'Pink Baby Shirt', '69ea6130cae73.jpg', 'C00003');
 
 -- --------------------------------------------------------
 
@@ -500,7 +501,10 @@ INSERT INTO `product_variants` (`variant_id`, `product_id`, `size`, `colour`, `s
 (208, 'P20078', 'L', 'Yellow', 10, 49.90, 'w_dresses_yellow.png'),
 (209, 'P20079', 'S', 'Default', 10, 49.90, 'w_tops_red.png'),
 (210, 'P20079', 'M', 'Default', 10, 49.90, 'w_tops_red.png'),
-(211, 'P20079', 'L', 'Default', 10, 49.90, 'w_tops_red.png');
+(211, 'P20079', 'L', 'Default', 10, 49.90, 'w_tops_red.png'),
+(212, 'P20080', 'S', 'Default', 10, 35.00, NULL),
+(213, 'P20080', 'M', 'Default', 10, 35.00, NULL),
+(214, 'P20080', 'L', 'Default', 10, 35.00, NULL);
 
 -- --------------------------------------------------------
 
@@ -617,7 +621,7 @@ ALTER TABLE `product_reviews`
 -- AUTO_INCREMENT for table `product_variants`
 --
 ALTER TABLE `product_variants`
-  MODIFY `variant_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=212;
+  MODIFY `variant_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=215;
 
 --
 -- Constraints for dumped tables
