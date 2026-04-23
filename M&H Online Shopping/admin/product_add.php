@@ -12,10 +12,12 @@ if (is_post()) {
     $file        = $_FILES['photo'];
 
     if ($id && $name) {
+        $f = get_file('photo'); 
         $filename = null;
-        if ($file && $file['error'] === UPLOAD_ERR_OK) {
-            $filename = $file['name'];
-            move_uploaded_file($file['tmp_name'], "../images/$filename");
+        
+        if ($f) {
+            // This automatically saves it to ../images/ and gives it a safe random name
+            $filename = save_photo($f, '../images'); 
         }
 
         // A. Single Update for Product (Includes Description)
