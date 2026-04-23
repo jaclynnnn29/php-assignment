@@ -4,44 +4,46 @@ auth('Admin'); // Restrict access to Admins only
 
 // 1. Handle Form Submission (Add/Update Product with Photo)
 if (is_post()) {
-    $id   = post('product_id');
-    $name = post('product_name');
-    $cat  = post('cat_id');
-    $file = $_FILES['photo']; // Standard PHP file array
+    $id    = post('product_id');   // e.g., P20078
+    $name  = post('product_name');
+    $cat   = post('cat_id');
+    $price = post('price');
+    $size  = post('size');         // e.g., S, M, or L
+    $file  = $_FILES['photo'];
 
-    // Basic Validation
-    if (!$id || !$name) {
-        temp('info', 'Error: Product ID and Name are required.');
-    } else {
-        $filename = null;
-
-        // Check if a file was actually uploaded without errors
-        if ($file && $file['error'] === UPLOAD_ERR_OK) {
-            // Option A: Use the original filename (e.g., w_tops_pink1.png)
-            $filename = $file['name']; 
-            $dest = "../images/$filename";
-
-            if (!move_uploaded_file($file['tmp_name'], $dest)) {
-                temp('info', 'Error: Failed to save uploaded photo to folder.');
-                $filename = null; 
-            }
-        }
-
-        // 1. Update/Insert main Product Table
-        // We use IFNULL so that if no new photo is uploaded, it keeps the existing one
-        $stm = $_db->prepare("
-            INSERT INTO product (product_id, product_name, photo, cat_id) 
-            VALUES (?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE 
-                product_name = VALUES(product_name), 
-                photo = IFNULL(VALUES(photo), photo),
-                cat_id = VALUES(cat_id)
-        ");
-        $stm->execute([$id, $name, $filename, $cat]);
-
-        temp('info', "Product $id updated successfully.");
-        redirect('product_list.php'); 
+    // 1. File Upload
+    $filename = null;
+    if ($file && $file['error'] === UPLOAD_ERR_OK) {
+        $filename = $file['name']; 
+        move_uploaded_file($file['tmp_name'], "../images/$filename");
     }
+
+    // 2. Insert/Update into 'product' table (The Main Info)
+    $stm1 = $_db->prepare("
+        INSERT INTO product (product_id, product_name, photo, cat_id) 
+        VALUES (?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+            product_name = VALUES(product_name), 
+            photo = IFNULL(VALUES(photo), photo),
+            cat_id = VALUES(cat_id)
+    ");
+    $stm1->execute([$id, $name, $filename, $cat]);
+
+    // 3. Insert/Update into 'product_variants' table (The Size/Price Info)
+    // This creates an ID like: P20078-S
+    $variant_id = $id . '-' . ($size ?: 'Default');
+
+    $stm2 = $_db->prepare("
+        INSERT INTO product_variants (variant_id, product_id, size, colour, stock_quantity, price)
+        VALUES (?, ?, ?, 'Default', 10, ?)
+        ON DUPLICATE KEY UPDATE 
+            price = VALUES(price),
+            size = VALUES(size)
+    ");
+    $stm2->execute([$variant_id, $id, $size, $price]);
+
+    temp('info', "Product $id ($size) updated successfully!");
+    redirect(); 
 }
 
 // Fetch categories for the dropdown
@@ -82,6 +84,16 @@ include '../_head.php';
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <div class="form-field-group">
+                    <label>Size (e.g., S, M, L):</label>
+                    <input type="text" name="size" required>
+                </div>
+
+                <div class="form-field-group">
+                    <label>Price (RM):</label>
+                    <input type="number" name="price" step="0.01" required>
+                </div>
+
 
                 <div id="drop-zone" class="drop-zone" onclick="document.getElementById('photo-input').click()">
                     <i class='bx bx-cloud-upload upload-icon'></i>
