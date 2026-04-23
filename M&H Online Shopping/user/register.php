@@ -96,31 +96,34 @@ include '../_head.php';
 
 <script>
 
-    const resetBtn = document.getElementById('reset-btn');
+    // 1. Select the elements
+const photoInput = document.querySelector('input[name="photo"]');
+const previewImg = document.getElementById('preview');
+const placeholder = document.getElementById('placeholder');
+const resetBtn = document.getElementById('reset-btn');
 
-    resetBtn.onclick = e => {
-    const preview = document.getElementById('preview');
-    const placeholder = document.getElementById('placeholder');
-    
-    // 1. Clear the image source
-    preview.src = "";
-    
-    // 2. Hide the image and show the "Click to Upload" text again
-    preview.classList.add('photo-preview-hidden'); // Hide via class
-    placeholder.classList.remove('photo-preview-hidden'); // Show via class
-    };
-    // 1. Select the file input and the preview image
-    const photoInput = document.querySelector('input[name="photo"]');
-    const previewImg = document.getElementById('preview');
+// 2. Function to show/hide preview
+photoInput.onchange = e => {
+    const [file] = photoInput.files;
+    if (file) {
+        // Create a URL for the selected file
+        previewImg.src = URL.createObjectURL(file);
+        
+        // Show the image, hide the placeholder text
+        previewImg.classList.remove('photo-preview-hidden');
+        placeholder.classList.add('photo-preview-hidden');
+    }
+};
 
-    // 2. Listen for when a file is selected
-    photoInput.onchange = e => {
-        const [file] = photoInput.files;
-        if (file) {
-            // 3. Replace the preview src with the selected file
-            previewImg.src = URL.createObjectURL(file);
-        }
-    };
+// 3. Reset Button Logic
+resetBtn.onclick = e => {
+    // Clear the image source
+    previewImg.src = "";
+    
+    // Hide the image, show the placeholder text again
+    previewImg.classList.add('photo-preview-hidden');
+    placeholder.classList.remove('photo-preview-hidden');
+};
 </script>
 
 <?php include '../_foot.php'; ?>
